@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 try {
-                    navController.navigate(R.id.action_FirstFragment_to_actionF);
+                    navController.navigate(R.id.action_CalendarFragment_to_ActionCreate);
                 } catch (IllegalArgumentException ignored) {
                 }
             }

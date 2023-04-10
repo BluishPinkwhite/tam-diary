@@ -3,21 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/CalendarFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
+        android:id="@+id/CalendarFragment"
         android:name="com.example.tamcalendar.CalendarFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_calendar">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
+            android:id="@+id/action_CalendarFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
 
         <action
-            android:id="@+id/action_FirstFragment_to_actionF"
+            android:id="@+id/action_CalendarFragment_to_actionF"
             app:destination="@id/actionF" />
+
+        <action
+            android:id="@+id/action_CalendarFragment_to_ActionCreate"
+            app:destination="@id/actionCreate" />
     </fragment>
 
     <fragment
@@ -28,7 +32,7 @@
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            app:destination="@id/CalendarFragment" />
     </fragment>
 
     <fragment
@@ -39,6 +43,18 @@
 
         <action
             android:id="@+id/action_actionF_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            app:destination="@id/CalendarFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/actionCreate"
+        android:name="com.example.tamcalendar.action.ActionCreateFragment"
+        android:label="@string/new_event"
+        tools:layout="@layout/fragment_action_create">
+
+        <action
+            android:id="@+id/action_ActionCreate_to_Calendar"
+            app:destination="@id/CalendarFragment" />
     </fragment>
 </navigation>

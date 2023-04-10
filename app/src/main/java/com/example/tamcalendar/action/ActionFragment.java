@@ -58,6 +58,7 @@ public class ActionFragment extends Fragment {
             }
         });
 
+        tabLayout.getTabAt(1).select();
 
         return binding.getRoot();
     }

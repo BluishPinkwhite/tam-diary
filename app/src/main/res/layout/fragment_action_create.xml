@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".action.ActionCreateFragment"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <EditText
+        android:id="@+id/editTextEventName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/editbox_background"
+        android:layout_below="@+id/editTextEventNameLabel"
+        android:inputType="text"/>
+    <TextView
+        android:id="@+id/editTextEventNameLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="@string/name" />
+
+
+    <TextView
+        android:id="@+id/selectedActor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/editbox_background"
+        android:drawableEnd="@drawable/baseline_keyboard_arrow_down_24"
+        android:hint="@string/select_actor"
+        android:layout_below="@+id/actorLabel"
+        android:padding="12dp" />
+    <TextView
+        android:id="@+id/actorLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextEventName"
+        android:layout_marginTop="6dp"
+        android:text="@string/actor" />
+
+
+    <TextView
+        android:id="@+id/selectedScale"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/editbox_background"
+        android:drawableEnd="@drawable/baseline_keyboard_arrow_down_24"
+        android:hint="@string/select_scale"
+        android:layout_below="@+id/selectedScaleLabel"
+        android:padding="12dp" />
+    <TextView
+        android:id="@+id/selectedScaleLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/selectedActor"
+        android:layout_marginTop="6dp"
+        android:text="@string/scale" />
+
+    <EditText
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/descriptionLabel"
+        android:background="@android:drawable/editbox_background"
+        />
+    <TextView
+        android:id="@+id/descriptionLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/selectedScale"
+        android:layout_marginTop="6dp"
+        android:text="@string/description" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/description"
+        android:text="@string/confirm"
+        />
+
+</RelativeLayout>
