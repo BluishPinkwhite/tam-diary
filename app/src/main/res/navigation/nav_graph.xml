@@ -7,14 +7,19 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.example.tamcalendar.FirstFragment"
+        android:name="com.example.tamcalendar.CalendarFragment"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        tools:layout="@layout/fragment_calendar">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+
+        <action
+            android:id="@+id/action_FirstFragment_to_actionF"
+            app:destination="@id/actionF" />
     </fragment>
+
     <fragment
         android:id="@+id/SecondFragment"
         android:name="com.example.tamcalendar.SecondFragment"
@@ -23,6 +28,17 @@
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/actionF"
+        android:name="com.example.tamcalendar.action.ActionFragment"
+        android:label="@string/action_fr"
+        tools:layout="@layout/fragment_action">
+
+        <action
+            android:id="@+id/action_actionF_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
 </navigation>

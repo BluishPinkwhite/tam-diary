@@ -14,7 +14,6 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.tamcalendar.data.DatabaseManager;
 import com.example.tamcalendar.data.TamDatabase;
 import com.example.tamcalendar.databinding.ActivityMainBinding;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.time.LocalDate;
 
@@ -44,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                navController.navigate(R.id.action_FirstFragment_to_actionF);
             }
         });
     }

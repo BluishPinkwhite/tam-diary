@@ -8,16 +8,16 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.tamcalendar.databinding.FragmentFirstBinding;
+import com.example.tamcalendar.databinding.FragmentCalendarBinding;
 
-public class FirstFragment extends Fragment {
+public class CalendarFragment extends Fragment {
 
-    private FragmentFirstBinding binding;
+    private FragmentCalendarBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentFirstBinding.inflate(inflater, container, false);
+        binding = FragmentCalendarBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
     }
