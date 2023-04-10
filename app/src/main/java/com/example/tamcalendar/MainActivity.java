@@ -20,7 +20,7 @@ import java.time.LocalDate;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
-    private ActivityMainBinding binding;
+    public ActivityMainBinding binding;
 
     public static LocalDate date = LocalDate.now();
     public static TamDatabase database;
@@ -44,7 +44,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                navController.navigate(R.id.action_FirstFragment_to_actionF);
+                try {
+                    navController.navigate(R.id.action_FirstFragment_to_actionF);
+                } catch (IllegalArgumentException ignored) {
+                }
             }
         });
     }

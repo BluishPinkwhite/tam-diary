@@ -5,10 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.R;
 import com.example.tamcalendar.databinding.FragmentActionBinding;
 import com.google.android.material.tabs.TabLayout;
@@ -58,6 +60,14 @@ public class ActionFragment extends Fragment {
 
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // hide MainActivity FAButton on create
+        ((MainActivity)getActivity()).binding.fab.hide();
     }
 
     @Override
