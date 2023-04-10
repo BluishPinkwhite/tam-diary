@@ -9,9 +9,9 @@ public class E_Actor {
     public int ID;
 
     public String name;
-    public String color;
+    public int color;
 
-    public E_Actor(String name, String color) {
+    public E_Actor(String name, int color) {
         this.name = name;
         this.color = color;
     }
@@ -25,6 +25,6 @@ public class E_Actor {
 
         //if (ID != actor.ID) return false;
         if (!name.equals(actor.name)) return false;
-        return color.equals(actor.color);
+        return color == actor.color;
     }
 }

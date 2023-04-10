@@ -23,10 +23,16 @@ import java.util.List;
 
 public class TamCalendarDay extends FrameLayout {
 
+    private ParentUpdate parentUpdateListener;
+
+    static int selectedDayDateSort;
+
     private int year;
     private int month;
     private int day;
     private int dateSort;
+
+    public boolean selected;
 
     private List<E_Action> actions;
 
@@ -48,13 +54,21 @@ public class TamCalendarDay extends FrameLayout {
 
         dayButton = findViewById(R.id.day);
         dayButton.setOnClickListener(view -> {
+            selectedDayDateSort = dateSort;
             Toast.makeText(getContext(), toString(), Toast.LENGTH_SHORT).show();
+
+            updateData();
+            invalidate();
+
+            if (parentUpdateListener != null)
+                parentUpdateListener.updateParent();
         });
 
         amountText = findViewById(R.id.amount);
     }
 
     ///////////////////////
+
 
     private void updateData() {
         // set text
@@ -63,26 +77,37 @@ public class TamCalendarDay extends FrameLayout {
 
         dayButton.setText("" + day);
 
+        selected = (dateSort == selectedDayDateSort);
+
+        // white/selected
+        GradientDrawable foreground = new GradientDrawable();
+        foreground.setColor(selected ? 0xFF72FF70 : 0xFFFFFFFF);
+        foreground.setShape(GradientDrawable.OVAL);
+        InsetDrawable inset = new InsetDrawable(foreground, 25);
+
+
         // disabled if next/prev month bleed over
         if (month != date.getMonthValue()) {
             dayButton.setEnabled(false);
             dayButton.setTypeface(null, Typeface.ITALIC);
-            dayButton.setBackground(null);
+            dayButton.setBackground(inset);
             dayButton.setTextSize(11);
-        } // current day (of month)
+        }
 
-
+        // current day (of month)
         else if (day == date.getDayOfMonth()) {
             dayButton.setEnabled(true);
             dayButton.setTypeface(null, Typeface.BOLD);
+            dayButton.setTextSize(14);
 
             GradientDrawable border = new GradientDrawable();
             border.setColor(0xFFFFFFFF);
-            border.setStroke(3, 0xFF000000);
+            border.setStroke(2, 0xFF000000);
             border.setCornerRadius(32);
-            dayButton.setBackground(border);
-        }
 
+            LayerDrawable layers = new LayerDrawable(new Drawable[]{border, inset});
+            dayButton.setBackground(layers);
+        }
 
         // normal
         else {
@@ -98,12 +123,6 @@ public class TamCalendarDay extends FrameLayout {
             background.setGradientType(GradientDrawable.SWEEP_GRADIENT);
 
 
-            GradientDrawable foreground = new GradientDrawable();
-            foreground.setColor(0xFFFFFFFF);
-            foreground.setShape(GradientDrawable.OVAL);
-
-            InsetDrawable inset = new InsetDrawable(foreground, 25);
-
             LayerDrawable layers = new LayerDrawable(new Drawable[]{background, inset});
             dayButton.setBackground(layers);
         }
@@ -118,8 +137,11 @@ public class TamCalendarDay extends FrameLayout {
         this.dateSort = dateSort;
         this.actions = actions;
 
-        updateData();
+        setData();
+    }
 
+    public void setData() {
+        updateData();
         // force redraw
         invalidate();
     }
@@ -127,5 +149,9 @@ public class TamCalendarDay extends FrameLayout {
     @Override
     public String toString() {
         return day + "." + month + "." + year;
+    }
+
+    public void setParentUpdateListener(ParentUpdate listener) {
+        parentUpdateListener = listener;
     }
 }

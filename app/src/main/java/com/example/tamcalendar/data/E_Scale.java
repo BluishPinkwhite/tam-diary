@@ -9,5 +9,5 @@ public class E_Scale {
     public int ID;
 
     public int value;
-    public String color;
+    public int color;
 }

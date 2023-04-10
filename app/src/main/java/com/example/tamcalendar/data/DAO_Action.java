@@ -46,11 +46,11 @@ public interface DAO_Action {
 
     @Query("SELECT * FROM actions " +
             "WHERE name LIKE :name LIMIT 1")
-    E_Actor getByName(String name);
+    E_Action getByName(String name);
 
     @Query("SELECT * FROM actions " +
             "WHERE ID LIKE :ID LIMIT 1")
-    E_Actor get(int ID);
+    E_Action get(int ID);
 
 
     @Insert

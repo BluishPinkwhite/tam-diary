@@ -6,6 +6,8 @@ import static com.example.tamcalendar.data.DatabaseManager.createDateSort;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TableLayout;
@@ -71,13 +73,30 @@ public class TamCalendar extends FrameLayout {
             TableRow row = (TableRow) table.getChildAt(rowI + 1);
 
             for (int dayI = 0; dayI < days[rowI].length; dayI++) {
-                days[rowI][dayI] = (TamCalendarDay) row.getChildAt(dayI);
+                TamCalendarDay day = (TamCalendarDay) row.getChildAt(dayI);
+                days[rowI][dayI] = day;
+                day.setParentUpdateListener(() -> invalidateRecursive(this));
             }
         }
 
         dateText = findViewById(R.id.dateText);
 
         setData();
+    }
+
+    public void invalidateRecursive(ViewGroup layout) {
+
+        int count = layout.getChildCount();
+        View child;
+        for (int i = 0; i < count; i++) {
+            child = layout.getChildAt(i);
+            if (child instanceof TamCalendarDay) {
+                TamCalendarDay day = (TamCalendarDay) child;
+                day.setData();
+            }
+            else if(child instanceof ViewGroup)
+                invalidateRecursive((ViewGroup) child);
+        }
     }
 
 
