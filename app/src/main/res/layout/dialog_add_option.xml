@@ -30,8 +30,8 @@
         android:background="@android:drawable/editbox_background"
         android:hint="@string/name"
         android:padding="12dp"
-        android:singleLine="true"
-        android:autofillHints="name" />
+        android:textSize="16sp"
+        android:singleLine="true"/>
 
     <TextView
         android:id="@+id/color_previewLabel"
@@ -49,6 +49,7 @@
         android:background="#ff2222"/>
 
     <Button
+        android:id="@+id/addButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/color_preview"

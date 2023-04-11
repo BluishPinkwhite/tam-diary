@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -78,22 +79,33 @@ public class ActionCreateFragment extends Fragment {
                         header.setText(R.string.add_new_actor);
 
                         View colorPreview = dialogAdd.findViewById(R.id.color_preview);
-                        colorPreview.setOnClickListener(colorP -> {
-                            new ColorPickerPopup.Builder(getContext())
+                        colorPreview.setOnClickListener(colorPreviewView -> {
+                            ColorPickerPopup colorPickerPopup = new ColorPickerPopup.Builder(getContext())
                                     .initialColor(((ColorDrawable) (colorPreview.getBackground())).getColor())
                                     .enableBrightness(false)
                                     .enableAlpha(false)
                                     .okTitle(getString(R.string.select))
                                     .cancelTitle(getString(R.string.cancel))
-                                    .showIndicator(false)
+                                    .showIndicator(true)
                                     .showValue(false)
-                                    .build()
-                                    .show(colorP, new ColorPickerPopup.ColorPickerObserver() {
-                                        @Override
-                                        public void onColorPicked(int color) {
-                                            colorPreview.setBackgroundColor(color);
-                                        }
-                                    });
+                                    .build();
+                            colorPickerPopup.show(colorPreviewView, new ColorPickerPopup.ColorPickerObserver() {
+                                @Override
+                                public void onColorPicked(int color) {
+                                    colorPreview.setBackgroundColor(color);
+                                }
+                            });
+                        });
+
+                        Button addButton = dialogAdd.findViewById(R.id.addButton);
+                        addButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (!((EditText)(dialogAdd.findViewById(R.id.edit_text))).getText().toString().isEmpty()) {
+                                    colorPreview.setBackgroundColor(0x00FF00);
+                                }
+                                else colorPreview.setBackgroundColor(0xFF0000);
+                            }
                         });
 
                         dialogAdd.show();
@@ -113,7 +125,10 @@ public class ActionCreateFragment extends Fragment {
          */
 
         // hide FAB
-        ((MainActivity) getActivity()).binding.fab.hide();
+        try {
+            ((MainActivity) requireActivity()).binding.fab.hide();
+        }
+        catch (IllegalStateException | NullPointerException ignored) {}
     }
 
     private void searchableSpinnerSetup(TextView spinner, View colorIcon, ArrayList<? extends ColorNameable> options, View.OnClickListener addButtonFunc) {
