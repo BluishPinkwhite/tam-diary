@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
-    android:orientation="vertical"
     android:padding="16dp">
 
     <TextView
         android:id="@+id/header"
-        android:layout_width="300dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="[header]"
         android:textSize="20sp"
         android:textStyle="bold"
         />
+
+    <View
+        android:id="@+id/addButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:foreground="@drawable/baseline_add_24"
+        android:layout_toEndOf="@+id/header"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -25,12 +31,14 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:background="@android:drawable/editbox_background"
+        android:layout_below="@+id/header"
         />
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/list_view"
+        android:layout_below="@+id/edit_text"
         />
 
-</LinearLayout>
+</RelativeLayout>

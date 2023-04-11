@@ -28,6 +28,8 @@ import com.example.tamcalendar.spinner.ColorNameable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import top.defaults.colorpicker.ColorPickerPopup;
+
 public class ActionCreateFragment extends Fragment {
 
     FragmentActionCreateBinding binding;
@@ -35,6 +37,7 @@ public class ActionCreateFragment extends Fragment {
     View selectedActorIcon, selectedScaleIcon;
     ArrayList<E_Actor> actorOptions;
     Dialog dialog;
+    Dialog dialogAdd;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,8 +66,42 @@ public class ActionCreateFragment extends Fragment {
         ));
 
         // create dialog on selectedActor click to select option
-        searchableSpinnerSetup(selectedActor, selectedActorIcon, actorOptions);
-        // TODO get from scale DAO
+        searchableSpinnerSetup(selectedActor, selectedActorIcon, actorOptions,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialogAdd = new Dialog(getActivity());
+                        dialogAdd.setContentView(R.layout.dialog_add_option);
+                        dialogAdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                        TextView header = dialogAdd.findViewById(R.id.header);
+                        header.setText(R.string.add_new_actor);
+
+                        View colorPreview = dialogAdd.findViewById(R.id.color_preview);
+                        colorPreview.setOnClickListener(colorP -> {
+                            new ColorPickerPopup.Builder(getContext())
+                                    .initialColor(((ColorDrawable)(colorPreview.getBackground())).getColor())
+                                    .enableBrightness(true)
+                                    .enableAlpha(false)
+                                    .okTitle(getString(R.string.select))
+                                    .cancelTitle(getString(R.string.cancel))
+                                    .showIndicator(true)
+                                    .showValue(false)
+                                    .build()
+                                    .show(colorP, new ColorPickerPopup.ColorPickerObserver() {
+                                        @Override
+                                        public void onColorPicked(int color) {
+                                            colorPreview.setBackgroundColor(color);
+                                        }
+                                    });
+                        });
+
+                        dialogAdd.show();
+                    }
+                });
+
+
+        /*/ TODO get from scale DAO
         searchableSpinnerSetup(selectedScale, selectedScaleIcon, new ArrayList<>(Arrays.asList(
                 new E_Actor("Pure joy", 0xFF33DC56),
                 new E_Actor("Good", 0xFF44DDD3),
@@ -73,11 +110,13 @@ public class ActionCreateFragment extends Fragment {
         )));
 
 
+         */
+
         // hide FAB
         ((MainActivity) getActivity()).binding.fab.hide();
     }
 
-    private void searchableSpinnerSetup(TextView spinner, View colorIcon, ArrayList<? extends ColorNameable> options) {
+    private void searchableSpinnerSetup(TextView spinner, View colorIcon, ArrayList<? extends ColorNameable> options, View.OnClickListener addButtonFunc) {
         spinner.setOnClickListener(selActor -> {
             dialog = new Dialog(getActivity());
             dialog.setContentView(R.layout.dialog_searchable_spinner);
@@ -119,6 +158,10 @@ public class ActionCreateFragment extends Fragment {
                     dialog.dismiss();
                 }
             });
+
+            // add dialog
+            View addButton = dialog.findViewById(R.id.addButton);
+            addButton.setOnClickListener(addButtonFunc);
         });
     }
 }
