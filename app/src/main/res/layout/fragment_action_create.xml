@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".action.ActionCreateFragment"
-    android:orientation="vertical"
     android:padding="10dp">
 
     <EditText
@@ -22,6 +21,15 @@
         android:text="@string/name" />
 
 
+
+    <View
+        android:id="@+id/colorIconActor"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="#aaaaaa"
+        android:layout_marginEnd="8dp"
+        android:layout_marginVertical="10dp"
+        android:layout_below="@+id/actorLabel"/>
     <TextView
         android:id="@+id/selectedActor"
         android:layout_width="match_parent"
@@ -30,6 +38,7 @@
         android:drawableEnd="@drawable/baseline_keyboard_arrow_down_24"
         android:hint="@string/select_actor"
         android:layout_below="@+id/actorLabel"
+        android:layout_toEndOf="@+id/colorIconActor"
         android:padding="12dp" />
     <TextView
         android:id="@+id/actorLabel"
@@ -40,6 +49,15 @@
         android:text="@string/actor" />
 
 
+
+    <View
+        android:id="@+id/colorIconScale"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="#aaaaaa"
+        android:layout_marginEnd="8dp"
+        android:layout_marginVertical="10dp"
+        android:layout_below="@+id/selectedScaleLabel"/>
     <TextView
         android:id="@+id/selectedScale"
         android:layout_width="match_parent"
@@ -48,6 +66,7 @@
         android:drawableEnd="@drawable/baseline_keyboard_arrow_down_24"
         android:hint="@string/select_scale"
         android:layout_below="@+id/selectedScaleLabel"
+        android:layout_toEndOf="@+id/colorIconScale"
         android:padding="12dp" />
     <TextView
         android:id="@+id/selectedScaleLabel"

@@ -3,13 +3,12 @@ package com.example.tamcalendar.data;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.example.tamcalendar.spinner.ColorNameable;
+
 @Entity(tableName = "actor")
-public class E_Actor {
+public class E_Actor extends ColorNameable {
     @PrimaryKey(autoGenerate = true)
     public int ID;
-
-    public String name;
-    public int color;
 
     public E_Actor(String name, int color) {
         this.name = name;

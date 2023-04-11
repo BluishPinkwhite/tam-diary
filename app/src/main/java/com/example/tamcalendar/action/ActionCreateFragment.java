@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,7 +20,10 @@ import androidx.fragment.app.Fragment;
 
 import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.R;
+import com.example.tamcalendar.data.E_Actor;
 import com.example.tamcalendar.databinding.FragmentActionCreateBinding;
+import com.example.tamcalendar.spinner.ColorArrayAdapter;
+import com.example.tamcalendar.spinner.ColorNameable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +32,8 @@ public class ActionCreateFragment extends Fragment {
 
     FragmentActionCreateBinding binding;
     TextView selectedActor, selectedScale;
-    ArrayList<String> actorOptions;
+    View selectedActorIcon, selectedScaleIcon;
+    ArrayList<E_Actor> actorOptions;
     Dialog dialog;
 
     @Override
@@ -47,22 +50,34 @@ public class ActionCreateFragment extends Fragment {
         selectedActor = binding.getRoot().findViewById(R.id.selectedActor);
         selectedScale = binding.getRoot().findViewById(R.id.selectedScale);
 
+        selectedActorIcon = binding.getRoot().findViewById(R.id.colorIconActor);
+        selectedScaleIcon = binding.getRoot().findViewById(R.id.colorIconScale);
+
 
         // TODO get from actor DAO
-        actorOptions = new ArrayList<>();
-        actorOptions.addAll(Arrays.asList("Jose", "Tam", "Koleno"));
+        actorOptions = new ArrayList<>(Arrays.asList(
+                new E_Actor("Jose", 0xFFFF2244),
+                new E_Actor("Tam", 0xFF44DDD3),
+                new E_Actor("Koleno", 0xFF0997CC),
+                new E_Actor("Poleno", 0xFF33DC56)
+        ));
 
         // create dialog on selectedActor click to select option
-        searchableSpinnerSetup(selectedActor, actorOptions);
+        searchableSpinnerSetup(selectedActor, selectedActorIcon, actorOptions);
         // TODO get from scale DAO
-        searchableSpinnerSetup(selectedScale, new ArrayList<>(Arrays.asList("Pure joy", "Good", "Bad")));
+        searchableSpinnerSetup(selectedScale, selectedScaleIcon, new ArrayList<>(Arrays.asList(
+                new E_Actor("Pure joy", 0xFF33DC56),
+                new E_Actor("Good", 0xFF44DDD3),
+                new E_Actor("Weird", 0xFF0997CC),
+                new E_Actor("Bad", 0xFFFF2244)
+        )));
 
 
         // hide FAB
-        ((MainActivity)getActivity()).binding.fab.hide();
+        ((MainActivity) getActivity()).binding.fab.hide();
     }
 
-    private void searchableSpinnerSetup(TextView spinner, ArrayList<String> options) {
+    private void searchableSpinnerSetup(TextView spinner, View colorIcon, ArrayList<? extends ColorNameable> options) {
         spinner.setOnClickListener(selActor -> {
             dialog = new Dialog(getActivity());
             dialog.setContentView(R.layout.dialog_searchable_spinner);
@@ -76,7 +91,7 @@ public class ActionCreateFragment extends Fragment {
 
             // add options to list view
             ListView listView = dialog.findViewById(R.id.list_view);
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, options);
+            ColorArrayAdapter<? extends ColorNameable> adapter = new ColorArrayAdapter<>(getContext(), options);
             listView.setAdapter(adapter);
 
             // option select setup
@@ -99,7 +114,8 @@ public class ActionCreateFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                    spinner.setText(adapter.getItem(position));
+                    spinner.setText(adapter.getItem(position).name);
+                    colorIcon.setBackgroundColor(adapter.getItem(position).color);
                     dialog.dismiss();
                 }
             });
