@@ -80,12 +80,12 @@ public class ActionCreateFragment extends Fragment {
                         View colorPreview = dialogAdd.findViewById(R.id.color_preview);
                         colorPreview.setOnClickListener(colorP -> {
                             new ColorPickerPopup.Builder(getContext())
-                                    .initialColor(((ColorDrawable)(colorPreview.getBackground())).getColor())
-                                    .enableBrightness(true)
+                                    .initialColor(((ColorDrawable) (colorPreview.getBackground())).getColor())
+                                    .enableBrightness(false)
                                     .enableAlpha(false)
                                     .okTitle(getString(R.string.select))
                                     .cancelTitle(getString(R.string.cancel))
-                                    .showIndicator(true)
+                                    .showIndicator(false)
                                     .showValue(false)
                                     .build()
                                     .show(colorP, new ColorPickerPopup.ColorPickerObserver() {
