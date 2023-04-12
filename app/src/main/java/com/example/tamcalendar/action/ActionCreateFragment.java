@@ -14,6 +14,7 @@ import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.R;
 import com.example.tamcalendar.databinding.FragmentActionCreateBinding;
 import com.example.tamcalendar.spinner.ActorSpinner;
+import com.example.tamcalendar.spinner.ScaleSpinner;
 
 public class ActionCreateFragment extends Fragment {
 
@@ -48,17 +49,14 @@ public class ActionCreateFragment extends Fragment {
                 () -> MainActivity.database.daoActor().list()
         );
 
-
-        /*/ TODO get from scale DAO
-        searchableSpinnerSetup(selectedScale, selectedScaleIcon, new ArrayList<>(Arrays.asList(
-                new E_Actor("Pure joy", 0xFF33DC56),
-                new E_Actor("Good", 0xFF44DDD3),
-                new E_Actor("Weird", 0xFF0997CC),
-                new E_Actor("Bad", 0xFFFF2244)
-        )));
-
-
-         */
+        new ScaleSpinner(
+                getActivity(),
+                selectedScale,
+                getString(R.string.select_scale),
+                getString(R.string.add_new_scale),
+                selectedScaleIcon,
+                () -> MainActivity.database.daoScale().list()
+        );
 
         // hide (+) FAB
         try {
