@@ -1,10 +1,12 @@
 package com.example.tamcalendar.calendar;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -39,6 +41,23 @@ public class CalendarFragment extends Fragment {
         // setup bottom action list view
         listView = binding.getRoot().findViewById(R.id.calendar_activity_list);
         listView.setAdapter(adapter = new ActionArrayAdapter(getContext(), selectedDayActionData));
+
+        listView.setOnItemClickListener(
+                (parent, view1, position, id) -> {
+                    Dialog dialog = new Dialog(getContext());
+                    dialog.setContentView(R.layout.dialog_action_detail);
+                    dialog.setCancelable(true);
+
+                    TextView header = dialog.findViewById(R.id.header);
+                    header.setText(adapter.getItem(position).name);
+
+                    TextView description = dialog.findViewById(R.id.description);
+                    description.setText(adapter.getItem(position).description);
+
+                    dialog.show();
+                }
+        );
+
 
         // show MainActivity FAButton on create
         getActivity().getLifecycle().addObserver(new DefaultLifecycleObserver() {

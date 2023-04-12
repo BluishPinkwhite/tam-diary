@@ -29,6 +29,7 @@
         android:background="#aaaaaa"
         android:layout_marginEnd="8dp"
         android:layout_marginVertical="10dp"
+        android:forceDarkAllowed="false"
         android:layout_below="@+id/actorLabel"/>
     <TextView
         android:id="@+id/selectedActor"
@@ -57,6 +58,7 @@
         android:background="#aaaaaa"
         android:layout_marginEnd="8dp"
         android:layout_marginVertical="10dp"
+        android:forceDarkAllowed="false"
         android:layout_below="@+id/selectedScaleLabel"/>
     <TextView
         android:id="@+id/selectedScale"

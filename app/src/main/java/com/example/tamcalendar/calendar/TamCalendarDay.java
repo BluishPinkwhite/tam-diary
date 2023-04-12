@@ -105,13 +105,13 @@ public class TamCalendarDay extends FrameLayout {
             dayButton.setEnabled(true);
             dayButton.setTextColor(Color.BLACK);
 
-            // current day (of month)
-            if (day == todayDate.getDayOfMonth()) {
+            // current day
+            if (dateSort == todayDateSort) {
                 dayButton.setTypeface(null, Typeface.BOLD);
 
                 GradientDrawable border = new GradientDrawable();
-                border.setColor(0xFFFFFFFF);
-                border.setStroke(3, 0xFF000000);
+                border.setColor(getContext().getColor(com.google.android.material.R.color.background_material_light));
+                border.setStroke(3, getContext().getColor(com.google.android.material.R.color.background_material_dark));
                 border.setCornerRadius(32);
 
                 layers.addLayer(border);
