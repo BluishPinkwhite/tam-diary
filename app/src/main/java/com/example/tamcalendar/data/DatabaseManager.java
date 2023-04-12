@@ -25,8 +25,12 @@ public class DatabaseManager {
 
     public static LocalDate fromDateSort(int dateSort) {
         int year = dateSort / 10_000;
-        int month = (dateSort % 10_000) / 100;
-        int day = (dateSort % 1000_000);
+        dateSort %= 10_000;
+
+        int month = dateSort / 100;
+        dateSort %= 100;
+
+        int day = dateSort;
         return LocalDate.of(year, month, day);
     }
 }

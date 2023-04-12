@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.tamcalendar.action.ActionCreateFragment;
 import com.example.tamcalendar.data.E_Actor;
 
 import java.util.List;
@@ -19,5 +20,12 @@ public class ActorSpinner extends SearchableColorNameSpinner<E_Actor> {
     protected E_Actor createNewInstanceFromData() {
         return new E_Actor(nameEditText.getText().toString(),
                 ((ColorDrawable) (colorPreview.getBackground())).getColor());
+    }
+
+    @Override
+    protected void onListItemSelected(E_Actor item) {
+        super.onListItemSelected(item);
+
+        ActionCreateFragment.chosenActor = item;
     }
 }

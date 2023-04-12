@@ -1,7 +1,7 @@
-package com.example.tamcalendar;
+package com.example.tamcalendar.calendar;
 
 import static com.example.tamcalendar.MainActivity.database;
-import static com.example.tamcalendar.MainActivity.date;
+import static com.example.tamcalendar.MainActivity.todayDate;
 import static com.example.tamcalendar.data.DatabaseManager.createDateSort;
 
 import android.content.Context;
@@ -17,6 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.tamcalendar.R;
 import com.example.tamcalendar.data.E_Action;
 
 import java.time.DayOfWeek;
@@ -48,13 +49,13 @@ public class TamCalendar extends FrameLayout {
 
         Button prevM = findViewById(R.id.buttonPrevM);
         prevM.setOnClickListener(view -> {
-            date = date.minusMonths(1);
+            todayDate = todayDate.minusMonths(1);
             setData();
         });
 
         Button nextM = findViewById(R.id.buttonNextM);
         nextM.setOnClickListener(view -> {
-            date = date.plusMonths(1);
+            todayDate = todayDate.plusMonths(1);
             setData();
         });
 
@@ -103,9 +104,9 @@ public class TamCalendar extends FrameLayout {
     ///////////////////////
 
     private void updateData() {
-        dateText.setText(date.getMonth().name() + " " + date.getYear());
+        dateText.setText(todayDate.getMonth().name() + " " + todayDate.getYear());
 
-        LocalDate start = date
+        LocalDate start = todayDate
                 .minusMonths(1)
                 .with(TemporalAdjusters.lastInMonth(DayOfWeek.SUNDAY))
                 .plusDays(1);

@@ -1,4 +1,4 @@
-package com.example.tamcalendar;
+package com.example.tamcalendar.calendar;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.databinding.FragmentCalendarBinding;
 
 public class CalendarFragment extends Fragment {

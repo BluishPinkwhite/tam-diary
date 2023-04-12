@@ -22,12 +22,18 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     public ActivityMainBinding binding;
 
-    public static LocalDate date = LocalDate.now();
+    public static LocalDate todayDate;
+    public static int selectedDayDateSort;
+    public static int todayDateSort;
     public static TamDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        todayDate = LocalDate.now();
+        todayDateSort = DatabaseManager.createDateSort(todayDate);
+        selectedDayDateSort = todayDateSort;
 
         database = DatabaseManager.createDatabase(this);
 

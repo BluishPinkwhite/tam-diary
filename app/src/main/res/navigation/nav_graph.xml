@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/CalendarFragment"
-        android:name="com.example.tamcalendar.CalendarFragment"
+        android:name="com.example.tamcalendar.calendar.CalendarFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_calendar">
 
@@ -55,6 +55,9 @@
 
         <action
             android:id="@+id/action_ActionCreate_to_Calendar"
+            app:destination="@id/CalendarFragment" />
+        <action
+            android:id="@+id/action_actionCreate_to_CalendarFragment"
             app:destination="@id/CalendarFragment" />
     </fragment>
 </navigation>

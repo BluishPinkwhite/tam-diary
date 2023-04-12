@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.tamcalendar.CalendarFragment;
+import com.example.tamcalendar.calendar.CalendarFragment;
 
 public class ActionPagerAdapter extends FragmentStateAdapter {
 
