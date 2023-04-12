@@ -2,10 +2,9 @@ package com.example.tamcalendar.spinner;
 
 import androidx.annotation.NonNull;
 
-public class ColorNameable {
-    public int color = 0;
-    public String name = "[text]";
-
+public abstract class ColorNameHaver {
+    public int color;
+    public String name;
     @NonNull
     @Override
     public String toString() {
