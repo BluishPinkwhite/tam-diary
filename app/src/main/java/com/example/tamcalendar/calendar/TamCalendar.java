@@ -1,6 +1,7 @@
 package com.example.tamcalendar.calendar;
 
 import static com.example.tamcalendar.MainActivity.database;
+import static com.example.tamcalendar.MainActivity.selectedDayDateSort;
 import static com.example.tamcalendar.MainActivity.todayDate;
 import static com.example.tamcalendar.data.DatabaseManager.createDateSort;
 
@@ -61,12 +62,13 @@ public class TamCalendar extends FrameLayout {
 
         table = findViewById(R.id.table);
         days = new TamCalendarDay[6][7];
+        TamCalendarDay selectedDay = null;
 
         // day names
         TableRow dayNameRow = (TableRow) table.getChildAt(0);
         for (int i = 0; i < 7; i++) {
             TextView dayName = (TextView) dayNameRow.getChildAt(i);
-            dayName.setText(DayOfWeek.of(i +1).getDisplayName(TextStyle.SHORT, Locale.CANADA));
+            dayName.setText(DayOfWeek.of(i + 1).getDisplayName(TextStyle.SHORT, Locale.CANADA));
         }
 
         // TD refs
@@ -94,8 +96,7 @@ public class TamCalendar extends FrameLayout {
             if (child instanceof TamCalendarDay) {
                 TamCalendarDay day = (TamCalendarDay) child;
                 day.setData();
-            }
-            else if(child instanceof ViewGroup)
+            } else if (child instanceof ViewGroup)
                 invalidateRecursive((ViewGroup) child);
         }
     }
@@ -123,11 +124,17 @@ public class TamCalendar extends FrameLayout {
                 TamCalendarDay day = days[rowI][dayI];
 
                 int entryDateSort = createDateSort(entryDate);
+                List<DAO_Action.FullActionData> actionData = dateSortActionMap.get(entryDateSort);
 
                 day.setData(entryDate.getYear(), entryDate.getMonthValue(), entryDate.getDayOfMonth(),
-                        entryDateSort, dateSortActionMap.get(entryDateSort));
+                        entryDateSort, actionData);
 
                 entryDate = entryDate.plusDays(1);
+
+                // default bottom action view data
+                if (selectedDayDateSort == entryDateSort) {
+                    CalendarFragment.replaceSelectedDayActionData(actionData);
+                }
             }
         }
     }

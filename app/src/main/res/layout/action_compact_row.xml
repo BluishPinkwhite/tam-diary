@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:padding="4dp">
+
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="6dp"
+        android:text="[name]"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:id="@+id/part_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name">
+
+        <View
+            android:id="@+id/actorColorIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginVertical="6dp"
+            android:layout_marginEnd="8dp"
+            android:background="#aaaaaa" />
+
+        <TextView
+            android:id="@+id/actorText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="6dp"
+            android:layout_weight="1"
+            android:text="[actor text]"
+            android:textSize="16sp" />
+
+
+        <View
+            android:id="@+id/scaleColorIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginVertical="6dp"
+            android:layout_marginEnd="8dp"
+            android:background="#aaaaaa" />
+
+        <TextView
+            android:id="@+id/scaleText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="6dp"
+            android:layout_weight="1"
+            android:text="[scale text]"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</RelativeLayout>

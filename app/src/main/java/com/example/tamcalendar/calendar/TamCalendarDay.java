@@ -15,7 +15,6 @@ import android.util.AttributeSet;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -58,7 +57,9 @@ public class TamCalendarDay extends FrameLayout {
         dayButton = findViewById(R.id.day);
         dayButton.setOnClickListener(view -> {
             selectedDayDateSort = dateSort;
-            Toast.makeText(getContext(), toString(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(), toString(), Toast.LENGTH_SHORT).show();
+
+            CalendarFragment.replaceSelectedDayActionData(actions);
 
             updateData();
             invalidate();

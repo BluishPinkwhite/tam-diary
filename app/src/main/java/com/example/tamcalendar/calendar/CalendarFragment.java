@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -11,11 +12,20 @@ import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.example.tamcalendar.MainActivity;
+import com.example.tamcalendar.R;
+import com.example.tamcalendar.data.DAO_Action;
 import com.example.tamcalendar.databinding.FragmentCalendarBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CalendarFragment extends Fragment {
 
     private FragmentCalendarBinding binding;
+    private ListView listView;
+
+    private static ActionArrayAdapter adapter;
+    private static List<DAO_Action.FullActionData> selectedDayActionData; // use replaceSelectedDayActionData
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -26,12 +36,16 @@ public class CalendarFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // setup bottom action list view
+        listView = binding.getRoot().findViewById(R.id.calendar_activity_list);
+        listView.setAdapter(adapter = new ActionArrayAdapter(getContext(), selectedDayActionData));
+
         // show MainActivity FAButton on create
         getActivity().getLifecycle().addObserver(new DefaultLifecycleObserver() {
             @Override
             public void onCreate(@NonNull LifecycleOwner owner) {
                 DefaultLifecycleObserver.super.onCreate(owner);
-                ((MainActivity)getActivity()).binding.fab.show();
+                ((MainActivity) getActivity()).binding.fab.show();
                 getActivity().getLifecycle().removeObserver(this);
             }
         });
@@ -54,4 +68,16 @@ public class CalendarFragment extends Fragment {
         binding = null;
     }
 
+    public static void replaceSelectedDayActionData(List<DAO_Action.FullActionData> newData) {
+        if (selectedDayActionData == null)
+            selectedDayActionData = new ArrayList<>();
+
+        selectedDayActionData.clear();
+        if (newData != null) {
+            selectedDayActionData.addAll(newData);
+        }
+
+        if (adapter != null)
+            adapter.notifyDataSetChanged();
+    }
 }
