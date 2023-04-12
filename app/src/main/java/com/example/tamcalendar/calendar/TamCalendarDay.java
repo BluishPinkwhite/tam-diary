@@ -22,7 +22,7 @@ import androidx.annotation.Nullable;
 
 import com.example.tamcalendar.ParentUpdate;
 import com.example.tamcalendar.R;
-import com.example.tamcalendar.data.E_Action;
+import com.example.tamcalendar.data.DAO_Action;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class TamCalendarDay extends FrameLayout {
 
     public boolean selected;
 
-    private List<E_Action> actions;
+    private List<DAO_Action.FullActionData> actions;
 
     private Button dayButton;
     private TextView amountText;
@@ -86,7 +86,7 @@ public class TamCalendarDay extends FrameLayout {
         GradientDrawable foreground = new GradientDrawable();
         foreground.setColor(selected ? 0xFF72FF70 : 0xFFFFFFFF);
         foreground.setShape(GradientDrawable.OVAL);
-        InsetDrawable inset = new InsetDrawable(foreground, 25);
+        InsetDrawable inset = new InsetDrawable(foreground, 30);
         LayerDrawable layers = new LayerDrawable(new Drawable[]{});
 
 
@@ -116,7 +116,7 @@ public class TamCalendarDay extends FrameLayout {
                 layers.addLayer(border);
             }
             // past days
-            else if (dateSort < todayDateSort){
+            else if (dateSort < todayDateSort) {
                 dayButton.setTypeface(null, Typeface.NORMAL);
             }
             // future days
@@ -125,15 +125,32 @@ public class TamCalendarDay extends FrameLayout {
                 dayButton.setTypeface(null, Typeface.ITALIC);
             }
 
+            // actions found
+            if (actions != null) {
+                // get colors for the ring (half actors, half scales)
+                int[] ringColors = new int[actions.size() * 2 + 1];
+                for (int index = 0; index < actions.size(); index++) {
+                    DAO_Action.FullActionData actionData = actions.get(index);
 
-            GradientDrawable background = new GradientDrawable(
-                    GradientDrawable.Orientation.TOP_BOTTOM,
-                    new int[]{0xFFFFFF00, 0xFFFF0000, 0xFF00FF00, 0xFF6744FF, 0xFFFFFF00}
-            );
-            background.setShape(GradientDrawable.OVAL);
-            background.setGradientType(GradientDrawable.SWEEP_GRADIENT);
+                    ringColors[index] = actionData.actorColor;
+                    ringColors[ringColors.length - 2 - index] = actionData.scaleColor;
 
-            layers.addLayer(background);
+                    // duplicate first as last to close color circle (remove hard edge)
+                    if (index == 0) {
+                        ringColors[ringColors.length - 1] = actionData.actorColor;
+                    }
+                }
+
+                GradientDrawable background = new GradientDrawable(
+                        GradientDrawable.Orientation.TOP_BOTTOM,
+                        ringColors
+                );
+
+                background.setShape(GradientDrawable.OVAL);
+                background.setGradientType(GradientDrawable.SWEEP_GRADIENT);
+
+                layers.addLayer(background);
+            }
         }
 
         layers.addLayer(inset);
@@ -142,7 +159,8 @@ public class TamCalendarDay extends FrameLayout {
 
     //////////////////////
 
-    public void setData(int year, int month, int day, int dateSort, List<E_Action> actions) {
+    public void setData(int year, int month, int day, int dateSort,
+                        List<DAO_Action.FullActionData> actions) {
         this.year = year;
         this.month = month;
         this.day = day;

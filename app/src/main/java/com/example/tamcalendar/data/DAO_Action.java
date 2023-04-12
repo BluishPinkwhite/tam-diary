@@ -25,10 +25,29 @@ public interface DAO_Action extends DAO_Base<E_Action> {
     List<E_Action> listFromMonth(int year, int month);
 
     @MapInfo(keyColumn = "dateSort")
-    @Query("SELECT * FROM actions " +
+    @Query("SELECT actions.*, actor.name AS actorName, actor.color AS actorColor, scale.color AS scaleColor, scale.name AS scaleName " +
+            "FROM actions " +
+            "INNER JOIN actor ON F_actor = actor.ID " +
+            "INNER JOIN scale ON F_scale = scale.ID " +
             "WHERE dateSort BETWEEN :startDateSort AND :endDateSort " +
             "ORDER BY dateSort ASC")
-    Map<Integer, List<E_Action>> listBetween(int startDateSort, int endDateSort);
+    Map<Integer, List<FullActionData>> listBetween(int startDateSort, int endDateSort);
+
+    static class FullActionData {
+        public String name;
+        public String description;
+
+        public int year;
+        public int month;
+        public int day;
+        public int dateSort;
+
+        public int actorColor;
+        public String actorName;
+
+        public int scaleColor;
+        public String scaleName;
+    }
 
     @Query("SELECT * FROM actions " +
             "INNER JOIN actor ON F_actor = actor.ID " +

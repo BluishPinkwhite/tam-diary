@@ -18,7 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.tamcalendar.R;
-import com.example.tamcalendar.data.E_Action;
+import com.example.tamcalendar.data.DAO_Action;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -112,7 +112,7 @@ public class TamCalendar extends FrameLayout {
                 .plusDays(1);
         LocalDate end = start.plusDays(34);
 
-        Map<Integer, List<E_Action>> dateSortActionMap = database.daoAction().listBetween(
+        Map<Integer, List<DAO_Action.FullActionData>> dateSortActionMap = database.daoAction().listBetween(
                 createDateSort(start), createDateSort(end)
         );
 
