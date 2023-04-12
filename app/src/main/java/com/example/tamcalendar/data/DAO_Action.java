@@ -1,8 +1,6 @@
 package com.example.tamcalendar.data;
 
 import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Insert;
 import androidx.room.MapInfo;
 import androidx.room.Query;
 
@@ -10,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 @Dao
-public interface DAO_Action {
+public interface DAO_Action extends DAO_Base<E_Action> {
 
     @Query("SELECT * FROM actions " +
             " ORDER BY dateSort DESC")
@@ -51,11 +49,4 @@ public interface DAO_Action {
     @Query("SELECT * FROM actions " +
             "WHERE ID LIKE :ID LIMIT 1")
     E_Action get(int ID);
-
-
-    @Insert
-    void insert(E_Action action);
-
-    @Delete
-    void delete(E_Action action);
 }

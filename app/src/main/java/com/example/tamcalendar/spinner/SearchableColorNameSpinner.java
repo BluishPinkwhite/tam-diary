@@ -1,7 +1,5 @@
 package com.example.tamcalendar.spinner;
 
-import static com.example.tamcalendar.MainActivity.database;
-
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
@@ -10,20 +8,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.tamcalendar.R;
-import com.example.tamcalendar.data.E_Actor;
 
 import java.util.List;
 import java.util.concurrent.Callable;
 
 import top.defaults.colorpicker.ColorPickerPopup;
 
-public class SearchableColorNameSpinner<T extends ColorNameHaver> extends SearchableSpinnerWithAdd<T> {
+public abstract class SearchableColorNameSpinner<T extends ColorNameHaver<T>> extends SearchableSpinnerWithAdd<T> {
 
     private final View colorIcon;
     private final Callable<List<T>> dataGetFunction;
 
-    private View colorPreview;
-    private EditText nameEditText;
+    protected View colorPreview;
+    protected EditText nameEditText;
 
     public SearchableColorNameSpinner(Context context, TextView parentSpinner, String headerText, String addNewItemText,
                                       View colorIcon, Callable<List<T>> dataGetFunction) {
@@ -80,16 +77,32 @@ public class SearchableColorNameSpinner<T extends ColorNameHaver> extends Search
     }
 
     @Override
-    protected boolean canAddNewItem() {
+    protected boolean isItemDataValid() {
         return !nameEditText.getText().toString().isEmpty();
     }
 
     @Override
-    protected void insertNewItemIntoDB() {
-        database.daoActor().insert(
-                new E_Actor(
-                        nameEditText.getText().toString(),
-                        ((ColorDrawable) (colorPreview.getBackground())).getColor())
-        );
+    protected void insertNewItemDB() {
+        createNewInstanceFromData().insertToDB();
+    }
+
+    @Override
+    protected void prepareItemEdit(T item) {
+        showNewItemDialog(true);
+
+        editedItem = item;
+
+        nameEditText.setText(item.name);
+        colorPreview.setBackgroundColor(item.color);
+    }
+
+    @Override
+    protected void deleteItemDB(T item) {
+        item.deleteFromDB();
+    }
+
+    @Override
+    protected void updateItemDB(T item) {
+        item.copy(createNewInstanceFromData()).updateToDB();
     }
 }

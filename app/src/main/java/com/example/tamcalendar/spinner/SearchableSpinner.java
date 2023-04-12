@@ -1,7 +1,9 @@
 package com.example.tamcalendar.spinner;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
@@ -71,6 +73,9 @@ public abstract class SearchableSpinner<T> extends View {
             listView.setOnItemClickListener(
                     createOnListItemClickListener()
             );
+            listView.setOnItemLongClickListener(
+                    createOnListItemLongClickListener()
+            );
 
             // add dialog
             addButton = dialog.findViewById(R.id.addButton);
@@ -86,6 +91,7 @@ public abstract class SearchableSpinner<T> extends View {
         });
     }
 
+
     protected abstract OnClickListener createAddButtonClickListener();
 
     public void updateData() {
@@ -93,14 +99,6 @@ public abstract class SearchableSpinner<T> extends View {
         objects.addAll(getData());
         adapter.notifyDataSetChanged();
     }
-
-    protected abstract List<T> getData();
-
-    protected abstract ArrayAdapter<T> createListAdapter();
-
-    protected abstract boolean canAddNewItem();
-
-    protected abstract void insertNewItemIntoDB();
 
     protected AdapterView.OnItemClickListener createOnListItemClickListener() {
         return new AdapterView.OnItemClickListener() {
@@ -116,7 +114,56 @@ public abstract class SearchableSpinner<T> extends View {
         };
     }
 
+    protected AdapterView.OnItemLongClickListener createOnListItemLongClickListener() {
+        return new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                showItemOptionMenu(position);
+                return true;
+            }
+        };
+    }
+
+    protected void showItemOptionMenu(int position) {
+        new AlertDialog.Builder(getContext())
+                .setTitle(R.string.options)
+                .setCancelable(true)
+                .setItems(R.array.selectItemOptions, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0: // Edit
+                                prepareItemEdit(adapter.getItem(position));
+                                break;
+                            case 1: // Delete
+                                deleteItemDB(adapter.getItem(position));
+                                updateData();
+                                break;
+                            default:
+                                System.err.println(getClass().getName() +
+                                        " showItemOptionMenu unknown button! (got " + which + ")");
+                        }
+                    }
+                })
+                .show();
+    }
+
     protected abstract void onListItemSelected(T item);
+
+    protected abstract List<T> getData();
+
+    protected abstract ArrayAdapter<T> createListAdapter();
+
+    protected abstract boolean isItemDataValid();
+
+    protected abstract void prepareItemEdit(T item);
+    protected abstract T createNewInstanceFromData();
+
+    protected abstract void insertNewItemDB();
+
+    protected abstract void deleteItemDB(T item);
+
+    protected abstract void updateItemDB(T item);
 
     public Dialog getDialog() {
         return dialog;

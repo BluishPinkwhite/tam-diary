@@ -3,16 +3,23 @@ package com.example.tamcalendar.data;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.spinner.ColorNameHaver;
 
 @Entity(tableName = "actor")
-public class E_Actor extends ColorNameHaver {
+public class E_Actor extends ColorNameHaver<E_Actor> {
     @PrimaryKey(autoGenerate = true)
     public int ID;
 
     public E_Actor(String name, int color) {
         this.name = name;
         this.color = color;
+    }
+
+    public E_Actor copy(E_Actor other) {
+        name = other.name;
+        color = other.color;
+        return this;
     }
 
     @Override
@@ -25,5 +32,10 @@ public class E_Actor extends ColorNameHaver {
         //if (ID != actor.ID) return false;
         if (!name.equals(actor.name)) return false;
         return color == actor.color;
+    }
+
+    @Override
+    public <DAO extends DAO_Base<E_Actor>> DAO getDAO() {
+        return (DAO) MainActivity.database.daoActor();
     }
 }

@@ -12,9 +12,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.R;
-import com.example.tamcalendar.data.E_Actor;
 import com.example.tamcalendar.databinding.FragmentActionCreateBinding;
-import com.example.tamcalendar.spinner.SearchableColorNameSpinner;
+import com.example.tamcalendar.spinner.ActorSpinner;
 
 public class ActionCreateFragment extends Fragment {
 
@@ -40,19 +39,7 @@ public class ActionCreateFragment extends Fragment {
         selectedScaleIcon = binding.getRoot().findViewById(R.id.colorIconScale);
 
 
-        // TODO get from actor DAO
-        /*actorOptions = new ArrayList<>(Arrays.asList(
-                new E_Actor("Jose", 0xFFFF2244),
-                new E_Actor("Tam", 0xFF44DDD3),
-                new E_Actor("Koleno", 0xFF0997CC),
-                new E_Actor("Poleno", 0xFF33DC56)
-        ));
-         */
-
-        // create dialog on selectedActor click to select option
-        //searchableSpinnerSetup(selectedActor, selectedActorIcon, new ArrayList<E_Actor>(),
-        //        addPopupSetup());getContext().getString(R.string.select_actor)
-        new SearchableColorNameSpinner<E_Actor>(
+        new ActorSpinner(
                 getActivity(),
                 selectedActor,
                 getString(R.string.select_actor),
