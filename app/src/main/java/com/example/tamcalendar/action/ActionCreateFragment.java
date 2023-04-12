@@ -56,6 +56,7 @@ public class ActionCreateFragment extends Fragment {
                 getActivity(),
                 selectedActor,
                 getString(R.string.select_actor),
+                getString(R.string.add_new_actor),
                 selectedActorIcon,
                 () -> MainActivity.database.daoActor().list()
         );

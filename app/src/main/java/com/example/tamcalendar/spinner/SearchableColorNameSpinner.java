@@ -2,16 +2,10 @@ package com.example.tamcalendar.spinner;
 
 import static com.example.tamcalendar.MainActivity.database;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -23,15 +17,17 @@ import java.util.concurrent.Callable;
 
 import top.defaults.colorpicker.ColorPickerPopup;
 
-public class SearchableColorNameSpinner<T extends ColorNameHaver> extends SearchableSpinner<T> {
+public class SearchableColorNameSpinner<T extends ColorNameHaver> extends SearchableSpinnerWithAdd<T> {
 
     private final View colorIcon;
     private final Callable<List<T>> dataGetFunction;
-    protected Dialog addNewDialog;
 
-    public SearchableColorNameSpinner(Context context, TextView parentSpinner, String headerText,
+    private View colorPreview;
+    private EditText nameEditText;
+
+    public SearchableColorNameSpinner(Context context, TextView parentSpinner, String headerText, String addNewItemText,
                                       View colorIcon, Callable<List<T>> dataGetFunction) {
-        super(context, parentSpinner, headerText);
+        super(context, parentSpinner, headerText, addNewItemText);
 
         this.colorIcon = colorIcon;
         this.dataGetFunction = dataGetFunction;
@@ -39,60 +35,33 @@ public class SearchableColorNameSpinner<T extends ColorNameHaver> extends Search
 
 
     @Override
-    protected AdapterView.OnItemClickListener createOnListItemClickListener() {
-        return new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                T item = (T) adapter.getItem(position);
-
-                parentSpinner.setText(item.name);
-                colorIcon.setBackgroundColor(item.color);
-                dialog.dismiss();
-            }
-        };
+    protected void onListItemSelected(T item) {
+        colorIcon.setBackgroundColor(item.color);
     }
 
-
     @Override
-    protected OnClickListener createAddButtonClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addNewDialog = new Dialog(getContext());
-                addNewDialog.setContentView(R.layout.dialog_add_option);
-                addNewDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    protected void newItemDialogExtraSetup() {
+        nameEditText = addNewDialog.findViewById(R.id.edit_text);
 
-                TextView header = addNewDialog.findViewById(R.id.header);
-                header.setText(R.string.add_new_actor);
+        colorPreview = addNewDialog.findViewById(R.id.color_preview);
+        colorPreview.setOnClickListener(colorPreviewView -> {
+            ColorPickerPopup colorPickerPopup = new ColorPickerPopup.Builder(getContext())
+                    .initialColor(((ColorDrawable) (colorPreview.getBackground())).getColor())
+                    .enableBrightness(false)
+                    .enableAlpha(false)
+                    .okTitle(getContext().getString(R.string.select))
+                    .cancelTitle(getContext().getString(R.string.cancel))
+                    .showIndicator(true)
+                    .showValue(false)
+                    .build();
 
-                View colorPreview = addNewDialog.findViewById(R.id.color_preview);
-                colorPreview.setOnClickListener(colorPreviewView -> {
-                    ColorPickerPopup colorPickerPopup = new ColorPickerPopup.Builder(getContext())
-                            .initialColor(((ColorDrawable) (colorPreview.getBackground())).getColor())
-                            .enableBrightness(false)
-                            .enableAlpha(false)
-                            .okTitle(getContext().getString(R.string.select))
-                            .cancelTitle(getContext().getString(R.string.cancel))
-                            .showIndicator(true)
-                            .showValue(false)
-                            .build();
-
-                    colorPickerPopup.show(colorPreviewView, new ColorPickerPopup.ColorPickerObserver() {
-                        @Override
-                        public void onColorPicked(int color) {
-                            colorPreview.setBackgroundColor(color);
-                        }
-                    });
-                });
-
-                Button addButton = addNewDialog.findViewById(R.id.addButton);
-                addButton.setOnClickListener(
-                        addOnClickListenerSetup(addButton, colorPreview)
-                );
-
-                addNewDialog.show();
-            }
-        };
+            colorPickerPopup.show(colorPreviewView, new ColorPickerPopup.ColorPickerObserver() {
+                @Override
+                public void onColorPicked(int color) {
+                    colorPreview.setBackgroundColor(color);
+                }
+            });
+        });
     }
 
 
@@ -107,43 +76,20 @@ public class SearchableColorNameSpinner<T extends ColorNameHaver> extends Search
 
     @Override
     protected ArrayAdapter<T> createListAdapter() {
-        return new ColorArrayAdapter<>(getContext(), getData());
+        return new ColorArrayAdapter<>(getContext(), objects);
     }
 
+    @Override
+    protected boolean canAddNewItem() {
+        return !nameEditText.getText().toString().isEmpty();
+    }
 
-    private View.OnClickListener addOnClickListenerSetup(Button addButton, View colorPreview) {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // is name filled out
-                EditText nameEditText = (EditText) (addNewDialog.findViewById(R.id.edit_text));
-                if (!nameEditText.getText().toString().isEmpty()) {
-                    // insert new into DB
-                    database.daoActor().insert(
-                            new E_Actor(
-                                    nameEditText.getText().toString(),
-                                    ((ColorDrawable) (colorPreview.getBackground())).getColor())
-                    );
-
-                    // close dialog, update data
-                    updateData();
-                    addNewDialog.dismiss();
-                } else {
-                    addButton.setBackgroundColor(Color.RED);
-
-                    Animation anim = new AlphaAnimation(0, 1);
-                    anim.setDuration(30);
-                    anim.setRepeatCount(3);
-                    anim.setRepeatMode(Animation.REVERSE);
-                    addButton.startAnimation(anim);
-
-                    addButton.postOnAnimationDelayed(() -> {
-                        addButton.setBackgroundColor(getResources().getColor(
-                                com.google.android.material.R.color.design_default_color_primary,
-                                getContext().getTheme()));
-                    }, 250);
-                }
-            }
-        };
+    @Override
+    protected void insertNewItemIntoDB() {
+        database.daoActor().insert(
+                new E_Actor(
+                        nameEditText.getText().toString(),
+                        ((ColorDrawable) (colorPreview.getBackground())).getColor())
+        );
     }
 }

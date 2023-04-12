@@ -24,6 +24,7 @@ public abstract class SearchableSpinner<T> extends View {
     protected ArrayAdapter<T> adapter;
     protected Dialog dialog;
     protected ListView listView;
+    protected View addButton;
 
     protected List<T> objects = new ArrayList<>();
 
@@ -72,18 +73,20 @@ public abstract class SearchableSpinner<T> extends View {
             );
 
             // add dialog
-            View addButton = dialog.findViewById(R.id.addButton);
-            addButton.setOnClickListener(
-                    createAddButtonClickListener()
-            );
+            addButton = dialog.findViewById(R.id.addButton);
+            if (this instanceof SearchableSpinnerWithAdd) {
+                addButton.setOnClickListener(
+                        createAddButtonClickListener()
+                );
+            } else { // hide if supposed to be turned off (was lazy to add another xml for it)
+                addButton.setVisibility(GONE);
+            }
 
             dialog.show();
         });
     }
 
     protected abstract OnClickListener createAddButtonClickListener();
-
-    protected abstract AdapterView.OnItemClickListener createOnListItemClickListener();
 
     public void updateData() {
         objects.clear();
@@ -94,6 +97,26 @@ public abstract class SearchableSpinner<T> extends View {
     protected abstract List<T> getData();
 
     protected abstract ArrayAdapter<T> createListAdapter();
+
+    protected abstract boolean canAddNewItem();
+
+    protected abstract void insertNewItemIntoDB();
+
+    protected AdapterView.OnItemClickListener createOnListItemClickListener() {
+        return new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                T item = (T) adapter.getItem(position);
+
+                parentSpinner.setText(item.toString());
+                onListItemSelected(item);
+
+                dialog.dismiss();
+            }
+        };
+    }
+
+    protected abstract void onListItemSelected(T item);
 
     public Dialog getDialog() {
         return dialog;
