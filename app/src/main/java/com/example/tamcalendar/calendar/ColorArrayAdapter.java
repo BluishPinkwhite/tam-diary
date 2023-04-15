@@ -1,4 +1,4 @@
-package com.example.tamcalendar.spinner;
+package com.example.tamcalendar.calendar;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.example.tamcalendar.R;
+import com.example.tamcalendar.spinner.ColorNameHaver;
 
 import java.util.List;
 

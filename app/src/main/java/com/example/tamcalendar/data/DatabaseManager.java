@@ -11,7 +11,7 @@ public class DatabaseManager {
     public static TamDatabase createDatabase(MainActivity activity) {
         return Room.databaseBuilder(activity.getApplicationContext(), TamDatabase.class, "tam-calendar")
                 .allowMainThreadQueries()
-                .fallbackToDestructiveMigration()
+                //.fallbackToDestructiveMigration()
                 .build();
     }
 

@@ -17,7 +17,7 @@ public abstract class SearchableSpinnerWithAdd<T> extends SearchableSpinner<T> {
     protected Dialog addNewDialog;
     protected TextView header;
 
-    private final String addNewItemText;
+    private final String actionText;
 
     protected boolean isEditingItem;
     protected T editedItem;
@@ -25,7 +25,7 @@ public abstract class SearchableSpinnerWithAdd<T> extends SearchableSpinner<T> {
     public SearchableSpinnerWithAdd(Context context, TextView parentSpinner, String headerText, String addNewItemText) {
         super(context, parentSpinner, headerText);
 
-        this.addNewItemText = addNewItemText;
+        this.actionText = addNewItemText;
     }
 
 
@@ -84,7 +84,7 @@ public abstract class SearchableSpinnerWithAdd<T> extends SearchableSpinner<T> {
         addNewDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         header = addNewDialog.findViewById(R.id.header);
-        header.setText(addNewItemText);
+        header.setText(getContext().getString(edit ? R.string.edit_existing : R.string.add_new, actionText));
 
         newItemDialogExtraSetup();
 

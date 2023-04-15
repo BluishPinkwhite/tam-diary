@@ -26,7 +26,7 @@ public class ActionPagerAdapter extends FragmentStateAdapter {
             case 1:
                 return new ActionEditFragment();
             case 2:
-                return new ActionDeleteFragment();
+                //return new ActionDeleteFragment();
             default:
                 return new CalendarFragment();
         }

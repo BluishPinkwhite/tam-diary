@@ -86,7 +86,7 @@ public class ActionCreateFragment extends Fragment {
                 getActivity(),
                 selectedActor,
                 getString(R.string.select_actor),
-                getString(R.string.add_new_actor),
+                getString(R.string.actor),
                 selectedActorIcon,
                 () -> MainActivity.database.daoActor().list()
         );
@@ -95,7 +95,7 @@ public class ActionCreateFragment extends Fragment {
                 getActivity(),
                 selectedScale,
                 getString(R.string.select_scale),
-                getString(R.string.add_new_scale),
+                getString(R.string.scale),
                 selectedScaleIcon,
                 () -> MainActivity.database.daoScale().list()
         );

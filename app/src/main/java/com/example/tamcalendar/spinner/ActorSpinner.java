@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 public class ActorSpinner extends SearchableColorNameSpinner<E_Actor> {
-    public ActorSpinner(Context context, TextView parentSpinner, String headerText, String addNewItemText, View colorIcon, Callable<List<E_Actor>> dataGetFunction) {
-        super(context, parentSpinner, headerText, addNewItemText, colorIcon, dataGetFunction);
+    public ActorSpinner(Context context, TextView parentSpinner, String headerText, String actionText, View colorIcon, Callable<List<E_Actor>> dataGetFunction) {
+        super(context, parentSpinner, headerText, actionText, colorIcon, dataGetFunction);
     }
 
     @Override
