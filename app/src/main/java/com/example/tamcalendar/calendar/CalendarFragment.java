@@ -10,20 +10,22 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.tamcalendar.FragmentBase;
 import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.R;
 import com.example.tamcalendar.action.ActionArrayAdapter;
+import com.example.tamcalendar.action.ActionCreateFragment;
 import com.example.tamcalendar.data.DAO_Action;
 import com.example.tamcalendar.databinding.FragmentCalendarBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CalendarFragment extends Fragment {
+public class CalendarFragment extends FragmentBase {
 
     private FragmentCalendarBinding binding;
     private ListView listView;
@@ -78,12 +80,16 @@ public class CalendarFragment extends Fragment {
                                                     MainActivity.selectedDayDateSort
                                             );
 
-                                    replaceSelectedDayActionData(fullActionData);
-                                    listView.invalidate();
-                                    listView.invalidateViews();
+                                    replaceListAdapterSelectedDayActionData(fullActionData);
                                     calendar.setActionDataOfDay(MainActivity.selectedDayDateSort, fullActionData);
-                                    calendar.invalidate();
-                                    calendar.invalidateRecursive(calendar);
+                                },
+                                // navigate to Edit
+                                () -> {
+                                    ActionCreateFragment.actionToEdit = adapter.getItem(position);
+
+                                    // navigate to create screen to Edit
+                                    NavHostFragment.findNavController(CalendarFragment.this)
+                                            .navigate(R.id.action_CalendarFragment_to_ActionCreate);
                                 });
                         return true;
                     }
@@ -124,7 +130,7 @@ public class CalendarFragment extends Fragment {
      *
      * @param newData list of E_Action to replace current data with
      */
-    public static void replaceSelectedDayActionData(List<DAO_Action.FullActionData> newData) {
+    public static void replaceListAdapterSelectedDayActionData(List<DAO_Action.FullActionData> newData) {
         if (selectedDayActionData == null)
             selectedDayActionData = new ArrayList<>();
 
@@ -136,5 +142,10 @@ public class CalendarFragment extends Fragment {
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    protected int getFragmentTitle() {
+        return R.string.app_name;
     }
 }

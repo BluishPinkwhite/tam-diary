@@ -39,6 +39,11 @@ public abstract class SearchableSpinner<T> extends View {
 
     private void searchableSpinnerSetup(String headerText) {
         parentSpinner.setOnClickListener(selActor -> {
+
+            if (dialog != null)
+                dialog.dismiss();
+
+
             dialog = new Dialog(getContext());
             dialog.setContentView(R.layout.dialog_searchable_spinner);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -157,6 +162,7 @@ public abstract class SearchableSpinner<T> extends View {
     protected abstract boolean isItemDataValid();
 
     protected abstract void prepareItemEdit(T item);
+
     protected abstract T createNewInstanceFromData();
 
     protected abstract void insertNewItemDB();

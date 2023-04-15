@@ -9,11 +9,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.tamcalendar.FragmentBase;
 import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.R;
+import com.example.tamcalendar.data.DAO_Action;
 import com.example.tamcalendar.data.DatabaseManager;
 import com.example.tamcalendar.data.E_Action;
 import com.example.tamcalendar.data.E_Actor;
@@ -24,7 +25,7 @@ import com.example.tamcalendar.spinner.ScaleSpinner;
 
 import java.time.LocalDate;
 
-public class ActionCreateFragment extends Fragment {
+public class ActionCreateFragment extends FragmentBase {
 
     FragmentActionCreateBinding binding;
     TextView selectedActor, selectedScale, editTextEventName, editTextDescription;
@@ -34,11 +35,13 @@ public class ActionCreateFragment extends Fragment {
     // refs used to edit self (or create new action)
     public static E_Actor chosenActor;
     public static E_Scale chosenScale;
-    public static E_Action chosenAction;
+    public static DAO_Action.FullActionData actionToEdit;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+
         binding = FragmentActionCreateBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -63,26 +66,31 @@ public class ActionCreateFragment extends Fragment {
                     editTextEventName.getText().length() > 0 // &&
                 //            editTextDescription.getText().length() > 0
             ) {
-
-                LocalDate chosenDate = DatabaseManager.fromDateSort(MainActivity.selectedDayDateSort);
-
-                // collect and insert data object
-                MainActivity.database.daoAction().insert(
-                        new E_Action(editTextEventName.getText().toString(),
-                                editTextDescription.getText().toString(),
-                                chosenDate.getYear(),
-                                chosenDate.getMonthValue(),
-                                chosenDate.getDayOfMonth(),
-                                MainActivity.selectedDayDateSort,
-                                chosenActor == null ? -1 : chosenActor.ID,
-                                chosenScale == null ? -1 : chosenScale.ID)
-                );
+                // new action
+                if (actionToEdit == null) {
+                    insertNewAction();
+                }
+                // edit action
+                else {
+                    updateAction();
+                }
 
                 // navigate back to calendar
                 NavHostFragment.findNavController(ActionCreateFragment.this)
                         .navigate(R.id.action_actionCreate_to_CalendarFragment);
             }
         });
+
+        if (actionToEdit != null) {
+            editTextEventName.setText(actionToEdit.name);
+            editTextDescription.setText(actionToEdit.description);
+
+            selectedActor.setText(actionToEdit.actorName);
+            selectedActorIcon.setBackgroundColor(actionToEdit.actorColor);
+
+            selectedScale.setText(actionToEdit.scaleName);
+            selectedScaleIcon.setBackgroundColor(actionToEdit.scaleColor);
+        }
 
 
         new ActorSpinner(
@@ -108,5 +116,39 @@ public class ActionCreateFragment extends Fragment {
             ((MainActivity) requireActivity()).binding.fab.hide();
         } catch (IllegalStateException | NullPointerException ignored) {
         }
+    }
+
+    private void updateAction() {
+        E_Action action = MainActivity.database.daoAction().get(
+                actionToEdit.ID);
+
+        action.name = editTextEventName.getText().toString();
+        action.description = editTextDescription.getText().toString();
+        action.F_actor = chosenActor == null ? -1 : chosenActor.ID;
+        action.F_scale = chosenScale == null ? -1 : chosenScale.ID;
+
+        MainActivity.database.daoAction().update(
+                action);
+    }
+
+    private void insertNewAction() {
+        LocalDate chosenDate = DatabaseManager.fromDateSort(MainActivity.selectedDayDateSort);
+
+        // collect and insert data object
+        MainActivity.database.daoAction().insert(
+                new E_Action(editTextEventName.getText().toString(),
+                        editTextDescription.getText().toString(),
+                        chosenDate.getYear(),
+                        chosenDate.getMonthValue(),
+                        chosenDate.getDayOfMonth(),
+                        MainActivity.selectedDayDateSort,
+                        chosenActor == null ? -1 : chosenActor.ID,
+                        chosenScale == null ? -1 : chosenScale.ID)
+        );
+    }
+
+    @Override
+    protected int getFragmentTitle() {
+        return actionToEdit == null ? R.string.title_new_event : R.string.title_edit_event;
     }
 }

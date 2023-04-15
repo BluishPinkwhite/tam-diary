@@ -147,7 +147,7 @@ public class TamCalendar extends FrameLayout {
 
                 // default bottom action view data
                 if (selectedDayDateSort == entryDateSort) {
-                    CalendarFragment.replaceSelectedDayActionData(actionData);
+                    CalendarFragment.replaceListAdapterSelectedDayActionData(actionData);
                 }
             }
         }

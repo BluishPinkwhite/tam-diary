@@ -79,6 +79,9 @@ public abstract class SearchableSpinnerWithAdd<T> extends SearchableSpinner<T> {
     protected void showNewItemDialog(boolean edit) {
         isEditingItem = edit;
 
+        if (addNewDialog != null)
+            addNewDialog.dismiss();
+
         addNewDialog = new Dialog(getContext());
         addNewDialog.setContentView(R.layout.dialog_add_option);
         addNewDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

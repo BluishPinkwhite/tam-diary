@@ -22,9 +22,9 @@ public class ActionPagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return new ActionDetailFragment();
+                //return new ActionDetailFragment();
             case 1:
-                return new ActionEditFragment();
+                //return new ActionEditFragment();
             case 2:
                 //return new ActionDeleteFragment();
             default:

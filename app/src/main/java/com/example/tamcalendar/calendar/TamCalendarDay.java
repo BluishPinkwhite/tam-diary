@@ -59,7 +59,7 @@ public class TamCalendarDay extends FrameLayout {
             selectedDayDateSort = dateSort;
             //Toast.makeText(getContext(), toString(), Toast.LENGTH_SHORT).show();
 
-            CalendarFragment.replaceSelectedDayActionData(actions);
+            CalendarFragment.replaceListAdapterSelectedDayActionData(actions);
 
             updateData();
             invalidate();
