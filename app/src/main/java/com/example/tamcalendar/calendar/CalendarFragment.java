@@ -102,7 +102,8 @@ public class CalendarFragment extends FragmentBase {
             @Override
             public void onCreate(@NonNull LifecycleOwner owner) {
                 DefaultLifecycleObserver.super.onCreate(owner);
-                ((MainActivity) getActivity()).binding.fab.show();
+                ((MainActivity) requireActivity()).binding.fabAddEvent.show();
+                ((MainActivity) requireActivity()).binding.fabAddFeeling.show();
                 getActivity().getLifecycle().removeObserver(this);
             }
         });

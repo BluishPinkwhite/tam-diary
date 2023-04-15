@@ -68,7 +68,8 @@ public class ActionFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // hide MainActivity FAButton on create
-        ((MainActivity)getActivity()).binding.fab.hide();
+        ((MainActivity) requireActivity()).binding.fabAddEvent.hide();
+        ((MainActivity) requireActivity()).binding.fabAddFeeling.hide();
     }
 
     @Override

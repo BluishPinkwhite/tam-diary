@@ -50,7 +50,6 @@
     <fragment
         android:id="@+id/actionCreate"
         android:name="com.example.tamcalendar.action.ActionCreateFragment"
-        android:label="@string/new_event"
         tools:layout="@layout/fragment_action_create">
 
         <action

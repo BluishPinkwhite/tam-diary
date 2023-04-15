@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -11,6 +12,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.tamcalendar.action.ActionCreateFragment;
 import com.example.tamcalendar.data.DatabaseManager;
 import com.example.tamcalendar.data.TamDatabase;
 import com.example.tamcalendar.databinding.ActivityMainBinding;
@@ -46,14 +48,22 @@ public class MainActivity extends AppCompatActivity {
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
-        binding.fab.setOnClickListener(new View.OnClickListener() {
+        binding.fabAddEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 try {
+                    ActionCreateFragment.actionToEdit = null;
                     navController.navigate(R.id.action_CalendarFragment_to_ActionCreate);
                 } catch (IllegalArgumentException ignored) {
                 }
+            }
+        });
+
+        binding.fabAddFeeling.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Emotions!", Toast.LENGTH_SHORT).show();
             }
         });
     }

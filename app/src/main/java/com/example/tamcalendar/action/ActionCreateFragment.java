@@ -113,7 +113,8 @@ public class ActionCreateFragment extends FragmentBase {
 
         // hide (+) FAB
         try {
-            ((MainActivity) requireActivity()).binding.fab.hide();
+            ((MainActivity) requireActivity()).binding.fabAddEvent.hide();
+            ((MainActivity) requireActivity()).binding.fabAddFeeling.hide();
         } catch (IllegalStateException | NullPointerException ignored) {
         }
     }
