@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ public class CalendarFragment extends Fragment {
 
     private FragmentCalendarBinding binding;
     private ListView listView;
+    private TamCalendar calendar;
 
     private static ActionArrayAdapter adapter;
     private static List<DAO_Action.FullActionData> selectedDayActionData; // use replaceSelectedDayActionData
@@ -38,6 +40,9 @@ public class CalendarFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+        calendar = binding.getRoot().findViewById(R.id.calendar);
 
         // setup bottom action list view
         listView = binding.getRoot().findViewById(R.id.calendar_activity_list);
@@ -56,6 +61,32 @@ public class CalendarFragment extends Fragment {
                     description.setText(adapter.getItem(position).description);
 
                     dialog.show();
+                }
+        );
+
+        listView.setOnItemLongClickListener(
+                new AdapterView.OnItemLongClickListener() {
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> parent, View view,
+                                                   int position, long id) {
+                        // create options dialog
+                        new ActionOptionsDialog(getContext(), adapter, position,
+                                // update = refresh selected day's data
+                                () -> {
+                                    List<DAO_Action.FullActionData> fullActionData =
+                                            MainActivity.database.daoAction().fullListFromDay(
+                                                    MainActivity.selectedDayDateSort
+                                            );
+
+                                    replaceSelectedDayActionData(fullActionData);
+                                    listView.invalidate();
+                                    listView.invalidateViews();
+                                    calendar.setActionDataOfDay(MainActivity.selectedDayDateSort, fullActionData);
+                                    calendar.invalidate();
+                                    calendar.invalidateRecursive(calendar);
+                                });
+                        return true;
+                    }
                 }
         );
 
@@ -88,6 +119,11 @@ public class CalendarFragment extends Fragment {
         binding = null;
     }
 
+    /**
+     * Replaces selected day's actions with new data (on change of selected day)
+     *
+     * @param newData list of E_Action to replace current data with
+     */
     public static void replaceSelectedDayActionData(List<DAO_Action.FullActionData> newData) {
         if (selectedDayActionData == null)
             selectedDayActionData = new ArrayList<>();
@@ -97,7 +133,8 @@ public class CalendarFragment extends Fragment {
             selectedDayActionData.addAll(newData);
         }
 
-        if (adapter != null)
+        if (adapter != null) {
             adapter.notifyDataSetChanged();
+        }
     }
 }

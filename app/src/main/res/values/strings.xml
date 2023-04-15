@@ -17,6 +17,7 @@
     <string name="new_event">New event</string>
     <string name="actor">Actor</string>
     <string name="name">Name</string>
+    <string name="name_req">Name *</string>
     <string name="select_scale">Select mood</string>
     <string name="scale">Mood</string>
     <string name="confirm">Confirm</string>

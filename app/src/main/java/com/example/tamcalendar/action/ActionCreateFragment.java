@@ -31,8 +31,10 @@ public class ActionCreateFragment extends Fragment {
     View selectedActorIcon, selectedScaleIcon;
     Button confirmButton;
 
+    // refs used to edit self (or create new action)
     public static E_Actor chosenActor;
     public static E_Scale chosenScale;
+    public static E_Action chosenAction;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,10 +58,11 @@ public class ActionCreateFragment extends Fragment {
         confirmButton = binding.getRoot().findViewById(R.id.confirm_button);
         confirmButton.setOnClickListener(v -> {
             // valid data
-            if (chosenActor != null &&
-                    chosenScale != null &&
-                    editTextEventName.getText().length() > 0 &&
-                    editTextDescription.getText().length() > 0) {
+            if (//chosenActor != null &&
+                //chosenScale != null &&
+                    editTextEventName.getText().length() > 0 // &&
+                //            editTextDescription.getText().length() > 0
+            ) {
 
                 LocalDate chosenDate = DatabaseManager.fromDateSort(MainActivity.selectedDayDateSort);
 
@@ -71,8 +74,8 @@ public class ActionCreateFragment extends Fragment {
                                 chosenDate.getMonthValue(),
                                 chosenDate.getDayOfMonth(),
                                 MainActivity.selectedDayDateSort,
-                                chosenActor.ID,
-                                chosenScale.ID)
+                                chosenActor == null ? -1 : chosenActor.ID,
+                                chosenScale == null ? -1 : chosenScale.ID)
                 );
 
                 // navigate back to calendar

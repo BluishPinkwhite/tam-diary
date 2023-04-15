@@ -101,6 +101,20 @@ public class TamCalendar extends FrameLayout {
         }
     }
 
+    public void setActionDataOfDay(int dateSort, List<DAO_Action.FullActionData> fullActionData) {
+        for (TamCalendarDay[] row :
+                days) {
+            for (TamCalendarDay day :
+                    row) {
+                // find day with desired dateSort
+                if (day.getDateSort() == dateSort) {
+                    day.setData(fullActionData);
+                    return;
+                }
+            }
+        }
+    }
+
 
     ///////////////////////
 

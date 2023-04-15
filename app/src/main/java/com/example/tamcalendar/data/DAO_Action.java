@@ -27,13 +27,14 @@ public interface DAO_Action extends DAO_Base<E_Action> {
     @MapInfo(keyColumn = "dateSort")
     @Query("SELECT actions.*, actor.name AS actorName, actor.color AS actorColor, scale.color AS scaleColor, scale.name AS scaleName " +
             "FROM actions " +
-            "INNER JOIN actor ON F_actor = actor.ID " +
-            "INNER JOIN scale ON F_scale = scale.ID " +
+            "LEFT JOIN actor ON F_actor = actor.ID " +
+            "LEFT JOIN scale ON F_scale = scale.ID " +
             "WHERE dateSort BETWEEN :startDateSort AND :endDateSort " +
             "ORDER BY dateSort ASC")
     Map<Integer, List<FullActionData>> listBetween(int startDateSort, int endDateSort);
 
     static class FullActionData {
+        public int ID;
         public String name;
         public String description;
 
@@ -49,16 +50,16 @@ public interface DAO_Action extends DAO_Base<E_Action> {
         public String scaleName;
     }
 
-    @Query("SELECT * FROM actions " +
-            "INNER JOIN actor ON F_actor = actor.ID " +
-            "INNER JOIN scale ON F_scale = scale.ID " +
-            "WHERE year = :year AND month = :month AND day = :day")
-    List<E_Action> listFromDay(int year, int month, int day);
+    @Query("SELECT actions.*, actor.name AS actorName, actor.color AS actorColor, scale.color AS scaleColor, scale.name AS scaleName " +
+            "FROM actions " +
+            "LEFT JOIN actor ON F_actor = actor.ID " +
+            "LEFT JOIN scale ON F_scale = scale.ID " +
+            "WHERE dateSort = :dateSort")
+    List<FullActionData> fullListFromDay(int dateSort);
 
     @Query("SELECT * FROM actions " +
             "WHERE dateSort = :dateSort")
     List<E_Action> listFromDay(int dateSort);
-
 
 
     @Query("SELECT * FROM actions " +
@@ -68,4 +69,8 @@ public interface DAO_Action extends DAO_Base<E_Action> {
     @Query("SELECT * FROM actions " +
             "WHERE ID LIKE :ID LIMIT 1")
     E_Action get(int ID);
+
+    @Query("DELETE FROM actions " +
+            "WHERE ID = :ID")
+    void deleteByID(int ID);
 }

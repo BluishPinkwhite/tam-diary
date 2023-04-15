@@ -127,7 +127,7 @@ public class TamCalendarDay extends FrameLayout {
             }
 
             // actions found
-            if (actions != null) {
+            if (actions != null && !actions.isEmpty()) {
                 // get colors for the ring (half actors, half scales)
                 int[] ringColors = new int[actions.size() * 2 + 1];
                 for (int index = 0; index < actions.size(); index++) {
@@ -171,6 +171,12 @@ public class TamCalendarDay extends FrameLayout {
         setData();
     }
 
+    public void setData(List<DAO_Action.FullActionData> actions) {
+        this.actions = actions;
+
+        setData();
+    }
+
     public void setData() {
         updateData();
         // force redraw
@@ -184,5 +190,9 @@ public class TamCalendarDay extends FrameLayout {
 
     public void setParentUpdateListener(ParentUpdate listener) {
         parentUpdateListener = listener;
+    }
+
+    public int getDateSort() {
+        return dateSort;
     }
 }
