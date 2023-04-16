@@ -7,6 +7,7 @@ import static com.example.tamcalendar.data.DatabaseManager.createDateSort;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.GestureDetectorCompat;
 
 import com.example.tamcalendar.R;
 import com.example.tamcalendar.data.DAO_Action;
@@ -31,8 +33,12 @@ import java.util.Map;
 
 public class TamCalendar extends FrameLayout {
 
+    private CalendarGestureDetector gestureHandler;
+    private GestureDetectorCompat gestureDetector;
+
     private TextView dateText;
     private TableLayout table;
+    private TableRow[] weeks;
     private TamCalendarDay[][] days;
 
     public TamCalendar(@NonNull Context context) {
@@ -61,6 +67,7 @@ public class TamCalendar extends FrameLayout {
         });
 
         table = findViewById(R.id.table);
+        weeks = new TableRow[6];
         days = new TamCalendarDay[6][7];
         TamCalendarDay selectedDay = null;
 
@@ -74,15 +81,40 @@ public class TamCalendar extends FrameLayout {
         // TD refs
         for (int rowI = 0; rowI < days.length; rowI++) {
             TableRow row = (TableRow) table.getChildAt(rowI + 1);
+            weeks[rowI] = row;
+
+            OnTouchListener flingListener = new OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    // disable trigger on DOWN (click) on buttons
+                    if (gestureDetector.onTouchEvent(event)
+                            && v instanceof Button) {
+                        return false;
+                    }
+
+                    // set un-collapsed row and collapse(or show) others
+                    gestureHandler.setActiveRow(row);
+                    gestureDetector.onTouchEvent(event);
+                    return true;
+                }
+            };
+
+            row.setOnTouchListener(flingListener);
 
             for (int dayI = 0; dayI < days[rowI].length; dayI++) {
                 TamCalendarDay day = (TamCalendarDay) row.getChildAt(dayI);
                 days[rowI][dayI] = day;
                 day.setParentUpdateListener(() -> invalidateRecursive(this));
+
+                day.setOnTouchListener(flingListener);
+                day.findViewById(R.id.day).setOnTouchListener(flingListener);
             }
         }
 
         dateText = findViewById(R.id.dateText);
+
+        gestureHandler = new CalendarGestureDetector(weeks);
+        gestureDetector = new GestureDetectorCompat(getContext(), gestureHandler);
 
         setData();
     }
@@ -159,4 +191,25 @@ public class TamCalendar extends FrameLayout {
         // redraw
         invalidate();
     }
+
+
+    /////////////////
+
+
+
+    public OnTouchListener listViewFlingListener = new OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            // disable trigger on DOWN (click) on buttons
+            if (gestureDetector.onTouchEvent(event)
+                    && v instanceof Button) {
+                return false;
+            }
+
+            // set un-collapsed row and collapse(or show) others
+            //gestureHandler.setActiveRow(row);
+            gestureDetector.onTouchEvent(event);
+            return true;
+        }
+    };
 }

@@ -56,16 +56,19 @@ public class TamCalendarDay extends FrameLayout {
 
         dayButton = findViewById(R.id.day);
         dayButton.setOnClickListener(view -> {
-            selectedDayDateSort = dateSort;
-            //Toast.makeText(getContext(), toString(), Toast.LENGTH_SHORT).show();
+            // if is current month
+            if (month == todayDate.getMonthValue()) {
+                selectedDayDateSort = dateSort;
+                //Toast.makeText(getContext(), toString(), Toast.LENGTH_SHORT).show();
 
-            CalendarFragment.replaceListAdapterSelectedDayActionData(actions);
+                CalendarFragment.replaceListAdapterSelectedDayActionData(actions);
 
-            updateData();
-            invalidate();
+                updateData();
+                invalidate();
 
-            if (parentUpdateListener != null)
-                parentUpdateListener.updateParent();
+                if (parentUpdateListener != null)
+                    parentUpdateListener.updateParent();
+            }
         });
 
         amountText = findViewById(R.id.amount);
@@ -93,7 +96,7 @@ public class TamCalendarDay extends FrameLayout {
 
         // disabled if next/prev month bleed over
         if (month != todayDate.getMonthValue()) {
-            dayButton.setEnabled(false);
+            //dayButton.setEnabled(false);
             dayButton.setTypeface(null, Typeface.ITALIC);
             dayButton.setBackground(inset);
             dayButton.setTextSize(11);
@@ -102,7 +105,7 @@ public class TamCalendarDay extends FrameLayout {
         // current month (active) days
         else {
             dayButton.setTextSize(14);
-            dayButton.setEnabled(true);
+            //dayButton.setEnabled(true);
             dayButton.setTextColor(Color.BLACK);
 
             // current day

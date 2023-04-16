@@ -97,6 +97,15 @@ public class CalendarFragment extends FragmentBase {
         );
 
 
+        // pull up/down calendar on outside fling action
+        listView.setOnTouchListener((v, event) -> {
+            return calendar.listViewFlingListener.onTouch(v, event);
+        });
+        binding.getRoot().setOnTouchListener((v, event) -> {
+            return calendar.listViewFlingListener.onTouch(v, event);
+        });
+
+
         // show MainActivity FAButton on create
         getActivity().getLifecycle().addObserver(new DefaultLifecycleObserver() {
             @Override
