@@ -1,11 +1,17 @@
 package com.example.tamcalendar;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -17,6 +23,10 @@ import com.example.tamcalendar.data.DatabaseManager;
 import com.example.tamcalendar.data.TamDatabase;
 import com.example.tamcalendar.databinding.ActivityMainBinding;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.time.LocalDate;
 
 public class MainActivity extends AppCompatActivity {
@@ -83,11 +93,88 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_export) {
+
+            Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+            intent.setType("*/*");
+            startActivityForResult(intent, 69420);
+
+            return true;
+        } else if (id == R.id.action_import) {
+
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.setType("*/*");
+            startActivityForResult(intent, 389057);
+
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == 69420) { // EXPORT
+            try {
+                Uri uri = data.getData();
+                FileInputStream in = new FileInputStream(getDatabasePath("tam-calendar"));
+                OutputStream out = getContentResolver().openOutputStream(uri);
+
+                long transferred = 0;
+                byte[] buffer = new byte[8192];
+                int read;
+                while ((read = in.read(buffer, 0, 8192)) >= 0) {
+                    out.write(buffer, 0, read);
+                    transferred += read;
+                    System.out.println("Exporting DB: " + transferred + "B");
+                }
+
+                Toast.makeText(this, "Export complete!", Toast.LENGTH_SHORT).show();
+                System.out.println("Export complete!");
+
+                in.close();
+                out.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(this, e.getClass().getName() + ": " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        } else if (requestCode == 389057) { // IMPORT
+            try {
+                Uri uri = data.getData();
+                InputStream in = getContentResolver().openInputStream(uri);
+                FileOutputStream out = new FileOutputStream(getDatabasePath("tam-calendar"));
+
+                long transferred = 0;
+                byte[] buffer = new byte[8192];
+                int read;
+                while ((read = in.read(buffer, 0, 8192)) >= 0) {
+                    out.write(buffer, 0, read);
+                    transferred += read;
+                    System.out.println("Importing DB: " + transferred + "B");
+                }
+
+                Toast.makeText(this, "Import complete!", Toast.LENGTH_SHORT).show();
+                System.out.println("Import complete!");
+
+                in.close();
+                out.close();
+
+                // restart app to apply new DB
+                Context context = getBaseContext();
+                PackageManager packageManager = context.getPackageManager();
+                Intent intent = packageManager.getLaunchIntentForPackage(context.getPackageName());
+                ComponentName componentName = intent.getComponent();
+                Intent mainIntent = Intent.makeRestartActivityTask(componentName);
+                context.startActivity(mainIntent);
+                Runtime.getRuntime().exit(0);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(this, e.getClass().getName() + ": " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     @Override
