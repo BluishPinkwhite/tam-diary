@@ -35,4 +35,7 @@
     <string name="add_new_scale">Add new mood</string>
     <string name="action_export">Export</string>
     <string name="action_import">Import</string>
+    <string name="time">Time</string>
+    <string name="title_new_emotion">Add new emotion</string>
+    <string name="title_edit_emotion">Edit emotion</string>
 </resources>
