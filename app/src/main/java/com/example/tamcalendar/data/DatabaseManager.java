@@ -8,8 +8,11 @@ import java.time.LocalDate;
 
 public class DatabaseManager {
 
+    public static final String DATABASE_NAME = "tam-calendar";
+    public static final String DATABASE_NAME_FULL = DATABASE_NAME + ".db";
+
     public static TamDatabase createDatabase(MainActivity activity) {
-        return Room.databaseBuilder(activity.getApplicationContext(), TamDatabase.class, "tam-calendar")
+        return Room.databaseBuilder(activity.getApplicationContext(), TamDatabase.class, DATABASE_NAME)
                 .allowMainThreadQueries()
                 .addMigrations(TamDatabase.MIGRATION_3_4)
                 //.fallbackToDestructiveMigration()

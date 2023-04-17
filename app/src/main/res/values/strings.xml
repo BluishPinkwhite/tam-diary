@@ -38,4 +38,14 @@
     <string name="time">Time</string>
     <string name="title_new_emotion">Add new emotion</string>
     <string name="title_edit_emotion">Edit emotion</string>
+    <string name="export_info">Export info</string>
+    <string name="export">Database Export</string>
+    <string name="export_cancelled">Export cancelled</string>
+    <string name="export_info_1">This database requires to save 3 separate files!</string>
+    <string name="export_info_2">You\'re free to choose the save location.</string>
+    <string name="export_info_3">Please follow the naming instructions for easy import.</string>
+    <string name="export_button_1">Save [.db]</string>
+    <string name="export_button_2">Save [.db-shm]</string>
+    <string name="export_button_3">Save [.db-wal]</string>
+    <string name="finish_or_cancel">Finish / Cancel</string>
 </resources>
