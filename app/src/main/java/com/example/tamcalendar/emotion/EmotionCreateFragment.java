@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,12 +20,15 @@ import com.example.tamcalendar.data.E_Scale;
 import com.example.tamcalendar.databinding.FragmentEmotionCreateBinding;
 import com.example.tamcalendar.spinner.ScaleSpinner;
 
+import java.time.LocalTime;
+
 public class EmotionCreateFragment extends FragmentBase {
 
     FragmentEmotionCreateBinding binding;
     TextView selectedScale, editTextDescription;
     View selectedScaleIcon;
     Button confirmButton;
+    NumberPicker hourSelector;
 
     // refs used to edit self (or create new emotion)
     public static E_Scale chosenScale;
@@ -68,6 +72,21 @@ public class EmotionCreateFragment extends FragmentBase {
                         .navigate(R.id.action_emotion_create_to_Calendar);
             }
         });
+
+        hourSelector = binding.getRoot().findViewById(R.id.timePicker);
+        hourSelector.setWrapSelectorWheel(false);
+
+        // reverse order of hours
+        String[] values = new String[24];
+        for (int i = 0; i < values.length; i++) {
+            values[i] = String.valueOf(23 - i);
+        }
+        hourSelector.setMinValue(0);
+        hourSelector.setMaxValue(23);
+        hourSelector.setDisplayedValues(values);
+
+        // set current hour
+        hourSelector.setValue(23 - LocalTime.now().getHour());
 
         /*
         if (actionToEdit != null) {
