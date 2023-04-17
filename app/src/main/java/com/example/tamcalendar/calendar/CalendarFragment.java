@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.DefaultLifecycleObserver;
@@ -52,17 +53,21 @@ public class CalendarFragment extends FragmentBase {
 
         listView.setOnItemClickListener(
                 (parent, view1, position, id) -> {
-                    Dialog dialog = new Dialog(getContext());
-                    dialog.setContentView(R.layout.dialog_action_detail);
-                    dialog.setCancelable(true);
+                    // has not just flung calendar view
+                    if (TamCalendar.lastCalendarFlingTimestamp + 150 < System.currentTimeMillis()) {
 
-                    TextView header = dialog.findViewById(R.id.header);
-                    header.setText(adapter.getItem(position).name);
+                        Dialog dialog = new Dialog(getContext());
+                        dialog.setContentView(R.layout.dialog_action_detail);
+                        dialog.setCancelable(true);
 
-                    TextView description = dialog.findViewById(R.id.description);
-                    description.setText(adapter.getItem(position).description);
+                        TextView header = dialog.findViewById(R.id.header);
+                        header.setText(adapter.getItem(position).name);
 
-                    dialog.show();
+                        TextView description = dialog.findViewById(R.id.description);
+                        description.setText(adapter.getItem(position).description);
+
+                        dialog.show();
+                    } else Toast.makeText(getContext(), "Blocked!", Toast.LENGTH_SHORT).show();
                 }
         );
 

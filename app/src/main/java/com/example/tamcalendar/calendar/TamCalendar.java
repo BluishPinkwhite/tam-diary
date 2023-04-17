@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -196,16 +197,19 @@ public class TamCalendar extends FrameLayout {
     /////////////////
 
 
+    public static long lastCalendarFlingTimestamp;
 
     public OnTouchListener listViewFlingListener = new OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             // disable trigger on DOWN (click) on buttons
-            if (gestureDetector.onTouchEvent(event)
-                    && v instanceof Button) {
-                return false;
+            if (gestureDetector.onTouchEvent(event)) {
+                if (v instanceof Button) {
+                    return false;
+                } else if (v instanceof ListView) {
+                    return false;
+                }
             }
-
             // set un-collapsed row and collapse(or show) others
             //gestureHandler.setActiveRow(row);
             gestureDetector.onTouchEvent(event);

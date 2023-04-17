@@ -57,18 +57,18 @@ public class TamCalendarDay extends FrameLayout {
         dayButton = findViewById(R.id.day);
         dayButton.setOnClickListener(view -> {
             // if is current month
-            if (month == todayDate.getMonthValue()) {
-                selectedDayDateSort = dateSort;
-                //Toast.makeText(getContext(), toString(), Toast.LENGTH_SHORT).show();
+            if (TamCalendar.lastCalendarFlingTimestamp + 150 < System.currentTimeMillis())
+                if (month == todayDate.getMonthValue()) {
+                    selectedDayDateSort = dateSort;
 
-                CalendarFragment.replaceListAdapterSelectedDayActionData(actions);
+                    CalendarFragment.replaceListAdapterSelectedDayActionData(actions);
 
-                updateData();
-                invalidate();
+                    updateData();
+                    invalidate();
 
-                if (parentUpdateListener != null)
-                    parentUpdateListener.updateParent();
-            }
+                    if (parentUpdateListener != null)
+                        parentUpdateListener.updateParent();
+                }
         });
 
         amountText = findViewById(R.id.amount);

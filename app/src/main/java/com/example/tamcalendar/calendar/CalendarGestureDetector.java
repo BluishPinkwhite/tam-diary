@@ -32,6 +32,8 @@ public class CalendarGestureDetector extends GestureDetector.SimpleOnGestureList
                 }
             }
         }
+
+        TamCalendar.lastCalendarFlingTimestamp = System.currentTimeMillis();
         return true;
     }
 
