@@ -16,9 +16,47 @@
         android:layout_height="1dp"
         android:background="#474747" />
 
-    <ListView
-        android:id="@+id/calendar_activity_list"
+    <TextView
+        android:id="@+id/actionLabel"
+        android:text="@string/actions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"/>
+        android:layout_margin="8dp"/>
+
+    <TextView
+        android:id="@+id/no_actions"
+        android:text="@string/no_actions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="8dp"/>
+
+    <ListView
+        android:id="@+id/calendar_action_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="2dp"/>
+
+
+    <TextView
+        android:id="@+id/emotionLabel"
+        android:text="@string/emotions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="8dp"/>
+
+
+    <TextView
+        android:id="@+id/no_emotion"
+        android:text="@string/no_emotion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"/>
+
+    <ListView
+        android:id="@+id/calendar_mood_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="2dp"/>
 </LinearLayout>

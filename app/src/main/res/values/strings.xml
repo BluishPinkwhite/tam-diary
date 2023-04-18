@@ -59,4 +59,8 @@
     <string name="categories">Categories</string>
     <string name="category">Category</string>
     <string name="no_categories">No categories added</string>
+    <string name="actions">Events</string>
+    <string name="emotions">Moods</string>
+    <string name="no_actions">No events on this day</string>
+    <string name="no_emotion">No moods added on this day</string>
 </resources>

@@ -45,11 +45,16 @@ public class CalendarFragment extends FragmentBase {
         super.onViewCreated(view, savedInstanceState);
 
 
-        calendar = binding.getRoot().findViewById(R.id.calendar);
+        calendar = binding.calendar;
+        TextView noActions = binding.noActions;
 
         // setup bottom action list view
-        listView = binding.getRoot().findViewById(R.id.calendar_activity_list);
-        listView.setAdapter(adapter = new ActionArrayAdapter(getContext(), selectedDayActionData));
+        listView = binding.calendarActionList;
+        listView.setAdapter(adapter = new ActionArrayAdapter(getContext(), selectedDayActionData,
+                () -> {
+                    if (noActions != null)
+                        noActions.setVisibility(selectedDayActionData.isEmpty() ? View.VISIBLE : View.GONE);
+                }));
 
         listView.setOnItemClickListener(
                 (parent, view1, position, id) -> {

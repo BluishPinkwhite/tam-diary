@@ -16,8 +16,19 @@ import java.util.List;
 
 public class ActionArrayAdapter extends ArrayAdapter<DAO_Action.FullActionData> {
 
-    public ActionArrayAdapter(@NonNull Context context, List<DAO_Action.FullActionData> originalItems) {
+    private Runnable onChange;
+
+    public ActionArrayAdapter(@NonNull Context context, List<DAO_Action.FullActionData> originalItems,
+                              Runnable onChange) {
         super(context, android.R.layout.simple_list_item_1, originalItems);
+        this.onChange = onChange;
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        onChange.run();
+
+        super.notifyDataSetChanged();
     }
 
     @Override
