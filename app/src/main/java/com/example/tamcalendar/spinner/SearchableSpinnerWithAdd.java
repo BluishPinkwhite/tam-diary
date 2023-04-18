@@ -83,7 +83,7 @@ public abstract class SearchableSpinnerWithAdd<T> extends SearchableSpinner<T> {
             addNewDialog.dismiss();
 
         addNewDialog = new Dialog(getContext());
-        addNewDialog.setContentView(R.layout.dialog_add_option);
+        addNewDialog.setContentView(R.layout.dialog_add_option_colorname);
         addNewDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         header = addNewDialog.findViewById(R.id.header);

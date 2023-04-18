@@ -21,8 +21,16 @@ public interface DAO_Category extends DAO_Base<E_Category> {
     E_Category get(int ID);
 
     @Query("SELECT * FROM categories " +
+            "WHERE ID LIKE :ID LIMIT 1")
+    FullCategory getFull(int ID);
+
+    @Query("SELECT * FROM categories " +
             "WHERE name LIKE :name LIMIT 1")
     E_Category getByName(String name);
+
+    @Query("DELETE FROM categories " +
+            "WHERE ID = :ID")
+    void deleteByID(int ID);
 
     class FullCategory {
         @Embedded

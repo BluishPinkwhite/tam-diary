@@ -9,8 +9,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.R;
 import com.example.tamcalendar.data.DAO_Category;
+import com.example.tamcalendar.spinner.ValueSpinner;
 
 import java.util.List;
 
@@ -31,6 +33,18 @@ public class CategoryArrayAdapter extends ArrayAdapter<DAO_Category.FullCategory
 
         TextView selectText = v.findViewById(R.id.selectedThing);
         selectText.setHint(getContext().getString(R.string.select_ref, getItem(position).category.name));
+
+        View colorIcon = v.findViewById(R.id.colorIcon);
+
+        new ValueSpinner(
+                getContext(),
+                selectText,
+                getContext().getString(R.string.select_ref, getItem(position).category.name),
+                getItem(position).category.name,
+                colorIcon,
+                () -> MainActivity.database.daoValue().listByCategory(getItem(position).category.ID),
+                getItem(position)
+        );
 
         return v;
     }

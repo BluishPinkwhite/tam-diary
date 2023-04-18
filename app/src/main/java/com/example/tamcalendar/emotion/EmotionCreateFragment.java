@@ -7,8 +7,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -22,6 +26,7 @@ import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.R;
 import com.example.tamcalendar.data.DAO_Category;
 import com.example.tamcalendar.data.DAO_Emotion;
+import com.example.tamcalendar.data.E_Category;
 import com.example.tamcalendar.data.E_Scale;
 import com.example.tamcalendar.databinding.FragmentEmotionCreateBinding;
 import com.example.tamcalendar.spinner.ScaleSpinner;
@@ -128,6 +133,22 @@ public class EmotionCreateFragment extends FragmentBase {
         ArrayAdapter<DAO_Category.FullCategory> categoryAdapter = new CategoryArrayAdapter(getContext(), categoryList);
         categoryListView.setAdapter(categoryAdapter);
 
+        categoryListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                return true;
+            }
+        });
+
+
+        updateData();
+
+        View addCategoryButton = binding.addButton;
+        addCategoryButton.setOnClickListener(v -> {
+            showNewCategoryDialog(false);
+        });
+
 
         // hide (+) FAB
         try {
@@ -137,40 +158,12 @@ public class EmotionCreateFragment extends FragmentBase {
         }
     }
 
-    /*
-    private void updateAction() {
-        E_Action action = MainActivity.database.daoAction().get(
-                actionToEdit.ID);
 
-        action.description = editTextDescription.getText().toString();
-        action.F_actor = chosenActor == null ? -1 : chosenActor.ID;
-        action.F_scale = chosenScale == null ? -1 : chosenScale.ID;
-
-        MainActivity.database.daoAction().update(
-                action);
-    }
-
-    private void insertNewAction() {
-        LocalDate chosenDate = DatabaseManager.fromDateSort(MainActivity.selectedDayDateSort);
-
-        // collect and insert data object
-        MainActivity.database.daoAction().insert(
-                new E_Action(editTextEventName.getText().toString(),
-                        editTextDescription.getText().toString(),
-                        chosenDate.getYear(),
-                        chosenDate.getMonthValue(),
-                        chosenDate.getDayOfMonth(),
-                        MainActivity.selectedDayDateSort,
-                        chosenActor == null ? -1 : chosenActor.ID,
-                        chosenScale == null ? -1 : chosenScale.ID)
-        );
-    }
-
-     */
+    /////////////////////////
 
     @Override
     protected int getFragmentTitle() {
-        return R.string.scale;// emotionToEdit == null ? R.string.title_new_emotion : R.string.title_edit_emotion;
+        return emotionToEdit == null ? R.string.title_new_emotion : R.string.title_edit_emotion;
     }
 
     private void refreshCategoryList() {
@@ -178,7 +171,7 @@ public class EmotionCreateFragment extends FragmentBase {
         categoryList.addAll(MainActivity.database.daoCategory().listFull());
     }
 
-    protected void showNewItemDialog(boolean edit, DAO_Category.FullCategory category) {
+    protected void showNewCategoryDialog(boolean edit) {
         if (!edit) {
             categoryToEdit = null;
         }
@@ -187,22 +180,84 @@ public class EmotionCreateFragment extends FragmentBase {
             addNewDialog.dismiss();
 
         addNewDialog = new Dialog(getContext());
-        addNewDialog.setContentView(R.layout.dialog_add_option);
+        addNewDialog.setContentView(R.layout.dialog_add_option_name);
         addNewDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         TextView header = addNewDialog.findViewById(R.id.header);
-        header.setText(getContext().getString(edit ? R.string.edit_existing : R.string.add_new, category.category.name));
-
-        //newItemDialogExtraSetup();
+        header.setText(getContext().getString(edit ? R.string.edit_existing : R.string.add_new, getContext().getString(R.string.category)));
 
         Button addButton = addNewDialog.findViewById(R.id.addButton);
-        addButton.setOnClickListener(v -> {
-                    categoryToEdit = category;
-                }
-                //addButtonOnClickListenerSetup(addButton)
+        addButton.setOnClickListener(
+                categoryConfirmButtonOnClick(addButton)
         );
         addButton.setText(edit ? R.string.edit : R.string.add);
 
         addNewDialog.show();
+    }
+
+    protected View.OnClickListener categoryConfirmButtonOnClick(Button addButton) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isCategoryDataValid()) {
+                    // item edit - updateDB
+                    if (categoryToEdit != null) {
+                        updateCategoryDB(categoryToEdit);
+                    }
+                    // new item - insertDB
+                    else {
+                        insertNewCategoryDB();
+                    }
+
+                    // close dialog
+                    updateData();
+                    addNewDialog.dismiss();
+                } else {
+                    addButton.setBackgroundColor(Color.RED);
+
+                    Animation anim = new AlphaAnimation(0, 1);
+                    anim.setDuration(30);
+                    anim.setRepeatCount(3);
+                    anim.setRepeatMode(Animation.REVERSE);
+                    addButton.startAnimation(anim);
+
+                    addButton.postOnAnimationDelayed(() -> {
+                        addButton.setBackgroundColor(getResources().getColor(
+                                com.google.android.material.R.color.design_default_color_primary,
+                                getContext().getTheme()));
+                    }, 250);
+                }
+            }
+        };
+    }
+
+    private void updateData() {
+        refreshCategoryList();
+
+        binding.noCategories.setVisibility(categoryList.isEmpty() ? View.VISIBLE : View.GONE);
+
+        ((CategoryArrayAdapter) categoryListView.getAdapter()).notifyDataSetChanged();
+    }
+
+    private void insertNewCategoryDB() {
+        EditText nameText = addNewDialog.findViewById(R.id.edit_text);
+
+        // collect and insert data object
+        MainActivity.database.daoCategory().insert(
+                new E_Category(nameText.getText().toString()));
+    }
+
+    private void updateCategoryDB(DAO_Category.FullCategory category) {
+        EditText nameText = addNewDialog.findViewById(R.id.edit_text);
+
+        E_Category e_category = MainActivity.database.daoCategory().get(category.category.ID);
+        e_category.name = nameText.getText().toString();
+
+        MainActivity.database.daoCategory().update(e_category);
+    }
+
+    private boolean isCategoryDataValid() {
+        EditText nameText = addNewDialog.findViewById(R.id.edit_text);
+        return !nameText.getText().toString().isEmpty();
     }
 }

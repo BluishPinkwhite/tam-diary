@@ -1,4 +1,4 @@
-package com.example.tamcalendar.calendar;
+package com.example.tamcalendar.emotion;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -7,19 +7,17 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.R;
-import com.example.tamcalendar.action.ActionArrayAdapter;
-import com.example.tamcalendar.action.ActionCreateFragment;
-import com.example.tamcalendar.data.DAO_Action;
+import com.example.tamcalendar.data.DAO_Category;
 
-public class ActionOptionsDialog {
+public class CategoryOptionsDialog {
 
     private AlertDialog dialog;
-    private ActionArrayAdapter adapter;
+    private CategoryArrayAdapter adapter;
     private int position;
     private Runnable navigateToActionCreateFrag;
 
-    public ActionOptionsDialog(Context context, ActionArrayAdapter adapter, int position, Runnable invalidate,
-                               Runnable navigateToActionCreateFrag) {
+    public CategoryOptionsDialog(Context context, CategoryArrayAdapter adapter, int position, Runnable invalidate,
+                                 Runnable navigateToActionCreateFrag) {
         this.adapter = adapter;
         this.position = position;
         this.navigateToActionCreateFrag = navigateToActionCreateFrag;
@@ -54,15 +52,13 @@ public class ActionOptionsDialog {
         dialog.show();
     }
 
-    private void deleteItemDB(DAO_Action.FullActionData item) {
-        MainActivity.database.daoAction().deleteByID(item.ID);
+    private void deleteItemDB(DAO_Category.FullCategory item) {
+        MainActivity.database.daoCategory().deleteByID(item.category.ID);
         adapter.notifyDataSetChanged();
     }
 
-    private void prepareItemEdit(DAO_Action.FullActionData item) {
-        ActionCreateFragment.actionToEdit = item;
-        ActionCreateFragment.chosenActor = MainActivity.database.daoActor().getByName(item.actorName);
-        ActionCreateFragment.chosenScale = MainActivity.database.daoScale().getByName(item.scaleName);
+    private void prepareItemEdit(DAO_Category.FullCategory item) {
+        EmotionCreateFragment.categoryToEdit = item;
 
         navigateToActionCreateFrag.run();
     }

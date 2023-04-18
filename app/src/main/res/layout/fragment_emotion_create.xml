@@ -47,6 +47,7 @@
         android:foreground="@drawable/baseline_add_24" />
 
     <TextView
+        android:id="@+id/categoryLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/categories"
@@ -57,13 +58,21 @@
         android:id="@+id/categoryList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/addButton" />
+        android:layout_below="@id/addButton"
+        android:layout_marginStart="20dp" />
+    <TextView
+        android:id="@+id/no_categories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/categoryLabel"
+        android:text="@string/no_categories"/>
 
 
     <RelativeLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_below="@id/categoryList">
 
         <NumberPicker
