@@ -1,8 +1,10 @@
 package com.example.tamcalendar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tamcalendar.data.DatabaseFileHandler;
@@ -38,4 +40,12 @@ public class ExportActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == 69420) { // EXPORT
+            DatabaseFileHandler.handleExport(this, data);
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 }

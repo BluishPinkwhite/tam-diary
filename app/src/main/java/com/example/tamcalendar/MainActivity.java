@@ -1,12 +1,10 @@
 package com.example.tamcalendar;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -88,22 +86,11 @@ public class MainActivity extends AppCompatActivity {
             DatabaseFileHandler.prepareExportActivity(this);
             return true;
         } else if (id == R.id.action_import) {
-            DatabaseFileHandler.prepareImport(this);
+            DatabaseFileHandler.prepareImportActivity(this);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == 69420) { // EXPORT
-            DatabaseFileHandler.handleExport(this, data);
-        } else if (requestCode == 389057) { // IMPORT
-            DatabaseFileHandler.handleImport(this, data);
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
     }
 
     @Override

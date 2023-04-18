@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class DatabaseManager {
 
     public static final String DATABASE_NAME = "tam-calendar";
-    public static final String DATABASE_NAME_FULL = DATABASE_NAME + ".db";
+    public static final String DATABASE_NAME_FULL = DATABASE_NAME + "";
 
     public static TamDatabase createDatabase(MainActivity activity) {
         return Room.databaseBuilder(activity.getApplicationContext(), TamDatabase.class, DATABASE_NAME)
@@ -24,6 +24,12 @@ public class DatabaseManager {
     }
 
     public static int createDateSort(LocalDate date) {
+        return createDateSort(date.getYear(), date.getMonthValue(), date.getDayOfMonth());
+    }
+
+
+    public static int dateSortToday() {
+        LocalDate date = LocalDate.now();
         return createDateSort(date.getYear(), date.getMonthValue(), date.getDayOfMonth());
     }
 

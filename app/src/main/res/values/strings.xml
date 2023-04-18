@@ -44,8 +44,15 @@
     <string name="export_info_1">This database requires to save 3 separate files!</string>
     <string name="export_info_2">You\'re free to choose the save location.</string>
     <string name="export_info_3">Please follow the naming instructions for easy import.</string>
-    <string name="export_button_1">Save [.db]</string>
-    <string name="export_button_2">Save [.db-shm]</string>
-    <string name="export_button_3">Save [.db-wal]</string>
+    <string name="export_button_1">Export [.db]</string>
+    <string name="export_button_2">Export [.db-shm]</string>
+    <string name="export_button_3">Export [.db-wal]</string>
+    <string name="import_button_1">Import [.db]</string>
+    <string name="import_button_2">Import [.db-shm]</string>
+    <string name="import_button_3">Import [.db-wal]</string>
     <string name="finish_or_cancel">Finish / Cancel</string>
+    <string name="importDB">Database Import</string>
+    <string name="import_info">Import info</string>
+    <string name="import_cancelled">Import cancelled!</string>
+    <string name="apply">Apply and restart</string>
 </resources>
