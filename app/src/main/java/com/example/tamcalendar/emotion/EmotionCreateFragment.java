@@ -1,10 +1,15 @@
 package com.example.tamcalendar.emotion;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -15,12 +20,15 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.tamcalendar.FragmentBase;
 import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.R;
+import com.example.tamcalendar.data.DAO_Category;
 import com.example.tamcalendar.data.DAO_Emotion;
 import com.example.tamcalendar.data.E_Scale;
 import com.example.tamcalendar.databinding.FragmentEmotionCreateBinding;
 import com.example.tamcalendar.spinner.ScaleSpinner;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EmotionCreateFragment extends FragmentBase {
 
@@ -30,8 +38,15 @@ public class EmotionCreateFragment extends FragmentBase {
     Button confirmButton;
     NumberPicker hourSelector;
 
+    ListView categoryListView;
+    List<DAO_Category.FullCategory> categoryList;
+
+    Dialog addNewDialog;
+
+
     // refs used to edit self (or create new emotion)
     public static E_Scale chosenScale;
+    public static DAO_Category.FullCategory categoryToEdit;
     public static DAO_Emotion.FullEmotionData emotionToEdit;
 
     @Override
@@ -47,11 +62,11 @@ public class EmotionCreateFragment extends FragmentBase {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        selectedScale = binding.getRoot().findViewById(R.id.selectedScale);
-        selectedScaleIcon = binding.getRoot().findViewById(R.id.colorIconScale);
-        editTextDescription = binding.getRoot().findViewById(R.id.description);
+        selectedScale = binding.selectedScale;
+        selectedScaleIcon = binding.colorIconScale;
+        editTextDescription = binding.description;
 
-        confirmButton = binding.getRoot().findViewById(R.id.confirm_button);
+        confirmButton = binding.confirmButton;
         confirmButton.setOnClickListener(v -> {
             // valid data
             //if (editTextEventName.getText().length() > 0)
@@ -73,7 +88,7 @@ public class EmotionCreateFragment extends FragmentBase {
             }
         });
 
-        hourSelector = binding.getRoot().findViewById(R.id.timePicker);
+        hourSelector = binding.timePicker;
         hourSelector.setWrapSelectorWheel(false);
 
         // reverse order of hours
@@ -95,7 +110,6 @@ public class EmotionCreateFragment extends FragmentBase {
             selectedScale.setText(actionToEdit.scaleName);
             selectedScaleIcon.setBackgroundColor(actionToEdit.scaleColor);
         }
-
          */
 
         new ScaleSpinner(
@@ -106,6 +120,14 @@ public class EmotionCreateFragment extends FragmentBase {
                 selectedScaleIcon,
                 () -> MainActivity.database.daoScale().list()
         );
+
+
+        // category setup
+        categoryListView = binding.categoryList;
+        categoryList = new ArrayList<>();
+        ArrayAdapter<DAO_Category.FullCategory> categoryAdapter = new CategoryArrayAdapter(getContext(), categoryList);
+        categoryListView.setAdapter(categoryAdapter);
+
 
         // hide (+) FAB
         try {
@@ -149,5 +171,38 @@ public class EmotionCreateFragment extends FragmentBase {
     @Override
     protected int getFragmentTitle() {
         return R.string.scale;// emotionToEdit == null ? R.string.title_new_emotion : R.string.title_edit_emotion;
+    }
+
+    private void refreshCategoryList() {
+        categoryList.clear();
+        categoryList.addAll(MainActivity.database.daoCategory().listFull());
+    }
+
+    protected void showNewItemDialog(boolean edit, DAO_Category.FullCategory category) {
+        if (!edit) {
+            categoryToEdit = null;
+        }
+
+        if (addNewDialog != null)
+            addNewDialog.dismiss();
+
+        addNewDialog = new Dialog(getContext());
+        addNewDialog.setContentView(R.layout.dialog_add_option);
+        addNewDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        TextView header = addNewDialog.findViewById(R.id.header);
+        header.setText(getContext().getString(edit ? R.string.edit_existing : R.string.add_new, category.category.name));
+
+        //newItemDialogExtraSetup();
+
+        Button addButton = addNewDialog.findViewById(R.id.addButton);
+        addButton.setOnClickListener(v -> {
+                    categoryToEdit = category;
+                }
+                //addButtonOnClickListenerSetup(addButton)
+        );
+        addButton.setText(edit ? R.string.edit : R.string.add);
+
+        addNewDialog.show();
     }
 }

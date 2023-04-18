@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".action.ActionCreateFragment"
-    android:padding="10dp">
+    android:padding="10dp"
+    tools:context=".action.ActionCreateFragment">
+
 
 
     <View
@@ -21,11 +23,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:drawable/editbox_background"
-        android:drawableEnd="@drawable/baseline_keyboard_arrow_down_24"
         android:hint="@string/select_scale"
         android:layout_below="@+id/selectedScaleLabel"
         android:layout_toEndOf="@+id/colorIconScale"
-        android:padding="12dp" />
+        android:padding="12dp"
+        android:layout_marginBottom="10dp"
+        app:drawableEndCompat="@drawable/baseline_keyboard_arrow_down_24" />
     <TextView
         android:id="@+id/selectedScaleLabel"
         android:layout_width="match_parent"
@@ -35,45 +38,73 @@
 
 
 
-    <NumberPicker
-        android:id="@+id/timePicker"
+    <View
+        android:id="@+id/addButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/selectedScale"
+        android:layout_alignParentEnd="true"
+        android:foreground="@drawable/baseline_add_24" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/timeLabel" />
-    <TextView
-        android:id="@+id/timeLabel"
+        android:text="@string/categories"
+        android:layout_below="@+id/selectedScale" />
+
+
+    <ListView
+        android:id="@+id/categoryList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:layout_below="@+id/selectedScale"
-        android:text="@string/time" />
+        android:layout_below="@id/addButton" />
 
 
-
-
-    <EditText
-        android:id="@+id/description"
+    <RelativeLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/descriptionLabel"
-        android:background="@android:drawable/editbox_background"
-        />
-    <TextView
-        android:id="@+id/descriptionLabel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/timePicker"
-        android:layout_marginTop="6dp"
-        android:text="@string/description" />
+        android:layout_below="@id/categoryList">
+
+        <NumberPicker
+            android:id="@+id/timePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/timeLabel"
+            android:layout_marginEnd="12dp" />
+
+        <TextView
+            android:id="@+id/timeLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/time" />
+
+        <EditText
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/descriptionLabel"
+            android:layout_toEndOf="@id/timePicker"
+            android:background="@android:drawable/editbox_background" />
+
+        <TextView
+            android:id="@+id/descriptionLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_toEndOf="@+id/timePicker"
+            android:text="@string/description" />
+
+    </RelativeLayout>
 
     <Button
         android:id="@+id/confirm_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_below="@id/container"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/description"
-        android:text="@string/confirm"
-        />
+        android:layout_marginTop="6dp"
+        android:text="@string/confirm" />
 
 </RelativeLayout>

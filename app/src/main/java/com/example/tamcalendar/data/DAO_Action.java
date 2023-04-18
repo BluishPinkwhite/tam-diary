@@ -33,7 +33,7 @@ public interface DAO_Action extends DAO_Base<E_Action> {
             "ORDER BY dateSort ASC")
     Map<Integer, List<FullActionData>> listBetween(int startDateSort, int endDateSort);
 
-    static class FullActionData {
+    class FullActionData {
         public int ID;
         public String name;
         public String description;
