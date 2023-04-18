@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 4,
-    "identityHash": "593fa069df52a4405c7c713d5a5183fa",
+    "version": 5,
+    "identityHash": "86b977aa9803868f4e37639ab3d4874a",
     "entities": [
       {
         "tableName": "actor",
@@ -207,7 +207,7 @@
         "foreignKeys": []
       },
       {
-        "tableName": "values",
+        "tableName": "value",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`ID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `F_Category` INTEGER NOT NULL, `color` INTEGER NOT NULL, `name` TEXT)",
         "fields": [
           {
@@ -248,7 +248,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '593fa069df52a4405c7c713d5a5183fa')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '86b977aa9803868f4e37639ab3d4874a')"
     ]
   }
 }

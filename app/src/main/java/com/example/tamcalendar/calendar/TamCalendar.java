@@ -3,7 +3,7 @@ package com.example.tamcalendar.calendar;
 import static com.example.tamcalendar.MainActivity.database;
 import static com.example.tamcalendar.MainActivity.selectedDayDateSort;
 import static com.example.tamcalendar.MainActivity.todayDate;
-import static com.example.tamcalendar.data.DatabaseManager.createDateSort;
+import static com.example.tamcalendar.database.DatabaseManager.createDateSort;
 
 import android.content.Context;
 import android.util.AttributeSet;

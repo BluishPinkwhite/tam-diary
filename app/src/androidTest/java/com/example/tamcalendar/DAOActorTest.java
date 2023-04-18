@@ -7,7 +7,7 @@ import androidx.test.core.app.ApplicationProvider;
 
 import com.example.tamcalendar.data.DAO_Actor;
 import com.example.tamcalendar.data.E_Actor;
-import com.example.tamcalendar.data.TamDatabase;
+import com.example.tamcalendar.database.TamDatabase;
 
 import org.junit.After;
 import org.junit.Before;

@@ -1,4 +1,4 @@
-package com.example.tamcalendar.data;
+package com.example.tamcalendar.database;
 
 import androidx.room.Room;
 
@@ -15,6 +15,7 @@ public class DatabaseManager {
         return Room.databaseBuilder(activity.getApplicationContext(), TamDatabase.class, DATABASE_NAME)
                 .allowMainThreadQueries()
                 .addMigrations(TamDatabase.MIGRATION_3_4)
+                .addMigrations(TamDatabase.MIGRATION_4_5)
                 //.fallbackToDestructiveMigration()
                 .build();
     }

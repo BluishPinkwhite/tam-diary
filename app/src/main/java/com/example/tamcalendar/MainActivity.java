@@ -12,9 +12,9 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.tamcalendar.action.ActionCreateFragment;
-import com.example.tamcalendar.data.DatabaseFileHandler;
-import com.example.tamcalendar.data.DatabaseManager;
-import com.example.tamcalendar.data.TamDatabase;
+import com.example.tamcalendar.database.DatabaseFileHandler;
+import com.example.tamcalendar.database.DatabaseManager;
+import com.example.tamcalendar.database.TamDatabase;
 import com.example.tamcalendar.databinding.ActivityMainBinding;
 
 import java.time.LocalDate;

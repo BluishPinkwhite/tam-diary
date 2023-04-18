@@ -10,7 +10,7 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.tamcalendar.data.DatabaseFileHandler;
+import com.example.tamcalendar.database.DatabaseFileHandler;
 
 public class ImportActivity extends AppCompatActivity {
 

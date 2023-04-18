@@ -15,7 +15,7 @@ import com.example.tamcalendar.FragmentBase;
 import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.R;
 import com.example.tamcalendar.data.DAO_Action;
-import com.example.tamcalendar.data.DatabaseManager;
+import com.example.tamcalendar.database.DatabaseManager;
 import com.example.tamcalendar.data.E_Action;
 import com.example.tamcalendar.data.E_Actor;
 import com.example.tamcalendar.data.E_Scale;

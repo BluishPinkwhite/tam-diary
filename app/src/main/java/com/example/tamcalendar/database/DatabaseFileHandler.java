@@ -1,4 +1,4 @@
-package com.example.tamcalendar.data;
+package com.example.tamcalendar.database;
 
 import android.content.Intent;
 import android.net.Uri;
