@@ -12,3 +12,5 @@ good (green), good with dreams (cyan), nightmares (purple), ...
 Through the in-app options, you can export everything you saved into files and reimport them later or to another device or back-up to your personal cloud storage.
 
 This project is very early in development as a passion project (primarily) for personal use and learning of developing android apps. Development started 04/2023.
+
+![preview April 23](./github/preview2304.jpg?raw=true)
