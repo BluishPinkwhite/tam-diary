@@ -37,8 +37,8 @@
     <string name="action_export">Export</string>
     <string name="action_import">Import</string>
     <string name="time">Time</string>
-    <string name="title_new_emotion">Add new emotion</string>
-    <string name="title_edit_emotion">Edit emotion</string>
+    <string name="title_new_emotion">Track new mood</string>
+    <string name="title_edit_emotion">Edit mood</string>
     <string name="export_info">Export info</string>
     <string name="export">Database Export</string>
     <string name="export_cancelled">Export cancelled</string>
@@ -63,4 +63,5 @@
     <string name="emotions">Moods</string>
     <string name="no_actions">No events on this day</string>
     <string name="no_emotion">No moods added on this day</string>
+    <string name="time_ref">%1$d h:</string>
 </resources>

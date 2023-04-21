@@ -1,67 +1,25 @@
 package com.example.tamcalendar.action;
 
 import android.content.Context;
-import android.content.DialogInterface;
-
-import androidx.appcompat.app.AlertDialog;
+import android.widget.ArrayAdapter;
 
 import com.example.tamcalendar.MainActivity;
-import com.example.tamcalendar.R;
 import com.example.tamcalendar.data.DAO_Action;
+import com.example.tamcalendar.views.OptionsDialog;
 
-public class ActionOptionsDialog {
+public class ActionOptionsDialog extends OptionsDialog<DAO_Action.FullActionData> {
 
-    private AlertDialog dialog;
-    private ActionArrayAdapter adapter;
-    private int position;
-    private Runnable navigateToActionCreateFrag;
-
-    public ActionOptionsDialog(Context context, ActionArrayAdapter adapter, int position, Runnable invalidate,
-                               Runnable navigateToActionCreateFrag) {
-        this.adapter = adapter;
-        this.position = position;
-        this.navigateToActionCreateFrag = navigateToActionCreateFrag;
-
-        init(context, invalidate);
+    public ActionOptionsDialog(Context context, ArrayAdapter<DAO_Action.FullActionData> adapter, int position, Runnable invalidate, Runnable navigateToCreateFrag) {
+        super(context, adapter, position, invalidate, navigateToCreateFrag);
     }
 
-    private void init(Context context, Runnable invalidate) {
-        dialog = new AlertDialog.Builder(context)
-                .setTitle(R.string.options)
-                .setCancelable(true)
-                .setItems(R.array.selectItemOptions, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0: // Edit
-                                prepareItemEdit(adapter.getItem(position));
-                                invalidate.run();
-                                break;
-                            case 1: // Delete
-                                deleteItemDB(adapter.getItem(position));
-                                invalidate.run();
-                                break;
-                            default:
-                                System.err.println(getClass().getName() +
-                                        " showItemOptionMenu unknown button! (got " + which + ")");
-                        }
-                    }
-                })
-                .create();
-
-        dialog.show();
-    }
-
-    private void deleteItemDB(DAO_Action.FullActionData item) {
+    protected void deleteItemDB(DAO_Action.FullActionData item) {
         MainActivity.database.daoAction().deleteByID(item.ID);
-        adapter.notifyDataSetChanged();
     }
 
-    private void prepareItemEdit(DAO_Action.FullActionData item) {
+    protected void prepareItemEdit(DAO_Action.FullActionData item) {
         ActionCreateFragment.actionToEdit = item;
         ActionCreateFragment.chosenActor = MainActivity.database.daoActor().getByName(item.actorName);
         ActionCreateFragment.chosenScale = MainActivity.database.daoScale().getByName(item.scaleName);
-
-        navigateToActionCreateFrag.run();
     }
 }

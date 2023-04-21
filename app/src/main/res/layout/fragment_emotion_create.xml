@@ -1,119 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
-    tools:context=".action.ActionCreateFragment">
+    android:padding="10dp">
 
-
-
-    <View
-        android:id="@+id/colorIconScale"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:background="#aaaaaa"
-        android:layout_marginEnd="8dp"
-        android:layout_marginVertical="10dp"
-        android:forceDarkAllowed="false"
-        android:layout_below="@+id/selectedScaleLabel"/>
-    <TextView
-        android:id="@+id/selectedScale"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/editbox_background"
-        android:hint="@string/select_scale"
-        android:layout_below="@+id/selectedScaleLabel"
-        android:layout_toEndOf="@+id/colorIconScale"
-        android:padding="12dp"
-        android:layout_marginBottom="10dp"
-        app:drawableEndCompat="@drawable/baseline_keyboard_arrow_down_24" />
-    <TextView
-        android:id="@+id/selectedScaleLabel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:text="@string/scale" />
+        android:layout_height="wrap_content">
 
-
-
-    <View
-        android:id="@+id/addButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_below="@+id/selectedScale"
-        android:layout_alignParentEnd="true"
-        android:foreground="@drawable/baseline_add_24" />
-
-    <TextView
-        android:id="@+id/categoryLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/categories"
-        android:layout_below="@+id/selectedScale" />
-
-
-    <ListView
-        android:id="@+id/categoryList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/addButton"
-        android:layout_marginStart="20dp" />
-    <TextView
-        android:id="@+id/no_categories"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/categoryLabel"
-        android:text="@string/no_categories"/>
-
-
-    <RelativeLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/categoryList">
-
-        <NumberPicker
-            android:id="@+id/timePicker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/timeLabel"
-            android:layout_marginEnd="12dp" />
-
-        <TextView
-            android:id="@+id/timeLabel"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="@string/time" />
+            android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/descriptionLabel"
-            android:layout_toEndOf="@id/timePicker"
-            android:background="@android:drawable/editbox_background" />
+            <View
+                android:id="@+id/colorIconScale"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_below="@+id/selectedScaleLabel"
+                android:layout_marginVertical="10dp"
+                android:layout_marginEnd="8dp"
+                android:background="#aaaaaa"
+                android:forceDarkAllowed="false" />
 
-        <TextView
-            android:id="@+id/descriptionLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:layout_toEndOf="@+id/timePicker"
-            android:text="@string/description" />
+            <TextView
+                android:id="@+id/selectedScale"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/selectedScaleLabel"
+                android:layout_marginBottom="10dp"
+                android:layout_toEndOf="@+id/colorIconScale"
+                android:background="@android:drawable/editbox_background"
+                android:hint="@string/select_scale"
+                android:padding="12dp"
+                app:drawableEndCompat="@drawable/baseline_keyboard_arrow_down_24" />
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/selectedScaleLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/scale" />
 
-    <Button
-        android:id="@+id/confirm_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/container"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="6dp"
-        android:text="@string/confirm" />
 
-</RelativeLayout>
+            <View
+                android:id="@+id/addButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_below="@+id/selectedScale"
+                android:layout_alignParentEnd="true"
+                android:foreground="@drawable/baseline_add_24" />
+
+            <TextView
+                android:id="@+id/categoryLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/selectedScale"
+                android:text="@string/categories" />
+
+
+            <com.example.tamcalendar.views.NonScrollListView
+                android:id="@+id/categoryList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/addButton"
+                android:layout_marginStart="20dp" />
+
+            <TextView
+                android:id="@+id/no_categories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/categoryLabel"
+                android:text="@string/no_categories" />
+
+
+            <RelativeLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/categoryList"
+                android:layout_marginTop="20dp">
+
+                <NumberPicker
+                    android:id="@+id/timePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/timeLabel"
+                    android:layout_marginEnd="12dp" />
+
+                <TextView
+                    android:id="@+id/timeLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/time" />
+
+                <EditText
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/descriptionLabel"
+                    android:layout_toEndOf="@id/timePicker"
+                    android:background="@android:drawable/editbox_background" />
+
+                <TextView
+                    android:id="@+id/descriptionLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_toEndOf="@+id/timePicker"
+                    android:text="@string/description" />
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/confirm_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/container"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="6dp"
+                android:text="@string/confirm" />
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

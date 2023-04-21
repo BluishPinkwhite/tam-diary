@@ -1,27 +1,22 @@
 package com.example.tamcalendar.calendar;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.tamcalendar.FragmentBase;
 import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.R;
 import com.example.tamcalendar.action.ActionArrayAdapter;
-import com.example.tamcalendar.action.ActionCreateFragment;
-import com.example.tamcalendar.action.ActionOptionsDialog;
 import com.example.tamcalendar.data.DAO_Action;
+import com.example.tamcalendar.data.DAO_Emotion;
 import com.example.tamcalendar.databinding.FragmentCalendarBinding;
+import com.example.tamcalendar.emotion.EmotionArrayAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +24,12 @@ import java.util.List;
 public class CalendarFragment extends FragmentBase {
 
     private FragmentCalendarBinding binding;
-    private ListView listView;
-    private TamCalendar calendar;
 
-    private static ActionArrayAdapter adapter;
-    private static List<DAO_Action.FullActionData> selectedDayActionData; // use replaceSelectedDayActionData
+    static ActionArrayAdapter actionAdapter;
+    private static List<DAO_Action.FullActionData> selectedDayActionData = new ArrayList<>(); // use replaceSelectedDayActionData
+
+    static EmotionArrayAdapter emotionAdapter;
+    private static List<DAO_Emotion.FullEmotionData> selectedDayEmotionData = new ArrayList<>(); // use replaceSelectedDayEmotionData
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,76 +40,26 @@ public class CalendarFragment extends FragmentBase {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // setup bottom action list view (updateData() on change)
+        binding.calendarActionList.setAdapter(actionAdapter = new ActionArrayAdapter(getContext(),
+                selectedDayActionData, this::updateData));
 
-        calendar = binding.calendar;
-        TextView noActions = binding.noActions;
+        ActionCalendarListManager.setActionListOnItemClick(binding.calendarActionList, this);
+        ActionCalendarListManager.setActionListOnItemLongClick(binding.calendarActionList, this);
 
-        // setup bottom action list view
-        listView = binding.calendarActionList;
-        listView.setAdapter(adapter = new ActionArrayAdapter(getContext(), selectedDayActionData,
-                () -> {
-                    if (noActions != null)
-                        noActions.setVisibility(selectedDayActionData.isEmpty() ? View.VISIBLE : View.GONE);
-                }));
+        // setup bottom emotion list view
+        binding.calendarEmotionList.setAdapter(emotionAdapter = new EmotionArrayAdapter(getContext(),
+                selectedDayEmotionData, this::updateData));
 
-        listView.setOnItemClickListener(
-                (parent, view1, position, id) -> {
-                    // has not just flung calendar view
-                    if (TamCalendar.lastCalendarFlingTimestamp + 150 < System.currentTimeMillis()) {
-
-                        Dialog dialog = new Dialog(getContext());
-                        dialog.setContentView(R.layout.dialog_action_detail);
-                        dialog.setCancelable(true);
-
-                        TextView header = dialog.findViewById(R.id.header);
-                        header.setText(adapter.getItem(position).name);
-
-                        TextView description = dialog.findViewById(R.id.description);
-                        description.setText(adapter.getItem(position).description);
-
-                        dialog.show();
-                    }
-                }
-        );
-
-        listView.setOnItemLongClickListener(
-                new AdapterView.OnItemLongClickListener() {
-                    @Override
-                    public boolean onItemLongClick(AdapterView<?> parent, View view,
-                                                   int position, long id) {
-                        // create options dialog
-                        new ActionOptionsDialog(getContext(), adapter, position,
-                                // update = refresh selected day's data
-                                () -> {
-                                    List<DAO_Action.FullActionData> fullActionData =
-                                            MainActivity.database.daoAction().fullListFromDay(
-                                                    MainActivity.selectedDayDateSort
-                                            );
-
-                                    replaceListAdapterSelectedDayActionData(fullActionData);
-                                    calendar.setActionDataOfDay(MainActivity.selectedDayDateSort, fullActionData);
-                                },
-                                // navigate to Edit
-                                () -> {
-                                    ActionCreateFragment.actionToEdit = adapter.getItem(position);
-
-                                    // navigate to create screen to Edit
-                                    NavHostFragment.findNavController(CalendarFragment.this)
-                                            .navigate(R.id.action_CalendarFragment_to_ActionCreate);
-                                });
-                        return true;
-                    }
-                }
-        );
+        // TODO manager
 
 
         // pull up/down calendar on outside fling action
-        listView.setOnTouchListener((v, event) -> {
-            return calendar.listViewFlingListener.onTouch(v, event);
-        });
-        binding.getRoot().setOnTouchListener((v, event) -> {
-            return calendar.listViewFlingListener.onTouch(v, event);
-        });
+
+        binding.calendarActionList.setOnTouchListener(
+                binding.calendar.listViewFlingListener::onTouch);
+        binding.getRoot().setOnTouchListener(
+                binding.calendar.listViewFlingListener::onTouch);
 
 
         // show MainActivity FAButton on create
@@ -136,6 +82,16 @@ public class CalendarFragment extends FragmentBase {
         });
 
          */
+
+        updateData();
+    }
+
+    private void updateData() {
+        if (binding != null && binding.noActions != null)
+            binding.noActions.setVisibility(selectedDayActionData.isEmpty() ? View.VISIBLE : View.GONE);
+
+        if (binding != null && binding.noEmotion != null)
+            binding.noEmotion.setVisibility(selectedDayEmotionData.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
 
@@ -159,13 +115,36 @@ public class CalendarFragment extends FragmentBase {
             selectedDayActionData.addAll(newData);
         }
 
-        if (adapter != null) {
-            adapter.notifyDataSetChanged();
+        if (actionAdapter != null) {
+            actionAdapter.notifyDataSetChanged();
+        }
+    }
+
+    /**
+     * Replaces selected day's emotions with new data (on change of selected day)
+     *
+     * @param newData list of E_Emotion to replace current data with
+     */
+    public static void replaceListAdapterSelectedDayEmotionData(List<DAO_Emotion.FullEmotionData> newData) {
+        if (selectedDayEmotionData == null)
+            selectedDayEmotionData = new ArrayList<>();
+
+        selectedDayEmotionData.clear();
+        if (newData != null) {
+            selectedDayEmotionData.addAll(newData);
+        }
+
+        if (emotionAdapter != null) {
+            emotionAdapter.notifyDataSetChanged();
         }
     }
 
     @Override
     protected int getFragmentTitle() {
         return R.string.app_name;
+    }
+
+    public FragmentCalendarBinding getBinding() {
+        return binding;
     }
 }

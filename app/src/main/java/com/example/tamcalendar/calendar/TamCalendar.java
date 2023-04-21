@@ -23,6 +23,7 @@ import androidx.core.view.GestureDetectorCompat;
 
 import com.example.tamcalendar.R;
 import com.example.tamcalendar.data.DAO_Action;
+import com.example.tamcalendar.data.DAO_Emotion;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -141,7 +142,22 @@ public class TamCalendar extends FrameLayout {
                     row) {
                 // find day with desired dateSort
                 if (day.getDateSort() == dateSort) {
-                    day.setData(fullActionData);
+                    day.setActionData(fullActionData);
+                    return;
+                }
+            }
+        }
+    }
+
+
+    public void setEmotionDataOfDay(int dateSort, List<DAO_Emotion.FullEmotionData> fullEmotionData) {
+        for (TamCalendarDay[] row :
+                days) {
+            for (TamCalendarDay day :
+                    row) {
+                // find day with desired dateSort
+                if (day.getDateSort() == dateSort) {
+                    day.setEmotionData(fullEmotionData);
                     return;
                 }
             }
@@ -158,11 +174,15 @@ public class TamCalendar extends FrameLayout {
                 .minusMonths(1)
                 .with(TemporalAdjusters.lastInMonth(DayOfWeek.SUNDAY))
                 .plusDays(1);
+        int startDateSort = createDateSort(start);
+
         LocalDate end = start.plusDays(34);
+        int endDateSort = createDateSort(end);
 
         Map<Integer, List<DAO_Action.FullActionData>> dateSortActionMap = database.daoAction().listBetween(
-                createDateSort(start), createDateSort(end)
-        );
+                startDateSort, endDateSort);
+        Map<Integer, List<DAO_Emotion.FullEmotionData>> dateSortEmotionMap = database.daoEmotion().listBetween(
+                startDateSort, endDateSort);
 
         LocalDate entryDate = start;
 
@@ -172,15 +192,19 @@ public class TamCalendar extends FrameLayout {
 
                 int entryDateSort = createDateSort(entryDate);
                 List<DAO_Action.FullActionData> actionData = dateSortActionMap.get(entryDateSort);
+                List<DAO_Emotion.FullEmotionData> emotionData = dateSortEmotionMap.get(entryDateSort);
 
                 day.setData(entryDate.getYear(), entryDate.getMonthValue(), entryDate.getDayOfMonth(),
-                        entryDateSort, actionData);
+                        entryDateSort, actionData, emotionData);
 
                 entryDate = entryDate.plusDays(1);
+
+
 
                 // default bottom action view data
                 if (selectedDayDateSort == entryDateSort) {
                     CalendarFragment.replaceListAdapterSelectedDayActionData(actionData);
+                    CalendarFragment.replaceListAdapterSelectedDayEmotionData(emotionData);
                 }
             }
         }

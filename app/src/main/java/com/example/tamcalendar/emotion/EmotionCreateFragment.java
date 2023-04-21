@@ -27,6 +27,7 @@ import com.example.tamcalendar.R;
 import com.example.tamcalendar.data.DAO_Category;
 import com.example.tamcalendar.data.DAO_Emotion;
 import com.example.tamcalendar.data.E_Category;
+import com.example.tamcalendar.data.E_Emotion;
 import com.example.tamcalendar.data.E_Scale;
 import com.example.tamcalendar.databinding.FragmentEmotionCreateBinding;
 import com.example.tamcalendar.spinner.ScaleSpinner;
@@ -74,18 +75,15 @@ public class EmotionCreateFragment extends FragmentBase {
         confirmButton = binding.confirmButton;
         confirmButton.setOnClickListener(v -> {
             // valid data
-            //if (editTextEventName.getText().length() > 0)
-            {
-                /*/ new action
-                if (actionToEdit == null) {
-                    insertNewAction();
+            if (isEmotionDataValid()) {
+                // new action
+                if (emotionToEdit == null) {
+                    insertNewEmotion();
                 }
                 // edit action
                 else {
-                    updateAction();
+                    updateEmotion();
                 }
-
-                 */
 
                 // navigate back to calendar
                 NavHostFragment.findNavController(EmotionCreateFragment.this)
@@ -109,7 +107,7 @@ public class EmotionCreateFragment extends FragmentBase {
         hourSelector.setValue(23 - LocalTime.now().getHour());
 
         /*
-        if (actionToEdit != null) {
+        if (emotionToEdit != null) {
             editTextDescription.setText(actionToEdit.description);
 
             selectedScale.setText(actionToEdit.scaleName);
@@ -156,6 +154,36 @@ public class EmotionCreateFragment extends FragmentBase {
             ((MainActivity) requireActivity()).binding.fabAddFeeling.hide();
         } catch (IllegalStateException | NullPointerException ignored) {
         }
+    }
+
+
+    //////////////////
+
+    private void insertNewEmotion() {
+        MainActivity.database.daoEmotion().insert(
+                new E_Emotion(editTextDescription.getText().toString(),
+                        23 - hourSelector.getValue(),
+                        MainActivity.selectedDayDateSort,
+                        chosenScale == null ? -1 : chosenScale.ID)
+        );
+    }
+
+    private void updateEmotion() {
+        E_Emotion emotion = MainActivity.database.daoEmotion().get(
+                emotionToEdit.ID);
+
+        emotion.description = editTextDescription.getText().toString();
+        emotion.hour = 23 - hourSelector.getValue();
+        emotion.dateSort = MainActivity.selectedDayDateSort;
+        emotion.F_scale = chosenScale == null ? -1 : chosenScale.ID;
+
+        MainActivity.database.daoEmotion().update(
+                emotion);
+    }
+
+
+    private boolean isEmotionDataValid() {
+        return true;
     }
 
 

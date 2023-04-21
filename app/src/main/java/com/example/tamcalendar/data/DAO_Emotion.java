@@ -24,14 +24,13 @@ public interface DAO_Emotion extends DAO_Base<E_Emotion> {
     Map<Integer, List<FullEmotionData>> listBetween(int startDateSort, int endDateSort);
 
 
-
-    static class FullEmotionData {
+    class FullEmotionData {
         public int ID;
-        public String name;
         public String description;
 
         public int hour;
         public int dateSort;
+        public int F_scale;
 
         public int scaleColor;
         public String scaleName;

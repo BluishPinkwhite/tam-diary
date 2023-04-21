@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import com.example.tamcalendar.ParentUpdate;
 import com.example.tamcalendar.R;
 import com.example.tamcalendar.data.DAO_Action;
+import com.example.tamcalendar.data.DAO_Emotion;
 
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class TamCalendarDay extends FrameLayout {
     public boolean selected;
 
     private List<DAO_Action.FullActionData> actions;
+    private List<DAO_Emotion.FullEmotionData> emotions;
 
     private Button dayButton;
     private TextView amountText;
@@ -62,6 +64,7 @@ public class TamCalendarDay extends FrameLayout {
                     selectedDayDateSort = dateSort;
 
                     CalendarFragment.replaceListAdapterSelectedDayActionData(actions);
+                    CalendarFragment.replaceListAdapterSelectedDayEmotionData(emotions);
 
                     updateData();
                     invalidate();
@@ -79,11 +82,24 @@ public class TamCalendarDay extends FrameLayout {
 
     private void updateData() {
         // set text
-        if (actions == null || actions.size() == 0) amountText.setText("");
-        else amountText.setText("" + actions.size());
+        StringBuilder sb = new StringBuilder();
+        boolean hasActionData = actions != null && actions.size() > 0;
+        boolean hasEmotionData = emotions != null && emotions.size() > 0;
 
-        dayButton.setText("" + day);
+        if (hasActionData)
+            sb.append(actions.size());
+        if (hasActionData && hasEmotionData)
+            sb.append(" / ");
+        if (hasEmotionData)
+            sb.append(emotions.size());
 
+        amountText.setText(sb.toString());
+
+
+        // day text
+        dayButton.setText(String.valueOf(day));
+
+        // selected?
         selected = (dateSort == selectedDayDateSort);
 
         // white/selected
@@ -164,21 +180,30 @@ public class TamCalendarDay extends FrameLayout {
     //////////////////////
 
     public void setData(int year, int month, int day, int dateSort,
-                        List<DAO_Action.FullActionData> actions) {
+                        List<DAO_Action.FullActionData> actions, List<DAO_Emotion.FullEmotionData> emotions) {
         this.year = year;
         this.month = month;
         this.day = day;
         this.dateSort = dateSort;
         this.actions = actions;
+        this.emotions = emotions;
 
         setData();
     }
 
-    public void setData(List<DAO_Action.FullActionData> actions) {
+    public void setActionData(List<DAO_Action.FullActionData> actions) {
         this.actions = actions;
 
         setData();
     }
+
+
+    public void setEmotionData(List<DAO_Emotion.FullEmotionData> emotions) {
+        this.emotions = emotions;
+
+        setData();
+    }
+
 
     public void setData() {
         updateData();
