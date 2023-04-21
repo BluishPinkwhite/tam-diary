@@ -8,7 +8,8 @@ import java.util.List;
 @Dao
 public interface DAO_Actor extends DAO_Base<E_Actor> {
 
-    @Query("SELECT * FROM actor")
+    @Query("SELECT * FROM actor " +
+            "ORDER BY name")
     List<E_Actor> list();
 
     @Query("SELECT * FROM actor " +

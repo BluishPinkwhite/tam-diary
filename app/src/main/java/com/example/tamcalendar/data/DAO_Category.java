@@ -10,10 +10,12 @@ import java.util.List;
 @Dao
 public interface DAO_Category extends DAO_Base<E_Category> {
 
-    @Query("SELECT * FROM categories")
+    @Query("SELECT * FROM categories " +
+            "ORDER BY name")
     List<E_Category> list();
 
-    @Query("SELECT * FROM categories ")
+    @Query("SELECT * FROM categories " +
+            "ORDER BY name")
     List<FullCategory> listFull();
 
     @Query("SELECT * FROM categories " +

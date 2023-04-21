@@ -5,15 +5,19 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.tamcalendar.action.ActionCreateFragment;
 import com.example.tamcalendar.data.E_Actor;
 
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.function.Consumer;
 
 public class ActorSpinner extends SearchableColorNameSpinner<E_Actor> {
-    public ActorSpinner(Context context, TextView parentSpinner, String headerText, String actionText, View colorIcon, Callable<List<E_Actor>> dataGetFunction) {
+
+    private Consumer<E_Actor> onItemSelected;
+    public ActorSpinner(Context context, TextView parentSpinner, String headerText, String actionText,
+                        View colorIcon, Callable<List<E_Actor>> dataGetFunction,Consumer<E_Actor> onItemSelected) {
         super(context, parentSpinner, headerText, actionText, colorIcon, dataGetFunction);
+        this.onItemSelected = onItemSelected;
     }
 
     @Override
@@ -26,6 +30,6 @@ public class ActorSpinner extends SearchableColorNameSpinner<E_Actor> {
     protected void onListItemSelected(E_Actor item) {
         super.onListItemSelected(item);
 
-        ActionCreateFragment.chosenActor = item;
+        onItemSelected.accept(item);
     }
 }

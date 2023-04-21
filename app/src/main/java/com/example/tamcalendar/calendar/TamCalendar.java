@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -200,7 +199,6 @@ public class TamCalendar extends FrameLayout {
                 entryDate = entryDate.plusDays(1);
 
 
-
                 // default bottom action view data
                 if (selectedDayDateSort == entryDateSort) {
                     CalendarFragment.replaceListAdapterSelectedDayActionData(actionData);
@@ -220,9 +218,10 @@ public class TamCalendar extends FrameLayout {
 
     /////////////////
 
-
+    @Deprecated
     public static long lastCalendarFlingTimestamp;
 
+    /* REMOVED
     public OnTouchListener listViewFlingListener = new OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -240,4 +239,6 @@ public class TamCalendar extends FrameLayout {
             return true;
         }
     };
+
+     */
 }

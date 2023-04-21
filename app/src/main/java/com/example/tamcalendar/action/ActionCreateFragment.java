@@ -15,10 +15,10 @@ import com.example.tamcalendar.FragmentBase;
 import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.R;
 import com.example.tamcalendar.data.DAO_Action;
-import com.example.tamcalendar.database.DatabaseManager;
 import com.example.tamcalendar.data.E_Action;
 import com.example.tamcalendar.data.E_Actor;
 import com.example.tamcalendar.data.E_Scale;
+import com.example.tamcalendar.database.DatabaseManager;
 import com.example.tamcalendar.databinding.FragmentActionCreateBinding;
 import com.example.tamcalendar.spinner.ActorSpinner;
 import com.example.tamcalendar.spinner.ScaleSpinner;
@@ -99,7 +99,8 @@ public class ActionCreateFragment extends FragmentBase {
                 getString(R.string.select_actor),
                 getString(R.string.actor),
                 selectedActorIcon,
-                () -> MainActivity.database.daoActor().list()
+                () -> MainActivity.database.daoActor().list(),
+                (item) -> ActionCreateFragment.chosenActor = item
         );
 
         new ScaleSpinner(
@@ -108,7 +109,8 @@ public class ActionCreateFragment extends FragmentBase {
                 getString(R.string.select_scale),
                 getString(R.string.scale),
                 selectedScaleIcon,
-                () -> MainActivity.database.daoScale().list()
+                () -> MainActivity.database.daoScale().list(),
+                (item) -> ActionCreateFragment.chosenScale = item
         );
 
         // hide (+) FAB

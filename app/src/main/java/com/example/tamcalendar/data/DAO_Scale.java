@@ -8,7 +8,8 @@ import java.util.List;
 @Dao
 public interface DAO_Scale extends DAO_Base<E_Scale> {
 
-    @Query("SELECT * FROM scale")
+    @Query("SELECT * FROM scale " +
+            "ORDER BY name ASC")
     List<E_Scale> list();
 
     @Query("SELECT * FROM scale " +

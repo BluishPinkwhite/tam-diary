@@ -42,7 +42,10 @@ public class EmotionCreateFragment extends FragmentBase {
     TextView selectedScale, editTextDescription;
     View selectedScaleIcon;
     Button confirmButton;
-    NumberPicker hourSelector;
+    /**
+     * Hour selector number picker. To get value use getHourValue().
+     */
+    private NumberPicker hourSelector;
 
     ListView categoryListView;
     List<DAO_Category.FullCategory> categoryList;
@@ -103,17 +106,21 @@ public class EmotionCreateFragment extends FragmentBase {
         hourSelector.setMaxValue(23);
         hourSelector.setDisplayedValues(values);
 
-        // set current hour
-        hourSelector.setValue(23 - LocalTime.now().getHour());
-
-        /*
-        if (emotionToEdit != null) {
-            editTextDescription.setText(actionToEdit.description);
-
-            selectedScale.setText(actionToEdit.scaleName);
-            selectedScaleIcon.setBackgroundColor(actionToEdit.scaleColor);
+        if (emotionToEdit == null) {
+            // set current hour
+            hourSelector.setValue(getHourValue(LocalTime.now().getHour()));
         }
-         */
+        // EDITING
+        else {
+            editTextDescription.setText(emotionToEdit.description);
+
+            selectedScale.setText(emotionToEdit.scaleName);
+            selectedScaleIcon.setBackgroundColor(emotionToEdit.scaleColor);
+
+            hourSelector.setValue(getHourValue(emotionToEdit.hour));
+
+            // TODO category values
+        }
 
         new ScaleSpinner(
                 getActivity(),
@@ -121,7 +128,8 @@ public class EmotionCreateFragment extends FragmentBase {
                 getString(R.string.select_scale),
                 getString(R.string.scale),
                 selectedScaleIcon,
-                () -> MainActivity.database.daoScale().list()
+                () -> MainActivity.database.daoScale().list(),
+                item -> EmotionCreateFragment.chosenScale = item
         );
 
 
@@ -162,7 +170,7 @@ public class EmotionCreateFragment extends FragmentBase {
     private void insertNewEmotion() {
         MainActivity.database.daoEmotion().insert(
                 new E_Emotion(editTextDescription.getText().toString(),
-                        23 - hourSelector.getValue(),
+                        getHourValue(),
                         MainActivity.selectedDayDateSort,
                         chosenScale == null ? -1 : chosenScale.ID)
         );
@@ -173,7 +181,7 @@ public class EmotionCreateFragment extends FragmentBase {
                 emotionToEdit.ID);
 
         emotion.description = editTextDescription.getText().toString();
-        emotion.hour = 23 - hourSelector.getValue();
+        emotion.hour = getHourValue();
         emotion.dateSort = MainActivity.selectedDayDateSort;
         emotion.F_scale = chosenScale == null ? -1 : chosenScale.ID;
 
@@ -287,5 +295,13 @@ public class EmotionCreateFragment extends FragmentBase {
     private boolean isCategoryDataValid() {
         EditText nameText = addNewDialog.findViewById(R.id.edit_text);
         return !nameText.getText().toString().isEmpty();
+    }
+
+    public int getHourValue() {
+        return getHourValue(hourSelector.getValue());
+    }
+
+    public int getHourValue(int val) {
+        return 23 - val;
     }
 }

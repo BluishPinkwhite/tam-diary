@@ -51,15 +51,19 @@ public class CalendarFragment extends FragmentBase {
         binding.calendarEmotionList.setAdapter(emotionAdapter = new EmotionArrayAdapter(getContext(),
                 selectedDayEmotionData, this::updateData));
 
+        EmotionCalendarListManager.setActionListOnItemClick(binding.calendarEmotionList, this);
+        EmotionCalendarListManager.setActionListOnItemLongClick(binding.calendarEmotionList, this);
+
         // TODO manager
 
-
-        // pull up/down calendar on outside fling action
+        // REMOVED
+        /*/ pull up/down calendar on outside fling action
 
         binding.calendarActionList.setOnTouchListener(
                 binding.calendar.listViewFlingListener::onTouch);
         binding.getRoot().setOnTouchListener(
                 binding.calendar.listViewFlingListener::onTouch);
+         */
 
 
         // show MainActivity FAButton on create
