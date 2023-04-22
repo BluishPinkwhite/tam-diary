@@ -123,12 +123,12 @@ public class ActionCreateFragment extends FragmentBase {
 
     private void updateAction() {
         E_Action action = MainActivity.database.daoAction().get(
-                actionToEdit.ID);
+                actionToEdit.actionID);
 
         action.name = editTextEventName.getText().toString();
         action.description = editTextDescription.getText().toString();
-        action.F_actor = chosenActor == null ? -1 : chosenActor.ID;
-        action.F_scale = chosenScale == null ? -1 : chosenScale.ID;
+        action.F_actor = chosenActor == null ? -1 : chosenActor.actorID;
+        action.F_scale = chosenScale == null ? -1 : chosenScale.scaleID;
 
         MainActivity.database.daoAction().update(
                 action);
@@ -145,8 +145,8 @@ public class ActionCreateFragment extends FragmentBase {
                         chosenDate.getMonthValue(),
                         chosenDate.getDayOfMonth(),
                         MainActivity.selectedDayDateSort,
-                        chosenActor == null ? -1 : chosenActor.ID,
-                        chosenScale == null ? -1 : chosenScale.ID)
+                        chosenActor == null ? -1 : chosenActor.actorID,
+                        chosenScale == null ? -1 : chosenScale.scaleID)
         );
     }
 

@@ -10,7 +10,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.R;
-import com.example.tamcalendar.data.emotion.FullEmotionData;
+import com.example.tamcalendar.data.emotion.EmotionWithCategories;
 import com.example.tamcalendar.emotion.EmotionCreateFragment;
 import com.example.tamcalendar.emotion.EmotionOptionsDialog;
 
@@ -28,10 +28,11 @@ public class EmotionCalendarListManager {
                 dialog.setCancelable(true);
 
                 TextView header = dialog.findViewById(R.id.time);
-                header.setText(fragment.getString(R.string.time_ref, CalendarFragment.emotionAdapter.getItem(position).hour));
+                header.setText(fragment.getString(R.string.time_ref,
+                        CalendarFragment.emotionAdapter.getItem(position).emotion.hour));
 
                 TextView description = dialog.findViewById(R.id.description);
-                description.setText(CalendarFragment.emotionAdapter.getItem(position).description);
+                description.setText(CalendarFragment.emotionAdapter.getItem(position).emotion.description);
 
                 ///TODO childContainer for categories
 
@@ -48,7 +49,7 @@ public class EmotionCalendarListManager {
                 new EmotionOptionsDialog(fragment.getContext(), CalendarFragment.emotionAdapter, position,
                         // update = refresh selected day's data
                         () -> {
-                            List<FullEmotionData> fullEmotionData = MainActivity.database.daoEmotion().fullListFromDay(MainActivity.selectedDayDateSort);
+                            List<EmotionWithCategories> fullEmotionData = MainActivity.database.daoEmotion().fullCategoryListFromDay(MainActivity.selectedDayDateSort);
 
                             CalendarFragment.replaceListAdapterSelectedDayEmotionData(fullEmotionData);
                             fragment.getBinding().calendar.setEmotionDataOfDay(MainActivity.selectedDayDateSort, fullEmotionData);

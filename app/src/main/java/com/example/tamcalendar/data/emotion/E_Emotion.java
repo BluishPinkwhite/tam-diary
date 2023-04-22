@@ -10,16 +10,16 @@ import com.example.tamcalendar.data.E_Base;
 @Entity(tableName = "emotions")
 public class E_Emotion implements E_Base<E_Emotion> {
     @PrimaryKey(autoGenerate = true)
-    public int ID;
+    public long emotionID;
 
     public String description;
 
     public int dateSort;
     public int hour;
 
-    public int F_scale;
+    public long F_scale;
 
-    public E_Emotion(String description, int hour, int dateSort, int F_scale) {
+    public E_Emotion(String description, int hour, int dateSort, long F_scale) {
         this.description = description;
         this.hour = hour;
         this.dateSort = dateSort;

@@ -15,8 +15,8 @@ public interface DAO_Scale extends DAO_Base<E_Scale> {
     List<E_Scale> list();
 
     @Query("SELECT * FROM scale " +
-            "WHERE ID LIKE :ID LIMIT 1")
-    E_Scale get(int ID);
+            "WHERE scaleID LIKE :ID LIMIT 1")
+    E_Scale get(long ID);
 
     @Query("SELECT * FROM scale " +
             "WHERE name LIKE :name LIMIT 1")

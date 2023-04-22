@@ -10,7 +10,7 @@ import com.example.tamcalendar.data.E_Base;
 @Entity(tableName = "categories")
 public class E_Category implements E_Base<E_Category> {
     @PrimaryKey(autoGenerate = true)
-    public int ID;
+    public long categoryID;
 
     public String name;
 

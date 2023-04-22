@@ -14,7 +14,7 @@ public class ActionOptionsDialog extends OptionsDialog<FullActionData> {
     }
 
     protected void deleteItemDB(FullActionData item) {
-        MainActivity.database.daoAction().deleteByID(item.ID);
+        MainActivity.database.daoAction().deleteByID(item.actionID);
     }
 
     protected void prepareItemEdit(FullActionData item) {

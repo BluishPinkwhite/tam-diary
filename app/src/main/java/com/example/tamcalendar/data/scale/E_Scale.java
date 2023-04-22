@@ -10,7 +10,7 @@ import com.example.tamcalendar.spinner.ColorNameHaver;
 @Entity(tableName = "scale")
 public class E_Scale extends ColorNameHaver<E_Scale> {
     @PrimaryKey(autoGenerate = true)
-    public int ID;
+    public long scaleID;
 
 
     public E_Scale(String name, int color) {

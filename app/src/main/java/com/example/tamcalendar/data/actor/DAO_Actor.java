@@ -19,6 +19,6 @@ public interface DAO_Actor extends DAO_Base<E_Actor> {
     E_Actor getByName(String name);
 
     @Query("SELECT * FROM actor " +
-            "WHERE ID LIKE :ID LIMIT 1")
-    E_Actor get(int ID);
+            "WHERE actorID LIKE :ID LIMIT 1")
+    E_Actor get(long ID);
 }

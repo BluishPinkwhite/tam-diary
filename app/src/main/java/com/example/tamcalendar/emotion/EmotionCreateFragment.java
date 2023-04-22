@@ -27,7 +27,7 @@ import com.example.tamcalendar.R;
 import com.example.tamcalendar.data.category.E_Category;
 import com.example.tamcalendar.data.category.FullCategory;
 import com.example.tamcalendar.data.emotion.E_Emotion;
-import com.example.tamcalendar.data.emotion.FullEmotionData;
+import com.example.tamcalendar.data.emotion.EmotionWithCategories;
 import com.example.tamcalendar.data.scale.E_Scale;
 import com.example.tamcalendar.databinding.FragmentEmotionCreateBinding;
 import com.example.tamcalendar.spinner.ScaleSpinner;
@@ -56,7 +56,7 @@ public class EmotionCreateFragment extends FragmentBase {
     // refs used to edit self (or create new emotion)
     public static E_Scale chosenScale;
     public static FullCategory categoryToEdit;
-    public static FullEmotionData emotionToEdit;
+    public static EmotionWithCategories emotionToEdit;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -112,12 +112,12 @@ public class EmotionCreateFragment extends FragmentBase {
         }
         // EDITING
         else {
-            editTextDescription.setText(emotionToEdit.description);
+            editTextDescription.setText(emotionToEdit.emotion.description);
 
-            selectedScale.setText(emotionToEdit.scaleName);
-            selectedScaleIcon.setBackgroundColor(emotionToEdit.scaleColor);
+            selectedScale.setText(emotionToEdit.emotion.scaleName);
+            selectedScaleIcon.setBackgroundColor(emotionToEdit.emotion.scaleColor);
 
-            hourSelector.setValue(getHourValue(emotionToEdit.hour));
+            hourSelector.setValue(getHourValue(emotionToEdit.emotion.hour));
 
             // TODO category values
         }
@@ -172,18 +172,18 @@ public class EmotionCreateFragment extends FragmentBase {
                 new E_Emotion(editTextDescription.getText().toString(),
                         getHourValue(),
                         MainActivity.selectedDayDateSort,
-                        chosenScale == null ? -1 : chosenScale.ID)
+                        chosenScale == null ? -1 : chosenScale.scaleID)
         );
     }
 
     private void updateEmotion() {
         E_Emotion emotion = MainActivity.database.daoEmotion().get(
-                emotionToEdit.ID);
+                emotionToEdit.emotion.emotionID);
 
         emotion.description = editTextDescription.getText().toString();
         emotion.hour = getHourValue();
         emotion.dateSort = MainActivity.selectedDayDateSort;
-        emotion.F_scale = chosenScale == null ? -1 : chosenScale.ID;
+        emotion.F_scale = chosenScale == null ? -1 : chosenScale.scaleID;
 
         MainActivity.database.daoEmotion().update(
                 emotion);
@@ -286,7 +286,7 @@ public class EmotionCreateFragment extends FragmentBase {
     private void updateCategoryDB(FullCategory category) {
         EditText nameText = addNewDialog.findViewById(R.id.edit_text);
 
-        E_Category e_category = MainActivity.database.daoCategory().get(category.category.ID);
+        E_Category e_category = MainActivity.database.daoCategory().get(category.category.categoryID);
         e_category.name = nameText.getText().toString();
 
         MainActivity.database.daoCategory().update(e_category);

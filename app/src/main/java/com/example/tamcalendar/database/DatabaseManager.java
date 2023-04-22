@@ -16,6 +16,7 @@ public class DatabaseManager {
                 .allowMainThreadQueries()
                 .addMigrations(TamDatabase.MIGRATION_3_4)
                 .addMigrations(TamDatabase.MIGRATION_4_5)
+                .addMigrations(TamDatabase.MIGRATION_5_6)
                 //.fallbackToDestructiveMigration()
                 .build();
     }

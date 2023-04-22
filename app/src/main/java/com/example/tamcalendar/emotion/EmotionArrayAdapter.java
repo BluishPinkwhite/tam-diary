@@ -10,17 +10,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.example.tamcalendar.R;
-import com.example.tamcalendar.data.emotion.FullEmotionData;
+import com.example.tamcalendar.data.emotion.EmotionWithCategories;
 
 import java.util.List;
 import java.util.function.BiFunction;
 
-public class EmotionArrayAdapter extends ArrayAdapter<FullEmotionData> {
+public class EmotionArrayAdapter extends ArrayAdapter<EmotionWithCategories> {
 
     private final Runnable onChange;
     private final BiFunction<Integer, Integer, String> getTimeRefString;
 
-    public EmotionArrayAdapter(@NonNull Context context, List<FullEmotionData> originalItems,
+    public EmotionArrayAdapter(@NonNull Context context, List<EmotionWithCategories> originalItems,
                                Runnable onChange, BiFunction<Integer, Integer, String> getTimeRefString) {
         super(context, android.R.layout.simple_list_item_1, originalItems);
         this.onChange = onChange;
@@ -39,16 +39,16 @@ public class EmotionArrayAdapter extends ArrayAdapter<FullEmotionData> {
         View v = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = inflater.inflate(R.layout.emotion_compact_row, null);
-        FullEmotionData item = getItem(position);
+        EmotionWithCategories item = getItem(position);
 
         TextView textView = v.findViewById(R.id.name);
-        textView.setText(getTimeRefString.apply(R.string.time_ref, item.hour));
+        textView.setText(getTimeRefString.apply(R.string.time_ref, item.emotion.hour));
 
         View scaleColorIcon = v.findViewById(R.id.scaleColorIcon);
-        scaleColorIcon.setBackgroundColor(item.scaleColor);
+        scaleColorIcon.setBackgroundColor(item.emotion.scaleColor);
 
         TextView scaleText = v.findViewById(R.id.scaleText);
-        scaleText.setText(item.scaleName);
+        scaleText.setText(item.emotion.scaleName);
 
         // fill in child category values
         //TODO

@@ -42,7 +42,7 @@ public class CategoryArrayAdapter extends ArrayAdapter<FullCategory> {
                 getContext().getString(R.string.select_ref, getItem(position).category.name),
                 getItem(position).category.name,
                 colorIcon,
-                () -> MainActivity.database.daoValue().listByCategory(getItem(position).category.ID),
+                () -> MainActivity.database.daoValue().listByCategory(getItem(position).category.categoryID),
                 getItem(position)
         );
 

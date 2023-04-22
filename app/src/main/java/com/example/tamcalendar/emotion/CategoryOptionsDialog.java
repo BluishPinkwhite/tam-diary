@@ -53,7 +53,7 @@ public class CategoryOptionsDialog {
     }
 
     private void deleteItemDB(FullCategory item) {
-        MainActivity.database.daoCategory().deleteByID(item.category.ID);
+        MainActivity.database.daoCategory().deleteByID(item.category.categoryID);
         adapter.notifyDataSetChanged();
     }
 

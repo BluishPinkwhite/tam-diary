@@ -1,7 +1,7 @@
 package com.example.tamcalendar.data.emotion;
 
 public class FullEmotionData {
-    public int ID;
+    public int emotionID;
     public String description;
 
     public int hour;

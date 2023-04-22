@@ -2,6 +2,7 @@ package com.example.tamcalendar.data.category;
 
 import androidx.room.Dao;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import com.example.tamcalendar.data.DAO_Base;
 
@@ -14,24 +15,26 @@ public interface DAO_Category extends DAO_Base<E_Category> {
             "ORDER BY name")
     List<E_Category> list();
 
+    @Transaction
     @Query("SELECT * FROM categories " +
             "ORDER BY name")
     List<FullCategory> listFull();
 
     @Query("SELECT * FROM categories " +
-            "WHERE ID LIKE :ID LIMIT 1")
-    E_Category get(int ID);
+            "WHERE categoryID LIKE :ID LIMIT 1")
+    E_Category get(long ID);
 
+    @Transaction
     @Query("SELECT * FROM categories " +
-            "WHERE ID LIKE :ID LIMIT 1")
-    FullCategory getFull(int ID);
+            "WHERE categoryID LIKE :ID LIMIT 1")
+    FullCategory getFull(long ID);
 
     @Query("SELECT * FROM categories " +
             "WHERE name LIKE :name LIMIT 1")
     E_Category getByName(String name);
 
     @Query("DELETE FROM categories " +
-            "WHERE ID = :ID")
-    void deleteByID(int ID);
+            "WHERE categoryID = :ID")
+    void deleteByID(long ID);
 }
 

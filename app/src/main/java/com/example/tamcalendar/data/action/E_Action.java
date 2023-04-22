@@ -10,7 +10,7 @@ import com.example.tamcalendar.data.E_Base;
 @Entity(tableName = "actions")
 public class E_Action implements E_Base<E_Action> {
     @PrimaryKey(autoGenerate = true)
-    public int ID;
+    public long actionID;
 
     public String name;
     public String description;
@@ -20,10 +20,11 @@ public class E_Action implements E_Base<E_Action> {
     public int day;
     public int dateSort;
 
-    public int F_actor;
-    public int F_scale;
+    public long F_actor;
+    public long F_scale;
 
-    public E_Action(String name, String description, int year, int month, int day, int dateSort, int F_actor, int F_scale) {
+    public E_Action(String name, String description, int year, int month, int day, int dateSort,
+                    long F_actor, long F_scale) {
         this.name = name;
         this.description = description;
         this.year = year;

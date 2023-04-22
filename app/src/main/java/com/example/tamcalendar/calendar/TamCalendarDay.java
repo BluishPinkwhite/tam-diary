@@ -22,7 +22,7 @@ import androidx.annotation.Nullable;
 import com.example.tamcalendar.ParentUpdate;
 import com.example.tamcalendar.R;
 import com.example.tamcalendar.data.action.FullActionData;
-import com.example.tamcalendar.data.emotion.FullEmotionData;
+import com.example.tamcalendar.data.emotion.EmotionWithCategories;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class TamCalendarDay extends FrameLayout {
     public boolean selected;
 
     private List<FullActionData> actions;
-    private List<FullEmotionData> emotions;
+    private List<EmotionWithCategories> emotions;
 
     private Button dayButton;
     private TextView amountText;
@@ -180,7 +180,7 @@ public class TamCalendarDay extends FrameLayout {
     //////////////////////
 
     public void setData(int year, int month, int day, int dateSort,
-                        List<FullActionData> actions, List<FullEmotionData> emotions) {
+                        List<FullActionData> actions, List<EmotionWithCategories> emotions) {
         this.year = year;
         this.month = month;
         this.day = day;
@@ -198,7 +198,7 @@ public class TamCalendarDay extends FrameLayout {
     }
 
 
-    public void setEmotionData(List<FullEmotionData> emotions) {
+    public void setEmotionData(List<EmotionWithCategories> emotions) {
         this.emotions = emotions;
 
         setData();

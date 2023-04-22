@@ -1,23 +1,24 @@
 package com.example.tamcalendar.emotion;
 
 import android.content.Context;
+import android.widget.ArrayAdapter;
 
 import com.example.tamcalendar.MainActivity;
-import com.example.tamcalendar.data.emotion.FullEmotionData;
+import com.example.tamcalendar.data.emotion.EmotionWithCategories;
 import com.example.tamcalendar.views.OptionsDialog;
 
-public class EmotionOptionsDialog extends OptionsDialog<FullEmotionData> {
+public class EmotionOptionsDialog extends OptionsDialog<EmotionWithCategories> {
 
-    public EmotionOptionsDialog(Context context, EmotionArrayAdapter adapter, int position, Runnable invalidate, Runnable navigateToCreateFrag) {
+    public EmotionOptionsDialog(Context context, ArrayAdapter<EmotionWithCategories> adapter, int position, Runnable invalidate, Runnable navigateToCreateFrag) {
         super(context, adapter, position, invalidate, navigateToCreateFrag);
     }
 
-    protected void deleteItemDB(FullEmotionData item) {
-        MainActivity.database.daoEmotion().deleteByID(item.ID);
+    protected void deleteItemDB(EmotionWithCategories item) {
+        MainActivity.database.daoEmotion().deleteByID(item.emotion.emotionID);
     }
 
-    protected void prepareItemEdit(FullEmotionData item) {
+    protected void prepareItemEdit(EmotionWithCategories item) {
         EmotionCreateFragment.emotionToEdit = item;
-        EmotionCreateFragment.chosenScale = MainActivity.database.daoScale().getByName(item.scaleName);
+        EmotionCreateFragment.chosenScale = MainActivity.database.daoScale().getByName(item.emotion.scaleName);
     }
 }

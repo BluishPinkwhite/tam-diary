@@ -12,7 +12,7 @@ public class FullCategory {
     public E_Category category;
 
     @Relation(
-            parentColumn = "ID",
+            parentColumn = "categoryID",
             entityColumn = "F_Category"
     )
     public List<E_Value> values;

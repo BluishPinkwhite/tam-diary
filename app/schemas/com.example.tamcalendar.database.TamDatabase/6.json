@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 5,
-    "identityHash": "9b40adabb8ee1ec78554796ffaf1b5b5",
+    "version": 6,
+    "identityHash": "33669972b174a853d1b2e3e945d9a48f",
     "entities": [
       {
         "tableName": "actor",
@@ -245,7 +245,7 @@
         "foreignKeys": []
       },
       {
-        "tableName": "EmotionCategoryCrossRef",
+        "tableName": "emotionCategoryCrossRef",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`emotionID` INTEGER NOT NULL, `valueID` INTEGER NOT NULL, PRIMARY KEY(`emotionID`, `valueID`))",
         "fields": [
           {
@@ -275,7 +275,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9b40adabb8ee1ec78554796ffaf1b5b5')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '33669972b174a853d1b2e3e945d9a48f')"
     ]
   }
 }

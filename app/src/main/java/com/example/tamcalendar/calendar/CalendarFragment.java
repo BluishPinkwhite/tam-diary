@@ -14,7 +14,7 @@ import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.R;
 import com.example.tamcalendar.action.ActionArrayAdapter;
 import com.example.tamcalendar.data.action.FullActionData;
-import com.example.tamcalendar.data.emotion.FullEmotionData;
+import com.example.tamcalendar.data.emotion.EmotionWithCategories;
 import com.example.tamcalendar.databinding.FragmentCalendarBinding;
 import com.example.tamcalendar.emotion.EmotionArrayAdapter;
 
@@ -29,7 +29,7 @@ public class CalendarFragment extends FragmentBase {
     private static List<FullActionData> selectedDayActionData = new ArrayList<>(); // use replaceSelectedDayActionData
 
     static EmotionArrayAdapter emotionAdapter;
-    private static List<FullEmotionData> selectedDayEmotionData = new ArrayList<>(); // use replaceSelectedDayEmotionData
+    private static List<EmotionWithCategories> selectedDayEmotionData = new ArrayList<>(); // use replaceSelectedDayEmotionData
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -129,7 +129,7 @@ public class CalendarFragment extends FragmentBase {
      *
      * @param newData list of E_Emotion to replace current data with
      */
-    public static void replaceListAdapterSelectedDayEmotionData(List<FullEmotionData> newData) {
+    public static void replaceListAdapterSelectedDayEmotionData(List<EmotionWithCategories> newData) {
         if (selectedDayEmotionData == null)
             selectedDayEmotionData = new ArrayList<>();
 

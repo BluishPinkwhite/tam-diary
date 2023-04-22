@@ -10,7 +10,7 @@ import com.example.tamcalendar.spinner.ColorNameHaver;
 @Entity(tableName = "actor")
 public class E_Actor extends ColorNameHaver<E_Actor> {
     @PrimaryKey(autoGenerate = true)
-    public int ID;
+    public long actorID;
 
     public E_Actor(String name, int color) {
         this.name = name;

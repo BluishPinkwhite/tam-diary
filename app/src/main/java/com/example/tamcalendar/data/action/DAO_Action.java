@@ -29,16 +29,16 @@ public interface DAO_Action extends DAO_Base<E_Action> {
     @MapInfo(keyColumn = "dateSort")
     @Query("SELECT actions.*, actor.name AS actorName, actor.color AS actorColor, scale.color AS scaleColor, scale.name AS scaleName " +
             "FROM actions " +
-            "LEFT JOIN actor ON F_actor = actor.ID " +
-            "LEFT JOIN scale ON F_scale = scale.ID " +
+            "LEFT JOIN actor ON F_actor = actor.actorID " +
+            "LEFT JOIN scale ON F_scale = scale.scaleID " +
             "WHERE dateSort BETWEEN :startDateSort AND :endDateSort " +
             "ORDER BY dateSort ASC, name ASC")
     Map<Integer, List<FullActionData>> listBetween(int startDateSort, int endDateSort);
 
     @Query("SELECT actions.*, actor.name AS actorName, actor.color AS actorColor, scale.color AS scaleColor, scale.name AS scaleName " +
             "FROM actions " +
-            "LEFT JOIN actor ON F_actor = actor.ID " +
-            "LEFT JOIN scale ON F_scale = scale.ID " +
+            "LEFT JOIN actor ON F_actor = actor.actorID " +
+            "LEFT JOIN scale ON F_scale = scale.scaleID " +
             "WHERE dateSort = :dateSort " +
             "ORDER BY name")
     List<FullActionData> fullListFromDay(int dateSort);
@@ -54,10 +54,10 @@ public interface DAO_Action extends DAO_Base<E_Action> {
     E_Action getByName(String name);
 
     @Query("SELECT * FROM actions " +
-            "WHERE ID LIKE :ID LIMIT 1")
-    E_Action get(int ID);
+            "WHERE actionID LIKE :ID LIMIT 1")
+    E_Action get(long ID);
 
     @Query("DELETE FROM actions " +
-            "WHERE ID = :ID")
-    void deleteByID(int ID);
+            "WHERE actionID = :ID")
+    void deleteByID(long ID);
 }

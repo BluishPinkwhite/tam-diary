@@ -4,19 +4,21 @@ import androidx.room.Embedded;
 import androidx.room.Junction;
 import androidx.room.Relation;
 
-import com.example.tamcalendar.data.category.E_Category;
+import com.example.tamcalendar.data.value.E_Value;
 
 import java.util.List;
 
 public class EmotionWithCategories {
     @Embedded
-    public E_Emotion emotion;
+    public FullEmotionData emotion;
     @Relation(
-            parentColumn = "ID",
-            entityColumn = "ID",
+            parentColumn = "emotionID",
+            entityColumn = "valueID",
             associateBy = @Junction(
-                    EmotionCategoryCrossRef.class
+                    value = EmotionCategoryCrossRef.class,
+                    parentColumn = "emotionID",
+                    entityColumn = "valueID"
             )
     )
-    public List<E_Category> categories;
+    public List<E_Value> values;
 }

@@ -17,11 +17,11 @@ public interface DAO_Value extends DAO_Base<E_Value> {
     @Query("SELECT * FROM value " +
             "WHERE F_Category = :F_Category " +
             "ORDER BY name")
-    List<E_Value> listByCategory(int F_Category);
+    List<E_Value> listByCategory(long F_Category);
 
     @Query("SELECT * FROM value " +
-            "WHERE ID LIKE :ID LIMIT 1")
-    E_Value get(int ID);
+            "WHERE valueID LIKE :ID LIMIT 1")
+    E_Value get(long ID);
 
     @Query("SELECT * FROM value " +
             "WHERE name LIKE :name LIMIT 1")

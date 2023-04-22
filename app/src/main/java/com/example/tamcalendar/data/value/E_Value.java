@@ -10,12 +10,12 @@ import com.example.tamcalendar.spinner.ColorNameHaver;
 @Entity(tableName = "value")
 public class E_Value extends ColorNameHaver<E_Value> {
     @PrimaryKey(autoGenerate = true)
-    public int ID;
+    public long valueID;
 
-    public int F_Category;
+    public long F_Category;
 
 
-    public E_Value(String name, int color, int F_Category) {
+    public E_Value(String name, int color, long F_Category) {
         this.name = name;
         this.color = color;
         this.F_Category = F_Category;

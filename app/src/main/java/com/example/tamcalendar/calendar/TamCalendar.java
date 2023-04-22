@@ -22,7 +22,7 @@ import androidx.core.view.GestureDetectorCompat;
 
 import com.example.tamcalendar.R;
 import com.example.tamcalendar.data.action.FullActionData;
-import com.example.tamcalendar.data.emotion.FullEmotionData;
+import com.example.tamcalendar.data.emotion.EmotionWithCategories;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -149,7 +149,7 @@ public class TamCalendar extends FrameLayout {
     }
 
 
-    public void setEmotionDataOfDay(int dateSort, List<FullEmotionData> fullEmotionData) {
+    public void setEmotionDataOfDay(int dateSort, List<EmotionWithCategories> fullEmotionData) {
         for (TamCalendarDay[] row :
                 days) {
             for (TamCalendarDay day :
@@ -180,7 +180,7 @@ public class TamCalendar extends FrameLayout {
 
         Map<Integer, List<FullActionData>> dateSortActionMap = database.daoAction().listBetween(
                 startDateSort, endDateSort);
-        Map<Integer, List<FullEmotionData>> dateSortEmotionMap = database.daoEmotion().listBetween(
+        Map<Integer, List<EmotionWithCategories>> dateSortEmotionMap = database.daoEmotion().listWithCategoriesBetween(
                 startDateSort, endDateSort);
 
         LocalDate entryDate = start;
@@ -191,7 +191,7 @@ public class TamCalendar extends FrameLayout {
 
                 int entryDateSort = createDateSort(entryDate);
                 List<FullActionData> actionData = dateSortActionMap.get(entryDateSort);
-                List<FullEmotionData> emotionData = dateSortEmotionMap.get(entryDateSort);
+                List<EmotionWithCategories> emotionData = dateSortEmotionMap.get(entryDateSort);
 
                 day.setData(entryDate.getYear(), entryDate.getMonthValue(), entryDate.getDayOfMonth(),
                         entryDateSort, actionData, emotionData);

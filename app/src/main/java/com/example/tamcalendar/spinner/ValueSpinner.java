@@ -27,13 +27,13 @@ public class ValueSpinner extends SearchableColorNameSpinner<E_Value> {
     protected void onListItemSelected(E_Value item) {
         super.onListItemSelected(item);
 
-        EmotionCreateFragment.categoryToEdit = MainActivity.database.daoCategory().getFull(item.ID);
+        EmotionCreateFragment.categoryToEdit = MainActivity.database.daoCategory().getFull(item.valueID);
     }
 
     @Override
     protected E_Value createNewInstanceFromData() {
         return new E_Value(nameEditText.getText().toString(),
                 ((ColorDrawable) (colorPreview.getBackground())).getColor(),
-                parentCategory.category.ID);
+                parentCategory.category.categoryID);
     }
 }
