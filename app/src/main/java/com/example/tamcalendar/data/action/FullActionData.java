@@ -1,7 +1,7 @@
 package com.example.tamcalendar.data.action;
 
 public class FullActionData {
-    public int actionID;
+    public long actionID;
     public String name;
     public String description;
 

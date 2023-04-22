@@ -171,12 +171,12 @@ public class EmotionCreateFragment extends FragmentBase {
     //////////////////
 
     private void insertNewEmotion() {
-        E_Emotion emotion = new E_Emotion(editTextDescription.getText().toString(),
-                getHourValue(),
-                MainActivity.selectedDayDateSort,
-                chosenScale == null ? -1 : chosenScale.scaleID);
-
-        MainActivity.database.daoEmotion().insert(emotion);
+        // insert new emotion from provided data; ID for category value cross refs
+        long emotionID = MainActivity.database.daoEmotion().insert(
+                new E_Emotion(editTextDescription.getText().toString(),
+                        getHourValue(),
+                        MainActivity.selectedDayDateSort,
+                        chosenScale == null ? -1 : chosenScale.scaleID));
 
 
         // many-to-many refs to categories/values
@@ -193,11 +193,11 @@ public class EmotionCreateFragment extends FragmentBase {
                             e_value -> e_value.name.equals(selectedValueText))
                     .findFirst();
 
-            // if value selected, save it to DB
+            // if value selected, save it to DB, else do nothing
             if (selectedValue.isPresent()) {
                 MainActivity.database.daoEmotion().insertEmotionCategoryRef(
                         new EmotionValueCrossRef(
-                                emotion.emotionID,
+                                emotionID,
                                 selectedValue.get().valueID
                         )
                 );

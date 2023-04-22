@@ -6,7 +6,7 @@ import androidx.room.Update;
 
 public interface DAO_Base<T> {
     @Insert
-    void insert(T item);
+    long insert(T item);
 
     @Delete
     void delete(T item);

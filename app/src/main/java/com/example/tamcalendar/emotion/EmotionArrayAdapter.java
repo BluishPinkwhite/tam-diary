@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.example.tamcalendar.R;
+import com.example.tamcalendar.calendar.CalendarFragment;
+import com.example.tamcalendar.data.category.E_Category;
 import com.example.tamcalendar.data.emotion.EmotionWithCategories;
 import com.example.tamcalendar.data.value.E_Value;
 
@@ -61,8 +63,8 @@ public class EmotionArrayAdapter extends ArrayAdapter<EmotionWithCategories> {
             View valueDisplay = inflater.inflate(R.layout.emotion_display_compact_row, null);
 
             TextView name = valueDisplay.findViewById(R.id.name);
-            // TODO
-            name.setText(value.F_Category + " category");
+            E_Category category = CalendarFragment.allCategoriesByID.get(value.F_Category);
+            name.setText(category != null ? category.name : "[removed]");
 
             View colorIcon = valueDisplay.findViewById(R.id.scaleColorIcon);
             colorIcon.setBackgroundColor(value.color);

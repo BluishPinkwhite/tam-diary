@@ -20,5 +20,6 @@ public class EmotionWithCategories {
                     entityColumn = "valueID"
             )
     )
+    // selected values of categories (many to many)
     public List<E_Value> values;
 }

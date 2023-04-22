@@ -14,12 +14,15 @@ import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.R;
 import com.example.tamcalendar.action.ActionArrayAdapter;
 import com.example.tamcalendar.data.action.FullActionData;
+import com.example.tamcalendar.data.category.E_Category;
 import com.example.tamcalendar.data.emotion.EmotionWithCategories;
 import com.example.tamcalendar.databinding.FragmentCalendarBinding;
 import com.example.tamcalendar.emotion.EmotionArrayAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CalendarFragment extends FragmentBase {
 
@@ -30,6 +33,7 @@ public class CalendarFragment extends FragmentBase {
 
     static EmotionArrayAdapter emotionAdapter;
     private static List<EmotionWithCategories> selectedDayEmotionData = new ArrayList<>(); // use replaceSelectedDayEmotionData
+    public static Map<Long, E_Category> allCategoriesByID = new HashMap<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -116,6 +120,8 @@ public class CalendarFragment extends FragmentBase {
         if (newData != null) {
             selectedDayActionData.addAll(newData);
         }
+
+        allCategoriesByID = MainActivity.database.daoCategory().listMapByID();
 
         if (actionAdapter != null) {
             actionAdapter.notifyDataSetChanged();
