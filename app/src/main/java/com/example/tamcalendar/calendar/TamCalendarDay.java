@@ -21,8 +21,8 @@ import androidx.annotation.Nullable;
 
 import com.example.tamcalendar.ParentUpdate;
 import com.example.tamcalendar.R;
-import com.example.tamcalendar.data.DAO_Action;
-import com.example.tamcalendar.data.DAO_Emotion;
+import com.example.tamcalendar.data.action.FullActionData;
+import com.example.tamcalendar.data.emotion.FullEmotionData;
 
 import java.util.List;
 
@@ -37,8 +37,8 @@ public class TamCalendarDay extends FrameLayout {
 
     public boolean selected;
 
-    private List<DAO_Action.FullActionData> actions;
-    private List<DAO_Emotion.FullEmotionData> emotions;
+    private List<FullActionData> actions;
+    private List<FullEmotionData> emotions;
 
     private Button dayButton;
     private TextView amountText;
@@ -150,7 +150,7 @@ public class TamCalendarDay extends FrameLayout {
                 // get colors for the ring (half actors, half scales)
                 int[] ringColors = new int[actions.size() * 2 + 1];
                 for (int index = 0; index < actions.size(); index++) {
-                    DAO_Action.FullActionData actionData = actions.get(index);
+                    FullActionData actionData = actions.get(index);
 
                     ringColors[index] = actionData.actorColor;
                     ringColors[ringColors.length - 2 - index] = actionData.scaleColor;
@@ -180,7 +180,7 @@ public class TamCalendarDay extends FrameLayout {
     //////////////////////
 
     public void setData(int year, int month, int day, int dateSort,
-                        List<DAO_Action.FullActionData> actions, List<DAO_Emotion.FullEmotionData> emotions) {
+                        List<FullActionData> actions, List<FullEmotionData> emotions) {
         this.year = year;
         this.month = month;
         this.day = day;
@@ -191,14 +191,14 @@ public class TamCalendarDay extends FrameLayout {
         setData();
     }
 
-    public void setActionData(List<DAO_Action.FullActionData> actions) {
+    public void setActionData(List<FullActionData> actions) {
         this.actions = actions;
 
         setData();
     }
 
 
-    public void setEmotionData(List<DAO_Emotion.FullEmotionData> emotions) {
+    public void setEmotionData(List<FullEmotionData> emotions) {
         this.emotions = emotions;
 
         setData();

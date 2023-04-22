@@ -10,7 +10,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.R;
-import com.example.tamcalendar.data.DAO_Emotion;
+import com.example.tamcalendar.data.emotion.FullEmotionData;
 import com.example.tamcalendar.emotion.EmotionCreateFragment;
 import com.example.tamcalendar.emotion.EmotionOptionsDialog;
 
@@ -48,7 +48,7 @@ public class EmotionCalendarListManager {
                 new EmotionOptionsDialog(fragment.getContext(), CalendarFragment.emotionAdapter, position,
                         // update = refresh selected day's data
                         () -> {
-                            List<DAO_Emotion.FullEmotionData> fullEmotionData = MainActivity.database.daoEmotion().fullListFromDay(MainActivity.selectedDayDateSort);
+                            List<FullEmotionData> fullEmotionData = MainActivity.database.daoEmotion().fullListFromDay(MainActivity.selectedDayDateSort);
 
                             CalendarFragment.replaceListAdapterSelectedDayEmotionData(fullEmotionData);
                             fragment.getBinding().calendar.setEmotionDataOfDay(MainActivity.selectedDayDateSort, fullEmotionData);

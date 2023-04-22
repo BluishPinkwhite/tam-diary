@@ -10,21 +10,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.example.tamcalendar.R;
-import com.example.tamcalendar.data.DAO_Emotion;
+import com.example.tamcalendar.data.emotion.FullEmotionData;
 
 import java.util.List;
+import java.util.function.BiFunction;
 
-public class EmotionArrayAdapter extends ArrayAdapter<DAO_Emotion.FullEmotionData> {
+public class EmotionArrayAdapter extends ArrayAdapter<FullEmotionData> {
 
-    private Context context;
-    private Runnable onChange;
+    private final Runnable onChange;
+    private final BiFunction<Integer, Integer, String> getTimeRefString;
 
-    public EmotionArrayAdapter(@NonNull Context context, List<DAO_Emotion.FullEmotionData> originalItems,
-                               Runnable onChange) {
+    public EmotionArrayAdapter(@NonNull Context context, List<FullEmotionData> originalItems,
+                               Runnable onChange, BiFunction<Integer, Integer, String> getTimeRefString) {
         super(context, android.R.layout.simple_list_item_1, originalItems);
-
-        this.context = context;
         this.onChange = onChange;
+        this.getTimeRefString = getTimeRefString;
     }
 
     @Override
@@ -39,10 +39,10 @@ public class EmotionArrayAdapter extends ArrayAdapter<DAO_Emotion.FullEmotionDat
         View v = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = inflater.inflate(R.layout.emotion_compact_row, null);
-        DAO_Emotion.FullEmotionData item = getItem(position);
+        FullEmotionData item = getItem(position);
 
         TextView textView = v.findViewById(R.id.name);
-        textView.setText(context.getString(R.string.time_ref, item.hour));
+        textView.setText(getTimeRefString.apply(R.string.time_ref, item.hour));
 
         View scaleColorIcon = v.findViewById(R.id.scaleColorIcon);
         scaleColorIcon.setBackgroundColor(item.scaleColor);

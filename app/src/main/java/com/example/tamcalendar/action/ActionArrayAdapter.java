@@ -10,15 +10,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.example.tamcalendar.R;
-import com.example.tamcalendar.data.DAO_Action;
+import com.example.tamcalendar.data.action.FullActionData;
 
 import java.util.List;
 
-public class ActionArrayAdapter extends ArrayAdapter<DAO_Action.FullActionData> {
+public class ActionArrayAdapter extends ArrayAdapter<FullActionData> {
 
     private Runnable onChange;
 
-    public ActionArrayAdapter(@NonNull Context context, List<DAO_Action.FullActionData> originalItems,
+    public ActionArrayAdapter(@NonNull Context context, List<FullActionData> originalItems,
                               Runnable onChange) {
         super(context, android.R.layout.simple_list_item_1, originalItems);
         this.onChange = onChange;

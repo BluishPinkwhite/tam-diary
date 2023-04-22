@@ -1,9 +1,9 @@
-package com.example.tamcalendar.data;
+package com.example.tamcalendar.data.category;
 
 import androidx.room.Dao;
-import androidx.room.Embedded;
 import androidx.room.Query;
-import androidx.room.Relation;
+
+import com.example.tamcalendar.data.DAO_Base;
 
 import java.util.List;
 
@@ -33,15 +33,5 @@ public interface DAO_Category extends DAO_Base<E_Category> {
     @Query("DELETE FROM categories " +
             "WHERE ID = :ID")
     void deleteByID(int ID);
-
-    class FullCategory {
-        @Embedded
-        public E_Category category;
-
-        @Relation(
-                parentColumn = "ID",
-                entityColumn = "F_Category"
-        )
-        public List<E_Value> values;
-    }
 }
+

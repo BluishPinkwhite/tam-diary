@@ -14,10 +14,10 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.tamcalendar.FragmentBase;
 import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.R;
-import com.example.tamcalendar.data.DAO_Action;
-import com.example.tamcalendar.data.E_Action;
-import com.example.tamcalendar.data.E_Actor;
-import com.example.tamcalendar.data.E_Scale;
+import com.example.tamcalendar.data.action.E_Action;
+import com.example.tamcalendar.data.actor.E_Actor;
+import com.example.tamcalendar.data.scale.E_Scale;
+import com.example.tamcalendar.data.action.FullActionData;
 import com.example.tamcalendar.database.DatabaseManager;
 import com.example.tamcalendar.databinding.FragmentActionCreateBinding;
 import com.example.tamcalendar.spinner.ActorSpinner;
@@ -35,7 +35,7 @@ public class ActionCreateFragment extends FragmentBase {
     // refs used to edit self (or create new action)
     public static E_Actor chosenActor;
     public static E_Scale chosenScale;
-    public static DAO_Action.FullActionData actionToEdit;
+    public static FullActionData actionToEdit;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -1,8 +1,10 @@
-package com.example.tamcalendar.data;
+package com.example.tamcalendar.data.emotion;
 
 import androidx.room.Dao;
 import androidx.room.MapInfo;
 import androidx.room.Query;
+
+import com.example.tamcalendar.data.DAO_Base;
 
 import java.util.List;
 import java.util.Map;
@@ -23,18 +25,6 @@ public interface DAO_Emotion extends DAO_Base<E_Emotion> {
             "ORDER BY dateSort ASC, hour ASC")
     Map<Integer, List<FullEmotionData>> listBetween(int startDateSort, int endDateSort);
 
-
-    class FullEmotionData {
-        public int ID;
-        public String description;
-
-        public int hour;
-        public int dateSort;
-        public int F_scale;
-
-        public int scaleColor;
-        public String scaleName;
-    }
 
     @Query("SELECT emotions.*, scale.color AS scaleColor, scale.name AS scaleName " +
             "FROM emotions " +

@@ -5,7 +5,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.tamcalendar.data.E_Actor;
+import com.example.tamcalendar.data.actor.E_Actor;
 
 import java.util.List;
 import java.util.concurrent.Callable;

@@ -11,14 +11,14 @@ import androidx.annotation.NonNull;
 
 import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.R;
-import com.example.tamcalendar.data.DAO_Category;
+import com.example.tamcalendar.data.category.FullCategory;
 import com.example.tamcalendar.spinner.ValueSpinner;
 
 import java.util.List;
 
-public class CategoryArrayAdapter extends ArrayAdapter<DAO_Category.FullCategory> {
+public class CategoryArrayAdapter extends ArrayAdapter<FullCategory> {
 
-    public CategoryArrayAdapter(@NonNull Context context, List<DAO_Category.FullCategory> originalItems) {
+    public CategoryArrayAdapter(@NonNull Context context, List<FullCategory> originalItems) {
         super(context, android.R.layout.simple_list_item_1, originalItems);
     }
 

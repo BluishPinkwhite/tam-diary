@@ -1,9 +1,11 @@
-package com.example.tamcalendar.data;
+package com.example.tamcalendar.data.emotion;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.example.tamcalendar.MainActivity;
+import com.example.tamcalendar.data.DAO_Base;
+import com.example.tamcalendar.data.E_Base;
 
 @Entity(tableName = "emotions")
 public class E_Emotion implements E_Base<E_Emotion> {

@@ -1,8 +1,10 @@
-package com.example.tamcalendar.data;
+package com.example.tamcalendar.data.action;
 
 import androidx.room.Dao;
 import androidx.room.MapInfo;
 import androidx.room.Query;
+
+import com.example.tamcalendar.data.DAO_Base;
 
 import java.util.List;
 import java.util.Map;
@@ -58,22 +60,4 @@ public interface DAO_Action extends DAO_Base<E_Action> {
     @Query("DELETE FROM actions " +
             "WHERE ID = :ID")
     void deleteByID(int ID);
-
-
-    class FullActionData {
-        public int ID;
-        public String name;
-        public String description;
-
-        public int year;
-        public int month;
-        public int day;
-        public int dateSort;
-
-        public int actorColor;
-        public String actorName;
-
-        public int scaleColor;
-        public String scaleName;
-    }
 }

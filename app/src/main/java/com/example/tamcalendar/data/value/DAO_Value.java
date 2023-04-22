@@ -1,7 +1,9 @@
-package com.example.tamcalendar.data;
+package com.example.tamcalendar.data.value;
 
 import androidx.room.Dao;
 import androidx.room.Query;
+
+import com.example.tamcalendar.data.DAO_Base;
 
 import java.util.List;
 

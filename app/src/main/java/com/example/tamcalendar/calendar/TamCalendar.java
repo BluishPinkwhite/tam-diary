@@ -21,8 +21,8 @@ import androidx.annotation.Nullable;
 import androidx.core.view.GestureDetectorCompat;
 
 import com.example.tamcalendar.R;
-import com.example.tamcalendar.data.DAO_Action;
-import com.example.tamcalendar.data.DAO_Emotion;
+import com.example.tamcalendar.data.action.FullActionData;
+import com.example.tamcalendar.data.emotion.FullEmotionData;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -134,7 +134,7 @@ public class TamCalendar extends FrameLayout {
         }
     }
 
-    public void setActionDataOfDay(int dateSort, List<DAO_Action.FullActionData> fullActionData) {
+    public void setActionDataOfDay(int dateSort, List<FullActionData> fullActionData) {
         for (TamCalendarDay[] row :
                 days) {
             for (TamCalendarDay day :
@@ -149,7 +149,7 @@ public class TamCalendar extends FrameLayout {
     }
 
 
-    public void setEmotionDataOfDay(int dateSort, List<DAO_Emotion.FullEmotionData> fullEmotionData) {
+    public void setEmotionDataOfDay(int dateSort, List<FullEmotionData> fullEmotionData) {
         for (TamCalendarDay[] row :
                 days) {
             for (TamCalendarDay day :
@@ -178,9 +178,9 @@ public class TamCalendar extends FrameLayout {
         LocalDate end = start.plusDays(34);
         int endDateSort = createDateSort(end);
 
-        Map<Integer, List<DAO_Action.FullActionData>> dateSortActionMap = database.daoAction().listBetween(
+        Map<Integer, List<FullActionData>> dateSortActionMap = database.daoAction().listBetween(
                 startDateSort, endDateSort);
-        Map<Integer, List<DAO_Emotion.FullEmotionData>> dateSortEmotionMap = database.daoEmotion().listBetween(
+        Map<Integer, List<FullEmotionData>> dateSortEmotionMap = database.daoEmotion().listBetween(
                 startDateSort, endDateSort);
 
         LocalDate entryDate = start;
@@ -190,8 +190,8 @@ public class TamCalendar extends FrameLayout {
                 TamCalendarDay day = days[rowI][dayI];
 
                 int entryDateSort = createDateSort(entryDate);
-                List<DAO_Action.FullActionData> actionData = dateSortActionMap.get(entryDateSort);
-                List<DAO_Emotion.FullEmotionData> emotionData = dateSortEmotionMap.get(entryDateSort);
+                List<FullActionData> actionData = dateSortActionMap.get(entryDateSort);
+                List<FullEmotionData> emotionData = dateSortEmotionMap.get(entryDateSort);
 
                 day.setData(entryDate.getYear(), entryDate.getMonthValue(), entryDate.getDayOfMonth(),
                         entryDateSort, actionData, emotionData);

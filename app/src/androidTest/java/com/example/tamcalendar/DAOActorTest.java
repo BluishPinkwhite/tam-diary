@@ -5,8 +5,8 @@ import android.content.Context;
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 
-import com.example.tamcalendar.data.DAO_Actor;
-import com.example.tamcalendar.data.E_Actor;
+import com.example.tamcalendar.data.actor.DAO_Actor;
+import com.example.tamcalendar.data.actor.E_Actor;
 import com.example.tamcalendar.database.TamDatabase;
 
 import org.junit.After;

@@ -13,8 +13,8 @@ import com.example.tamcalendar.FragmentBase;
 import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.R;
 import com.example.tamcalendar.action.ActionArrayAdapter;
-import com.example.tamcalendar.data.DAO_Action;
-import com.example.tamcalendar.data.DAO_Emotion;
+import com.example.tamcalendar.data.action.FullActionData;
+import com.example.tamcalendar.data.emotion.FullEmotionData;
 import com.example.tamcalendar.databinding.FragmentCalendarBinding;
 import com.example.tamcalendar.emotion.EmotionArrayAdapter;
 
@@ -26,10 +26,10 @@ public class CalendarFragment extends FragmentBase {
     private FragmentCalendarBinding binding;
 
     static ActionArrayAdapter actionAdapter;
-    private static List<DAO_Action.FullActionData> selectedDayActionData = new ArrayList<>(); // use replaceSelectedDayActionData
+    private static List<FullActionData> selectedDayActionData = new ArrayList<>(); // use replaceSelectedDayActionData
 
     static EmotionArrayAdapter emotionAdapter;
-    private static List<DAO_Emotion.FullEmotionData> selectedDayEmotionData = new ArrayList<>(); // use replaceSelectedDayEmotionData
+    private static List<FullEmotionData> selectedDayEmotionData = new ArrayList<>(); // use replaceSelectedDayEmotionData
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public class CalendarFragment extends FragmentBase {
 
         // setup bottom emotion list view
         binding.calendarEmotionList.setAdapter(emotionAdapter = new EmotionArrayAdapter(getContext(),
-                selectedDayEmotionData, this::updateData));
+                selectedDayEmotionData, this::updateData, this::getString));
 
         EmotionCalendarListManager.setActionListOnItemClick(binding.calendarEmotionList, this);
         EmotionCalendarListManager.setActionListOnItemLongClick(binding.calendarEmotionList, this);
@@ -110,7 +110,7 @@ public class CalendarFragment extends FragmentBase {
      *
      * @param newData list of E_Action to replace current data with
      */
-    public static void replaceListAdapterSelectedDayActionData(List<DAO_Action.FullActionData> newData) {
+    public static void replaceListAdapterSelectedDayActionData(List<FullActionData> newData) {
         if (selectedDayActionData == null)
             selectedDayActionData = new ArrayList<>();
 
@@ -129,7 +129,7 @@ public class CalendarFragment extends FragmentBase {
      *
      * @param newData list of E_Emotion to replace current data with
      */
-    public static void replaceListAdapterSelectedDayEmotionData(List<DAO_Emotion.FullEmotionData> newData) {
+    public static void replaceListAdapterSelectedDayEmotionData(List<FullEmotionData> newData) {
         if (selectedDayEmotionData == null)
             selectedDayEmotionData = new ArrayList<>();
 

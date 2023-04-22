@@ -12,7 +12,7 @@ import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.R;
 import com.example.tamcalendar.action.ActionCreateFragment;
 import com.example.tamcalendar.action.ActionOptionsDialog;
-import com.example.tamcalendar.data.DAO_Action;
+import com.example.tamcalendar.data.action.FullActionData;
 
 import java.util.List;
 
@@ -46,7 +46,7 @@ public class ActionCalendarListManager {
                 new ActionOptionsDialog(fragment.getContext(), CalendarFragment.actionAdapter, position,
                         // update = refresh selected day's data
                         () -> {
-                            List<DAO_Action.FullActionData> fullActionData = MainActivity.database.daoAction().fullListFromDay(MainActivity.selectedDayDateSort);
+                            List<FullActionData> fullActionData = MainActivity.database.daoAction().fullListFromDay(MainActivity.selectedDayDateSort);
 
                             CalendarFragment.replaceListAdapterSelectedDayActionData(fullActionData);
                             fragment.getBinding().calendar.setActionDataOfDay(MainActivity.selectedDayDateSort, fullActionData);

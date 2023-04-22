@@ -1,9 +1,11 @@
-package com.example.tamcalendar.data;
+package com.example.tamcalendar.data.action;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.example.tamcalendar.MainActivity;
+import com.example.tamcalendar.data.DAO_Base;
+import com.example.tamcalendar.data.E_Base;
 
 @Entity(tableName = "actions")
 public class E_Action implements E_Base<E_Action> {

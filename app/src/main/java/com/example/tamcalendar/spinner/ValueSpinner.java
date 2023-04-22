@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.tamcalendar.MainActivity;
-import com.example.tamcalendar.data.DAO_Category;
-import com.example.tamcalendar.data.E_Value;
+import com.example.tamcalendar.data.category.FullCategory;
+import com.example.tamcalendar.data.value.E_Value;
 import com.example.tamcalendar.emotion.EmotionCreateFragment;
 
 import java.util.List;
@@ -15,10 +15,10 @@ import java.util.concurrent.Callable;
 
 public class ValueSpinner extends SearchableColorNameSpinner<E_Value> {
 
-    private final DAO_Category.FullCategory parentCategory;
+    private final FullCategory parentCategory;
 
     public ValueSpinner(Context context, TextView parentSpinner, String headerText, String actionText, View colorIcon,
-                        Callable<List<E_Value>> dataGetFunction, DAO_Category.FullCategory parentCategory) {
+                        Callable<List<E_Value>> dataGetFunction, FullCategory parentCategory) {
         super(context, parentSpinner, headerText, actionText, colorIcon, dataGetFunction);
         this.parentCategory = parentCategory;
     }

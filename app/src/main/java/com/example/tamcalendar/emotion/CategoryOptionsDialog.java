@@ -7,7 +7,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.R;
-import com.example.tamcalendar.data.DAO_Category;
+import com.example.tamcalendar.data.category.FullCategory;
 
 public class CategoryOptionsDialog {
 
@@ -52,12 +52,12 @@ public class CategoryOptionsDialog {
         dialog.show();
     }
 
-    private void deleteItemDB(DAO_Category.FullCategory item) {
+    private void deleteItemDB(FullCategory item) {
         MainActivity.database.daoCategory().deleteByID(item.category.ID);
         adapter.notifyDataSetChanged();
     }
 
-    private void prepareItemEdit(DAO_Category.FullCategory item) {
+    private void prepareItemEdit(FullCategory item) {
         EmotionCreateFragment.categoryToEdit = item;
 
         navigateToActionCreateFrag.run();

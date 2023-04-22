@@ -24,11 +24,11 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.tamcalendar.FragmentBase;
 import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.R;
-import com.example.tamcalendar.data.DAO_Category;
-import com.example.tamcalendar.data.DAO_Emotion;
-import com.example.tamcalendar.data.E_Category;
-import com.example.tamcalendar.data.E_Emotion;
-import com.example.tamcalendar.data.E_Scale;
+import com.example.tamcalendar.data.category.E_Category;
+import com.example.tamcalendar.data.category.FullCategory;
+import com.example.tamcalendar.data.emotion.E_Emotion;
+import com.example.tamcalendar.data.emotion.FullEmotionData;
+import com.example.tamcalendar.data.scale.E_Scale;
 import com.example.tamcalendar.databinding.FragmentEmotionCreateBinding;
 import com.example.tamcalendar.spinner.ScaleSpinner;
 
@@ -48,15 +48,15 @@ public class EmotionCreateFragment extends FragmentBase {
     private NumberPicker hourSelector;
 
     ListView categoryListView;
-    List<DAO_Category.FullCategory> categoryList;
+    List<FullCategory> categoryList;
 
     Dialog addNewDialog;
 
 
     // refs used to edit self (or create new emotion)
     public static E_Scale chosenScale;
-    public static DAO_Category.FullCategory categoryToEdit;
-    public static DAO_Emotion.FullEmotionData emotionToEdit;
+    public static FullCategory categoryToEdit;
+    public static FullEmotionData emotionToEdit;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -136,7 +136,7 @@ public class EmotionCreateFragment extends FragmentBase {
         // category setup
         categoryListView = binding.categoryList;
         categoryList = new ArrayList<>();
-        ArrayAdapter<DAO_Category.FullCategory> categoryAdapter = new CategoryArrayAdapter(getContext(), categoryList);
+        ArrayAdapter<FullCategory> categoryAdapter = new CategoryArrayAdapter(getContext(), categoryList);
         categoryListView.setAdapter(categoryAdapter);
 
         categoryListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -283,7 +283,7 @@ public class EmotionCreateFragment extends FragmentBase {
                 new E_Category(nameText.getText().toString()));
     }
 
-    private void updateCategoryDB(DAO_Category.FullCategory category) {
+    private void updateCategoryDB(FullCategory category) {
         EditText nameText = addNewDialog.findViewById(R.id.edit_text);
 
         E_Category e_category = MainActivity.database.daoCategory().get(category.category.ID);
