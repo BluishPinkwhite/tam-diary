@@ -16,8 +16,10 @@ import com.example.tamcalendar.data.category.E_Category;
 import com.example.tamcalendar.data.emotion.EmotionWithCategories;
 import com.example.tamcalendar.data.value.E_Value;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 public class EmotionArrayAdapter extends ArrayAdapter<EmotionWithCategories> {
 
@@ -56,14 +58,27 @@ public class EmotionArrayAdapter extends ArrayAdapter<EmotionWithCategories> {
         scaleText.setText(item.emotion.scaleName);
 
 
+        fillCategoryDisplayValuesToContainer(getContext(), v.findViewById(R.id.childContainer), item);
+
+        return v;
+    }
+
+    public static void fillCategoryDisplayValuesToContainer(Context context, LinearLayout valueContainer, EmotionWithCategories item) {
+
+        // alphabetical order of category names
+        List<E_Category> categories = item.values.stream()
+                .map(e_value -> CalendarFragment.allCategoriesByID.get(e_value.F_Category))
+                .sorted(Comparator.comparing(e_category -> e_category != null ? e_category.name : ""))
+                .collect(Collectors.toList());
+
         // fill in child category values
-        LinearLayout valueContainer = v.findViewById(R.id.childContainer);
-        for (E_Value value :
-                item.values) {
-            View valueDisplay = inflater.inflate(R.layout.emotion_display_compact_row, null);
+        for (int i = 0; i < categories.size(); i++) {
+            E_Category category = categories.get(i);
+            E_Value value = item.values.get(i);
+
+            View valueDisplay = View.inflate(context, R.layout.emotion_display_compact_row, null);
 
             TextView name = valueDisplay.findViewById(R.id.name);
-            E_Category category = CalendarFragment.allCategoriesByID.get(value.F_Category);
             name.setText(category != null ? category.name : "[removed]");
 
             View colorIcon = valueDisplay.findViewById(R.id.scaleColorIcon);
@@ -74,7 +89,5 @@ public class EmotionArrayAdapter extends ArrayAdapter<EmotionWithCategories> {
 
             valueContainer.addView(valueDisplay);
         }
-
-        return v;
     }
 }

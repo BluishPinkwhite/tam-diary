@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.R;
 import com.example.tamcalendar.data.emotion.EmotionWithCategories;
+import com.example.tamcalendar.emotion.EmotionArrayAdapter;
 import com.example.tamcalendar.emotion.EmotionCreateFragment;
 import com.example.tamcalendar.emotion.EmotionOptionsDialog;
 
@@ -34,7 +35,9 @@ public class EmotionCalendarListManager {
                 TextView description = dialog.findViewById(R.id.description);
                 description.setText(CalendarFragment.emotionAdapter.getItem(position).emotion.description);
 
-                ///TODO childContainer for categories
+                // childContainer for categories
+                EmotionArrayAdapter.fillCategoryDisplayValuesToContainer(fragment.getContext(),
+                        dialog.findViewById(R.id.childContainer), CalendarFragment.emotionAdapter.getItem(position));
 
                 dialog.show();
             }

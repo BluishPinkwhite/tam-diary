@@ -40,7 +40,7 @@ public interface DAO_Emotion extends DAO_Base<E_Emotion> {
             "FROM emotions " +
             "LEFT JOIN scale ON F_scale = scale.scaleID " +
             "WHERE dateSort BETWEEN :startDateSort AND :endDateSort " +
-            "ORDER BY dateSort ASC, hour ASC")
+            "ORDER BY dateSort, hour ASC, scaleName ASC")
     Map<Integer, List<EmotionWithCategories>> listWithCategoriesBetween(int startDateSort, int endDateSort);
 
 
@@ -56,7 +56,7 @@ public interface DAO_Emotion extends DAO_Base<E_Emotion> {
             "FROM emotions " +
             "LEFT JOIN scale ON F_scale = scale.scaleID " +
             "WHERE dateSort = :dateSort " +
-            "ORDER BY hour, scaleName")
+            "ORDER BY hour ASC, scaleName ASC")
     List<EmotionWithCategories> fullCategoryListFromDay(int dateSort);
 
     @Query("SELECT * FROM emotions " +
