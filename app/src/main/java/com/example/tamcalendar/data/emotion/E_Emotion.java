@@ -1,6 +1,7 @@
 package com.example.tamcalendar.data.emotion;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.example.tamcalendar.MainActivity;
@@ -19,6 +20,10 @@ public class E_Emotion implements E_Base<E_Emotion> {
 
     public long F_scale;
 
+    public E_Emotion() {
+    }
+
+    @Ignore
     public E_Emotion(String description, int hour, int dateSort, long F_scale) {
         this.description = description;
         this.hour = hour;

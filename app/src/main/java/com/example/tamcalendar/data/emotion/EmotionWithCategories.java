@@ -15,7 +15,7 @@ public class EmotionWithCategories {
             parentColumn = "emotionID",
             entityColumn = "valueID",
             associateBy = @Junction(
-                    value = EmotionCategoryCrossRef.class,
+                    value = EmotionValueCrossRef.class,
                     parentColumn = "emotionID",
                     entityColumn = "valueID"
             )

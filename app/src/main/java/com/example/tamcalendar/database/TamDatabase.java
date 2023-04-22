@@ -13,7 +13,7 @@ import com.example.tamcalendar.data.category.DAO_Category;
 import com.example.tamcalendar.data.category.E_Category;
 import com.example.tamcalendar.data.emotion.DAO_Emotion;
 import com.example.tamcalendar.data.emotion.E_Emotion;
-import com.example.tamcalendar.data.emotion.EmotionCategoryCrossRef;
+import com.example.tamcalendar.data.emotion.EmotionValueCrossRef;
 import com.example.tamcalendar.data.scale.DAO_Scale;
 import com.example.tamcalendar.data.scale.E_Scale;
 import com.example.tamcalendar.data.value.DAO_Value;
@@ -27,7 +27,7 @@ import com.example.tamcalendar.data.value.E_Value;
                 E_Emotion.class,
                 E_Category.class,
                 E_Value.class,
-                EmotionCategoryCrossRef.class
+                EmotionValueCrossRef.class
         },
         version = 6,
         autoMigrations = {

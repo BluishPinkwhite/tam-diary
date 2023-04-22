@@ -54,8 +54,6 @@ public class CalendarFragment extends FragmentBase {
         EmotionCalendarListManager.setActionListOnItemClick(binding.calendarEmotionList, this);
         EmotionCalendarListManager.setActionListOnItemLongClick(binding.calendarEmotionList, this);
 
-        // TODO manager
-
         // REMOVED
         /*/ pull up/down calendar on outside fling action
 

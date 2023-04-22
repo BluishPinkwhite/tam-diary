@@ -1,7 +1,10 @@
 package com.example.tamcalendar.data.emotion;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
+import androidx.room.Insert;
 import androidx.room.MapInfo;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
@@ -63,4 +66,13 @@ public interface DAO_Emotion extends DAO_Base<E_Emotion> {
     @Query("DELETE FROM emotions " +
             "WHERE emotionID = :ID")
     void deleteByID(long ID);
+
+
+    ////////////////
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertEmotionCategoryRef(EmotionValueCrossRef emotionCategoryCrossRef);
+
+    @Delete
+    void deleteEmotionCategoryRef(EmotionValueCrossRef emotionCategoryCrossRef);
 }

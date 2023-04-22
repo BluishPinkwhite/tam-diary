@@ -27,14 +27,17 @@ import com.example.tamcalendar.R;
 import com.example.tamcalendar.data.category.E_Category;
 import com.example.tamcalendar.data.category.FullCategory;
 import com.example.tamcalendar.data.emotion.E_Emotion;
+import com.example.tamcalendar.data.emotion.EmotionValueCrossRef;
 import com.example.tamcalendar.data.emotion.EmotionWithCategories;
 import com.example.tamcalendar.data.scale.E_Scale;
+import com.example.tamcalendar.data.value.E_Value;
 import com.example.tamcalendar.databinding.FragmentEmotionCreateBinding;
 import com.example.tamcalendar.spinner.ScaleSpinner;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class EmotionCreateFragment extends FragmentBase {
 
@@ -142,7 +145,7 @@ public class EmotionCreateFragment extends FragmentBase {
         categoryListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
+                // TODO
                 return true;
             }
         });
@@ -168,12 +171,38 @@ public class EmotionCreateFragment extends FragmentBase {
     //////////////////
 
     private void insertNewEmotion() {
-        MainActivity.database.daoEmotion().insert(
-                new E_Emotion(editTextDescription.getText().toString(),
-                        getHourValue(),
-                        MainActivity.selectedDayDateSort,
-                        chosenScale == null ? -1 : chosenScale.scaleID)
-        );
+        E_Emotion emotion = new E_Emotion(editTextDescription.getText().toString(),
+                getHourValue(),
+                MainActivity.selectedDayDateSort,
+                chosenScale == null ? -1 : chosenScale.scaleID);
+
+        MainActivity.database.daoEmotion().insert(emotion);
+
+
+        // many-to-many refs to categories/values
+        for (int i = 0; i < categoryList.size(); i++) {
+            View v = categoryListView.getChildAt(i);
+            TextView selectedThing = v.findViewById(R.id.selectedThing);
+
+            // get selected value name and find it in FullCategory list
+            FullCategory category = (FullCategory) categoryListView.getItemAtPosition(i);
+            String selectedValueText = selectedThing.getText().toString();
+
+            Optional<E_Value> selectedValue = category.values.stream()
+                    .filter(
+                            e_value -> e_value.name.equals(selectedValueText))
+                    .findFirst();
+
+            // if value selected, save it to DB
+            if (selectedValue.isPresent()) {
+                MainActivity.database.daoEmotion().insertEmotionCategoryRef(
+                        new EmotionValueCrossRef(
+                                emotion.emotionID,
+                                selectedValue.get().valueID
+                        )
+                );
+            }
+        }
     }
 
     private void updateEmotion() {
