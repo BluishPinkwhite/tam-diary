@@ -73,6 +73,14 @@ public interface DAO_Emotion extends DAO_Base<E_Emotion> {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertEmotionCategoryRef(EmotionValueCrossRef emotionCategoryCrossRef);
 
+    @Query("SELECT * FROM emotionCategoryCrossRef " +
+            "WHERE emotionID = :emotionID")
+    List<EmotionValueCrossRef> listEmotionCategoryRefByEmotionID(long emotionID);
+
+    @Query("DELETE FROM emotionCategoryCrossRef " +
+            "WHERE emotionID = :emotionID")
+    void deleteAllEmotionCategoryRefsByEmotionID(long emotionID);
+
     @Delete
     void deleteEmotionCategoryRef(EmotionValueCrossRef emotionCategoryCrossRef);
 }

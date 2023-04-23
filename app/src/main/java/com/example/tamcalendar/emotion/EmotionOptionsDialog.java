@@ -15,6 +15,9 @@ public class EmotionOptionsDialog extends OptionsDialog<EmotionWithCategories> {
 
     protected void deleteItemDB(EmotionWithCategories item) {
         MainActivity.database.daoEmotion().deleteByID(item.emotion.emotionID);
+
+        // delete all refs pointing to this emotion
+        MainActivity.database.daoEmotion().deleteAllEmotionCategoryRefsByEmotionID(item.emotion.emotionID);
     }
 
     protected void prepareItemEdit(EmotionWithCategories item) {

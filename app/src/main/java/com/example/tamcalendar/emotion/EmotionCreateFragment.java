@@ -178,6 +178,8 @@ public class EmotionCreateFragment extends FragmentBase {
                         MainActivity.selectedDayDateSort,
                         chosenScale == null ? -1 : chosenScale.scaleID));
 
+        // refresh categories for any category/value changes
+        refreshCategoryList();
 
         // many-to-many refs to categories/values
         for (int i = 0; i < categoryList.size(); i++) {
@@ -189,8 +191,7 @@ public class EmotionCreateFragment extends FragmentBase {
             String selectedValueText = selectedThing.getText().toString();
 
             Optional<E_Value> selectedValue = category.values.stream()
-                    .filter(
-                            e_value -> e_value.name.equals(selectedValueText))
+                    .filter(e_value -> e_value.name.equals(selectedValueText))
                     .findFirst();
 
             // if value selected, save it to DB, else do nothing
@@ -213,6 +214,8 @@ public class EmotionCreateFragment extends FragmentBase {
         emotion.hour = getHourValue();
         emotion.dateSort = MainActivity.selectedDayDateSort;
         emotion.F_scale = chosenScale == null ? -1 : chosenScale.scaleID;
+
+        // TODO
 
         MainActivity.database.daoEmotion().update(
                 emotion);

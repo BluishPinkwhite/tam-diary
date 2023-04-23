@@ -16,6 +16,7 @@ import com.example.tamcalendar.database.DatabaseFileHandler;
 import com.example.tamcalendar.database.DatabaseManager;
 import com.example.tamcalendar.database.TamDatabase;
 import com.example.tamcalendar.databinding.ActivityMainBinding;
+import com.example.tamcalendar.emotion.EmotionCreateFragment;
 
 import java.time.LocalDate;
 
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
+                    EmotionCreateFragment.emotionToEdit = null;
                     navController.navigate(R.id.action_CalendarFragment_to_EmotionCreate);
                 } catch (IllegalArgumentException ignored) {
                 }
