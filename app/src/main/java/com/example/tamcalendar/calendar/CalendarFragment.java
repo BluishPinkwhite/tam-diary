@@ -121,11 +121,15 @@ public class CalendarFragment extends FragmentBase {
             selectedDayActionData.addAll(newData);
         }
 
-        allCategoriesByID = MainActivity.database.daoCategory().listMapByID();
+        refreshAllCategoriesIDMap();
 
         if (actionAdapter != null) {
             actionAdapter.notifyDataSetChanged();
         }
+    }
+
+    public static void refreshAllCategoriesIDMap() {
+        allCategoriesByID = MainActivity.database.daoCategory().listMapByID();
     }
 
     /**

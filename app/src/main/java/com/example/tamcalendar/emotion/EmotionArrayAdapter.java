@@ -18,6 +18,7 @@ import com.example.tamcalendar.data.value.E_Value;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
@@ -58,6 +59,7 @@ public class EmotionArrayAdapter extends ArrayAdapter<EmotionWithCategories> {
         scaleText.setText(item.emotion.scaleName);
 
 
+        CalendarFragment.refreshAllCategoriesIDMap();
         fillCategoryDisplayValuesToContainer(getContext(), v.findViewById(R.id.childContainer), item);
 
         return v;
@@ -74,7 +76,9 @@ public class EmotionArrayAdapter extends ArrayAdapter<EmotionWithCategories> {
         // fill in child category values
         for (int i = 0; i < categories.size(); i++) {
             E_Category category = categories.get(i);
-            E_Value value = item.values.get(i);
+            Optional<E_Value> value = item.values.stream()
+                    .filter(e_value -> e_value.F_Category == category.categoryID)
+                    .findFirst();
 
             View valueDisplay = View.inflate(context, R.layout.emotion_display_compact_row, null);
 
@@ -82,13 +86,14 @@ public class EmotionArrayAdapter extends ArrayAdapter<EmotionWithCategories> {
                     valueDisplay.findViewById(R.id.name),
                     valueDisplay.findViewById(R.id.scaleColorIcon),
                     valueDisplay.findViewById(R.id.scaleText),
-                    category, value);
+                    category, value.get());
 
             valueContainer.addView(valueDisplay);
         }
     }
 
-    public static void fillValueText(TextView label, View colorIcon, TextView selectedName, E_Category category, E_Value value) {
+    public static void fillValueText(TextView label, View colorIcon, TextView selectedName,
+                                     E_Category category, E_Value value) {
         if (label != null)
             label.setText(category != null ? category.name : "[removed]");
 
