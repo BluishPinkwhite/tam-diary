@@ -22,7 +22,7 @@ import java.util.Map;
 public class CategoryArrayAdapter extends ArrayAdapter<FullCategory> {
 
 
-    public static Map<FullCategory, E_Value> selectedValueAtCategoryIndex = new HashMap<>();
+    public static Map<String, E_Value> selectedValueAtCategoryName = new HashMap<>();
 
     public CategoryArrayAdapter(@NonNull Context context, List<FullCategory> originalItems) {
         super(context, android.R.layout.simple_list_item_1, originalItems);
@@ -46,7 +46,7 @@ public class CategoryArrayAdapter extends ArrayAdapter<FullCategory> {
         // CREATE
         if (EmotionCreateFragment.emotionToEdit == null) {
             // if value selected, fill it back (list view clears it on scroll)
-            E_Value selectedValue = selectedValueAtCategoryIndex.get(item);
+            E_Value selectedValue = selectedValueAtCategoryName.get(item.category.name);
             if (selectedValue != null) {
                 selectText.setText(selectedValue.name);
                 colorIcon.setBackgroundColor(selectedValue.color);
@@ -55,8 +55,8 @@ public class CategoryArrayAdapter extends ArrayAdapter<FullCategory> {
         // EDIT
         else {
             // fill in values of categories
-            for (E_Value value :
-                    EmotionCreateFragment.emotionToEdit.values) {
+            for (E_Value value : EmotionCreateFragment.emotionToEdit.values) {
+                // find correct category
                 if (value.F_Category == item.category.categoryID) {
                     EmotionArrayAdapter.fillValueText(
                             null,

@@ -28,7 +28,7 @@ public class ValueSpinner extends SearchableColorNameSpinner<E_Value> {
     protected void onListItemSelected(E_Value item) {
         super.onListItemSelected(item);
 
-        CategoryArrayAdapter.selectedValueAtCategoryIndex.put(parentCategory, item);
+        CategoryArrayAdapter.selectedValueAtCategoryName.put(parentCategory.category.name, item);
         EmotionCreateFragment.categoryToEdit = MainActivity.database.daoCategory().getFull(item.valueID);
     }
 

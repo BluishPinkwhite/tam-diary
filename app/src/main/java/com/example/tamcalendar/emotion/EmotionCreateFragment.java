@@ -102,7 +102,7 @@ public class EmotionCreateFragment extends FragmentBase {
         // category setup
         categoryList = new ArrayList<>();
         updateData();
-        CategoryArrayAdapter.selectedValueAtCategoryIndex.clear();
+        CategoryArrayAdapter.selectedValueAtCategoryName.clear();
 
         categoryListView = binding.categoryList;
         ArrayAdapter<FullCategory> categoryAdapter = new CategoryArrayAdapter(getContext(), categoryList);
@@ -149,7 +149,18 @@ public class EmotionCreateFragment extends FragmentBase {
 
             hourSelector.setValue(getHourValue(emotionToEdit.emotion.hour));
 
-            // category refs are done in CategoryArrayAdapter
+            // fill in selected category values
+            //   category ref texts are done in CategoryArrayAdapter
+            refreshCategoryList();
+            for (E_Value selectedValue : emotionToEdit.values) {
+                Optional<FullCategory> category = categoryList.stream()
+                        .filter(fullCategory -> fullCategory.category.categoryID == selectedValue.F_Category)
+                        .findFirst();
+
+                if (category.isPresent()) {
+                    CategoryArrayAdapter.selectedValueAtCategoryName.put(category.get().category.name, selectedValue);
+                }
+            }
         }
 
         new ScaleSpinner(
@@ -188,31 +199,24 @@ public class EmotionCreateFragment extends FragmentBase {
                         MainActivity.selectedDayDateSort,
                         chosenScale == null ? -1 : chosenScale.scaleID));
 
+        insertCategoryRefsToEmotion(emotionID);
+    }
+
+    private void insertCategoryRefsToEmotion(long emotionID) {
         // refresh categories for any category/value changes
         refreshCategoryList();
 
-        // many-to-many refs to categories/values
-        for (int i = 0; i < categoryList.size(); i++) {
-            View v = categoryListView.getChildAt(i);
-            if (v == null)
-                continue;
-
-            TextView selectedThing = v.findViewById(R.id.selectedThing);
-
+        // many-to-many refs - emotion to category values
+        for (FullCategory fullCategory : categoryList) {
             // get selected value name and find it in FullCategory list
-            FullCategory category = (FullCategory) categoryListView.getItemAtPosition(i);
-            String selectedValueText = selectedThing.getText().toString();
-
-            Optional<E_Value> selectedValue = category.values.stream()
-                    .filter(e_value -> e_value.name.equals(selectedValueText))
-                    .findFirst();
+            E_Value selectedValue = CategoryArrayAdapter.selectedValueAtCategoryName.get(fullCategory.category.name);
 
             // if value selected, save it to DB, else do nothing
-            if (selectedValue.isPresent()) {
+            if (selectedValue != null) {
                 MainActivity.database.daoEmotion().insertEmotionCategoryRef(
                         new EmotionValueCrossRef(
                                 emotionID,
-                                selectedValue.get().valueID
+                                selectedValue.valueID
                         )
                 );
             }
@@ -228,10 +232,11 @@ public class EmotionCreateFragment extends FragmentBase {
         emotion.dateSort = MainActivity.selectedDayDateSort;
         emotion.F_scale = chosenScale == null ? -1 : chosenScale.scaleID;
 
-        // TODO
+        // delete cross refs to recreate them
+        MainActivity.database.daoEmotion().deleteAllEmotionCategoryRefsByEmotionID(emotion.emotionID);
+        insertCategoryRefsToEmotion(emotion.emotionID);
 
-        MainActivity.database.daoEmotion().update(
-                emotion);
+        MainActivity.database.daoEmotion().update(emotion);
     }
 
 
