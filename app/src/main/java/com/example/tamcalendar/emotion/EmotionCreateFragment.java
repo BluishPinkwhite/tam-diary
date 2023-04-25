@@ -109,13 +109,14 @@ public class EmotionCreateFragment extends FragmentBase {
 
 
         getActivity().runOnUiThread(
-                () -> ((CategoryArrayAdapter)categoryListView.getAdapter()).notifyDataSetChanged()
+                () -> ((CategoryArrayAdapter) categoryListView.getAdapter()).notifyDataSetChanged()
         );
 
         categoryListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 // TODO
+                //MainActivity.database.daoCategory().deleteByID(((FullCategory)parent.getItemAtPosition(position)).category.categoryID);
                 Toast.makeText(getContext(), "Edit TODO", Toast.LENGTH_SHORT).show();
                 return true;
             }
@@ -192,6 +193,9 @@ public class EmotionCreateFragment extends FragmentBase {
         // many-to-many refs to categories/values
         for (int i = 0; i < categoryList.size(); i++) {
             View v = categoryListView.getChildAt(i);
+            if (v == null)
+                continue;
+
             TextView selectedThing = v.findViewById(R.id.selectedThing);
 
             // get selected value name and find it in FullCategory list

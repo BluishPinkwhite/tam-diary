@@ -89,7 +89,8 @@ public class EmotionArrayAdapter extends ArrayAdapter<EmotionWithCategories> {
     }
 
     public static void fillValueText(TextView label, View colorIcon, TextView selectedName, E_Category category, E_Value value) {
-        label.setText(category != null ? category.name : "[removed]");
+        if (label != null)
+            label.setText(category != null ? category.name : "[removed]");
 
         colorIcon.setBackgroundColor(value.color);
         selectedName.setText(value.name);

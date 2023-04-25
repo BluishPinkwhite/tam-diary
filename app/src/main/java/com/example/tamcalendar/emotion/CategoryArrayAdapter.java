@@ -31,7 +31,7 @@ public class CategoryArrayAdapter extends ArrayAdapter<FullCategory> {
         FullCategory item = getItem(position);
 
         TextView header = v.findViewById(R.id.label);
-        //header.setText(item.category.name);
+        header.setText(item.category.name);
 
         TextView selectText = v.findViewById(R.id.selectedThing);
         selectText.setHint(getContext().getString(R.string.select_ref, item.category.name));
@@ -45,7 +45,7 @@ public class CategoryArrayAdapter extends ArrayAdapter<FullCategory> {
                     EmotionCreateFragment.emotionToEdit.values) {
                 if (value.F_Category == item.category.categoryID) {
                     EmotionArrayAdapter.fillValueText(
-                            header,
+                            null,
                             colorIcon,
                             selectText,
                             item.category, value);
