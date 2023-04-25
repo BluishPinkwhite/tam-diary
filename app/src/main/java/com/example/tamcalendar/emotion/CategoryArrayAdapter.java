@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.R;
 import com.example.tamcalendar.data.category.FullCategory;
+import com.example.tamcalendar.data.value.E_Value;
 import com.example.tamcalendar.spinner.ValueSpinner;
 
 import java.util.List;
@@ -27,23 +28,42 @@ public class CategoryArrayAdapter extends ArrayAdapter<FullCategory> {
         View v = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = inflater.inflate(R.layout.category_list_item, null);
+        FullCategory item = getItem(position);
 
         TextView header = v.findViewById(R.id.label);
-        header.setText(getItem(position).category.name);
+        //header.setText(item.category.name);
 
         TextView selectText = v.findViewById(R.id.selectedThing);
-        selectText.setHint(getContext().getString(R.string.select_ref, getItem(position).category.name));
+        selectText.setHint(getContext().getString(R.string.select_ref, item.category.name));
 
         View colorIcon = v.findViewById(R.id.colorIcon);
 
+        // EDIT
+        if (EmotionCreateFragment.emotionToEdit != null) {
+            // fill in values of categories
+            for (E_Value value :
+                    EmotionCreateFragment.emotionToEdit.values) {
+                if (value.F_Category == item.category.categoryID) {
+                    EmotionArrayAdapter.fillValueText(
+                            header,
+                            colorIcon,
+                            selectText,
+                            item.category, value);
+                    break;
+                }
+            }
+        }
+
+
+        //
         new ValueSpinner(
                 getContext(),
                 selectText,
-                getContext().getString(R.string.select_ref, getItem(position).category.name),
-                getItem(position).category.name,
+                getContext().getString(R.string.select_ref, item.category.name),
+                item.category.name,
                 colorIcon,
-                () -> MainActivity.database.daoValue().listByCategory(getItem(position).category.categoryID),
-                getItem(position)
+                () -> MainActivity.database.daoValue().listByCategory(item.category.categoryID),
+                item
         );
 
         return v;

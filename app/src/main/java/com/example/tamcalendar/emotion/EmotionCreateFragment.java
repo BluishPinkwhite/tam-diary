@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -97,6 +98,30 @@ public class EmotionCreateFragment extends FragmentBase {
             }
         });
 
+
+        // category setup
+        categoryList = new ArrayList<>();
+        updateData();
+
+        categoryListView = binding.categoryList;
+        ArrayAdapter<FullCategory> categoryAdapter = new CategoryArrayAdapter(getContext(), categoryList);
+        categoryListView.setAdapter(categoryAdapter);
+
+
+        getActivity().runOnUiThread(
+                () -> ((CategoryArrayAdapter)categoryListView.getAdapter()).notifyDataSetChanged()
+        );
+
+        categoryListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                // TODO
+                Toast.makeText(getContext(), "Edit TODO", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
+
         hourSelector = binding.timePicker;
         hourSelector.setWrapSelectorWheel(false);
 
@@ -122,7 +147,7 @@ public class EmotionCreateFragment extends FragmentBase {
 
             hourSelector.setValue(getHourValue(emotionToEdit.emotion.hour));
 
-            // TODO category values
+            // category refs are done in CategoryArrayAdapter
         }
 
         new ScaleSpinner(
@@ -135,23 +160,6 @@ public class EmotionCreateFragment extends FragmentBase {
                 item -> EmotionCreateFragment.chosenScale = item
         );
 
-
-        // category setup
-        categoryListView = binding.categoryList;
-        categoryList = new ArrayList<>();
-        ArrayAdapter<FullCategory> categoryAdapter = new CategoryArrayAdapter(getContext(), categoryList);
-        categoryListView.setAdapter(categoryAdapter);
-
-        categoryListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO
-                return true;
-            }
-        });
-
-
-        updateData();
 
         View addCategoryButton = binding.addButton;
         addCategoryButton.setOnClickListener(v -> {
@@ -304,7 +312,8 @@ public class EmotionCreateFragment extends FragmentBase {
 
         binding.noCategories.setVisibility(categoryList.isEmpty() ? View.VISIBLE : View.GONE);
 
-        ((CategoryArrayAdapter) categoryListView.getAdapter()).notifyDataSetChanged();
+        if (categoryListView != null)
+            ((CategoryArrayAdapter) categoryListView.getAdapter()).notifyDataSetChanged();
     }
 
     private void insertNewCategoryDB() {

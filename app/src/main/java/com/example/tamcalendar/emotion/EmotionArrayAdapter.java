@@ -78,16 +78,20 @@ public class EmotionArrayAdapter extends ArrayAdapter<EmotionWithCategories> {
 
             View valueDisplay = View.inflate(context, R.layout.emotion_display_compact_row, null);
 
-            TextView name = valueDisplay.findViewById(R.id.name);
-            name.setText(category != null ? category.name : "[removed]");
-
-            View colorIcon = valueDisplay.findViewById(R.id.scaleColorIcon);
-            colorIcon.setBackgroundColor(value.color);
-
-            TextView scaleName = valueDisplay.findViewById(R.id.scaleText);
-            scaleName.setText(value.name);
+            fillValueText(
+                    valueDisplay.findViewById(R.id.name),
+                    valueDisplay.findViewById(R.id.scaleColorIcon),
+                    valueDisplay.findViewById(R.id.scaleText),
+                    category, value);
 
             valueContainer.addView(valueDisplay);
         }
+    }
+
+    public static void fillValueText(TextView label, View colorIcon, TextView selectedName, E_Category category, E_Value value) {
+        label.setText(category != null ? category.name : "[removed]");
+
+        colorIcon.setBackgroundColor(value.color);
+        selectedName.setText(value.name);
     }
 }
