@@ -15,9 +15,14 @@ import com.example.tamcalendar.data.category.FullCategory;
 import com.example.tamcalendar.data.value.E_Value;
 import com.example.tamcalendar.spinner.ValueSpinner;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CategoryArrayAdapter extends ArrayAdapter<FullCategory> {
+
+
+    public static Map<FullCategory, E_Value> selectedValueAtCategoryIndex = new HashMap<>();
 
     public CategoryArrayAdapter(@NonNull Context context, List<FullCategory> originalItems) {
         super(context, android.R.layout.simple_list_item_1, originalItems);
@@ -38,8 +43,17 @@ public class CategoryArrayAdapter extends ArrayAdapter<FullCategory> {
 
         View colorIcon = v.findViewById(R.id.colorIcon);
 
+        // CREATE
+        if (EmotionCreateFragment.emotionToEdit == null) {
+            // if value selected, fill it back (list view clears it on scroll)
+            E_Value selectedValue = selectedValueAtCategoryIndex.get(item);
+            if (selectedValue != null) {
+                selectText.setText(selectedValue.name);
+                colorIcon.setBackgroundColor(selectedValue.color);
+            }
+        }
         // EDIT
-        if (EmotionCreateFragment.emotionToEdit != null) {
+        else {
             // fill in values of categories
             for (E_Value value :
                     EmotionCreateFragment.emotionToEdit.values) {
@@ -55,7 +69,7 @@ public class CategoryArrayAdapter extends ArrayAdapter<FullCategory> {
         }
 
 
-        //
+        // value spinner setup (category -> select values)
         new ValueSpinner(
                 getContext(),
                 selectText,

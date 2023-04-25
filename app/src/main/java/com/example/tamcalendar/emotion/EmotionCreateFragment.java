@@ -102,6 +102,7 @@ public class EmotionCreateFragment extends FragmentBase {
         // category setup
         categoryList = new ArrayList<>();
         updateData();
+        CategoryArrayAdapter.selectedValueAtCategoryIndex.clear();
 
         categoryListView = binding.categoryList;
         ArrayAdapter<FullCategory> categoryAdapter = new CategoryArrayAdapter(getContext(), categoryList);

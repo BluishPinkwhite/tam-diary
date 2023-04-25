@@ -1,6 +1,7 @@
 package com.example.tamcalendar.data.category;
 
 import androidx.room.Embedded;
+import androidx.room.Ignore;
 import androidx.room.Relation;
 
 import com.example.tamcalendar.data.value.E_Value;
@@ -16,4 +17,10 @@ public class FullCategory {
             entityColumn = "F_Category"
     )
     public List<E_Value> values;
+
+    @Ignore
+    @Override
+    public String toString() {
+        return category.name;
+    }
 }
