@@ -14,13 +14,13 @@ public class CategoryOptionsDialog {
     private AlertDialog dialog;
     private CategoryArrayAdapter adapter;
     private int position;
-    private Runnable navigateToActionCreateFrag;
 
-    public CategoryOptionsDialog(Context context, CategoryArrayAdapter adapter, int position, Runnable invalidate,
-                                 Runnable navigateToActionCreateFrag) {
+    private Runnable openEditDialog;
+
+    public CategoryOptionsDialog(Context context, CategoryArrayAdapter adapter, int position, Runnable invalidate, Runnable openEditDialog) {
         this.adapter = adapter;
         this.position = position;
-        this.navigateToActionCreateFrag = navigateToActionCreateFrag;
+        this.openEditDialog = openEditDialog;
 
         init(context, invalidate);
     }
@@ -54,12 +54,15 @@ public class CategoryOptionsDialog {
 
     private void deleteItemDB(FullCategory item) {
         MainActivity.database.daoCategory().deleteByID(item.category.categoryID);
+
+        MainActivity.database.daoValue().deleteByCategoryID(item.category.categoryID);
+
         adapter.notifyDataSetChanged();
     }
 
     private void prepareItemEdit(FullCategory item) {
         EmotionCreateFragment.categoryToEdit = item;
 
-        navigateToActionCreateFrag.run();
+        openEditDialog.run();
     }
 }

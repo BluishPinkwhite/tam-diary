@@ -26,4 +26,9 @@ public interface DAO_Value extends DAO_Base<E_Value> {
     @Query("SELECT * FROM value " +
             "WHERE name LIKE :name LIMIT 1")
     E_Value getByName(String name);
+
+
+    @Query("DELETE FROM value " +
+            "WHERE F_Category = :ID")
+    void deleteByCategoryID(long ID);
 }

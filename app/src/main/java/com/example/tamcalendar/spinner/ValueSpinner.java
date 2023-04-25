@@ -5,7 +5,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.tamcalendar.MainActivity;
 import com.example.tamcalendar.data.category.FullCategory;
 import com.example.tamcalendar.data.value.E_Value;
 import com.example.tamcalendar.emotion.CategoryArrayAdapter;
@@ -29,7 +28,7 @@ public class ValueSpinner extends SearchableColorNameSpinner<E_Value> {
         super.onListItemSelected(item);
 
         CategoryArrayAdapter.selectedValueAtCategoryName.put(parentCategory.category.name, item);
-        EmotionCreateFragment.categoryToEdit = MainActivity.database.daoCategory().getFull(item.valueID);
+        EmotionCreateFragment.categoryToEdit = parentCategory;
     }
 
     @Override

@@ -10,13 +10,11 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -54,7 +52,7 @@ public class EmotionCreateFragment extends FragmentBase {
     ListView categoryListView;
     List<FullCategory> categoryList;
 
-    Dialog addNewDialog;
+    static Dialog addNewDialog;
 
 
     // refs used to edit self (or create new emotion)
@@ -105,7 +103,7 @@ public class EmotionCreateFragment extends FragmentBase {
         CategoryArrayAdapter.selectedValueAtCategoryName.clear();
 
         categoryListView = binding.categoryList;
-        ArrayAdapter<FullCategory> categoryAdapter = new CategoryArrayAdapter(getContext(), categoryList);
+        CategoryArrayAdapter categoryAdapter = new CategoryArrayAdapter(getContext(), categoryList);
         categoryListView.setAdapter(categoryAdapter);
 
 
@@ -116,9 +114,11 @@ public class EmotionCreateFragment extends FragmentBase {
         categoryListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO
-                //MainActivity.database.daoCategory().deleteByID(((FullCategory)parent.getItemAtPosition(position)).category.categoryID);
-                Toast.makeText(getContext(), "Edit TODO", Toast.LENGTH_SHORT).show();
+                new CategoryOptionsDialog(getContext(), categoryAdapter, position,
+                        // update = refresh selected day's data
+                        () -> refreshCategoryList(),
+                        // open edit dialog
+                        () -> showNewCategoryDialog(true));
                 return true;
             }
         });

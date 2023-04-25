@@ -76,6 +76,8 @@ public class EmotionArrayAdapter extends ArrayAdapter<EmotionWithCategories> {
         // fill in child category values
         for (int i = 0; i < categories.size(); i++) {
             E_Category category = categories.get(i);
+            if (category == null) continue;
+
             Optional<E_Value> value = item.values.stream()
                     .filter(e_value -> e_value.F_Category == category.categoryID)
                     .findFirst();

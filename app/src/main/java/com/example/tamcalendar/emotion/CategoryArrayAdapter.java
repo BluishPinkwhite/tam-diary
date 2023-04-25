@@ -43,31 +43,12 @@ public class CategoryArrayAdapter extends ArrayAdapter<FullCategory> {
 
         View colorIcon = v.findViewById(R.id.colorIcon);
 
-        // CREATE
-        if (EmotionCreateFragment.emotionToEdit == null) {
-            // if value selected, fill it back (list view clears it on scroll)
-            E_Value selectedValue = selectedValueAtCategoryName.get(item.category.name);
-            if (selectedValue != null) {
-                selectText.setText(selectedValue.name);
-                colorIcon.setBackgroundColor(selectedValue.color);
-            }
+        // if value selected, fill it back (list view clears it on scroll)
+        E_Value selectedValue = selectedValueAtCategoryName.get(item.category.name);
+        if (selectedValue != null) {
+            selectText.setText(selectedValue.name);
+            colorIcon.setBackgroundColor(selectedValue.color);
         }
-        // EDIT
-        else {
-            // fill in values of categories
-            for (E_Value value : EmotionCreateFragment.emotionToEdit.values) {
-                // find correct category
-                if (value.F_Category == item.category.categoryID) {
-                    EmotionArrayAdapter.fillValueText(
-                            null,
-                            colorIcon,
-                            selectText,
-                            item.category, value);
-                    break;
-                }
-            }
-        }
-
 
         // value spinner setup (category -> select values)
         new ValueSpinner(
