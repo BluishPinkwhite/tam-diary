@@ -24,6 +24,7 @@ import com.example.tamcalendar.R;
 import com.example.tamcalendar.data.action.FullActionData;
 import com.example.tamcalendar.data.emotion.EmotionWithCategories;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class TamCalendarDay extends FrameLayout {
@@ -41,7 +42,7 @@ public class TamCalendarDay extends FrameLayout {
     private List<EmotionWithCategories> emotions;
 
     private Button dayButton;
-    private TextView amountText;
+    private TextView amountText, amountText2;
 
     public TamCalendarDay(@NonNull Context context) {
         super(context);
@@ -75,6 +76,7 @@ public class TamCalendarDay extends FrameLayout {
         });
 
         amountText = findViewById(R.id.amount);
+        amountText2 = findViewById(R.id.amount2);
     }
 
     ///////////////////////
@@ -82,19 +84,11 @@ public class TamCalendarDay extends FrameLayout {
 
     private void updateData() {
         // set text
-        StringBuilder sb = new StringBuilder();
         boolean hasActionData = actions != null && actions.size() > 0;
         boolean hasEmotionData = emotions != null && emotions.size() > 0;
 
-        if (hasActionData)
-            sb.append(actions.size());
-        if (hasActionData && hasEmotionData)
-            sb.append(" / ");
-        if (hasEmotionData)
-            sb.append(emotions.size());
-
-        amountText.setText(sb.toString());
-
+        amountText.setText(hasActionData ? actions.size() + "" : "");
+        amountText2.setText(hasEmotionData ? emotions.size() + "" : "");
 
         // day text
         dayButton.setText(String.valueOf(day));
@@ -145,21 +139,48 @@ public class TamCalendarDay extends FrameLayout {
                 dayButton.setTypeface(null, Typeface.ITALIC);
             }
 
+            LinkedList<Integer> actionColors = new LinkedList<>();
+            LinkedList<Integer> emotionColors = new LinkedList<>();
+            int actionAmount = 0, emotionAmount = 0;
+
             // actions found
             if (actions != null && !actions.isEmpty()) {
-                // get colors for the ring (half actors, half scales)
-                int[] ringColors = new int[actions.size() * 2 + 1];
-                for (int index = 0; index < actions.size(); index++) {
-                    FullActionData actionData = actions.get(index);
-
-                    ringColors[index] = actionData.actorColor;
-                    ringColors[ringColors.length - 2 - index] = actionData.scaleColor;
-
-                    // duplicate first as last to close color circle (remove hard edge)
-                    if (index == 0) {
-                        ringColors[ringColors.length - 1] = actionData.actorColor;
-                    }
+                // get colors for the ring
+                for (FullActionData actionData : actions) {
+                    actionColors.add(actionData.scaleColor);
                 }
+                actionAmount = actions.size();
+            }
+
+            // emotions found
+            if (emotions != null && !emotions.isEmpty()) {
+                // get colors for the ring
+                for (EmotionWithCategories emotionData : emotions) {
+                    emotionColors.add(emotionData.emotion.scaleColor);
+                }
+                emotionAmount = emotions.size();
+            }
+
+
+            // any found
+            if (!actionColors.isEmpty() || !emotionColors.isEmpty()) {
+                int maxSize = Math.max(Math.max(actionAmount, emotionAmount), 5);
+                int[] ringColors = new int[maxSize * 2 + 3];
+
+                // map lists to array
+                for (int i = 0; i < maxSize; i++) {
+                    // top half circle
+                    if (i < emotionColors.size())
+                        ringColors[maxSize - i] = emotionColors.get(i);
+
+                    // bottom half circle
+                    if (i < actionColors.size())
+                        ringColors[maxSize + i + 2] = actionColors.get(i);
+                }
+
+                // edges (middle line white override)
+                ringColors[0] = 0;
+                ringColors[ringColors.length - 1] = 0;
 
                 GradientDrawable background = new GradientDrawable(
                         GradientDrawable.Orientation.TOP_BOTTOM,

@@ -22,6 +22,22 @@
         app:layout_constraintEnd_toEndOf="@+id/day"
         app:layout_constraintTop_toTopOf="@+id/day" />
 
+    <TextView
+        android:id="@+id/amount2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-5dp"
+        android:elevation="10dp"
+        android:padding="2dp"
+        android:shadowColor="@android:color/background_light"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="2"
+        android:text="2"
+        android:textColor="@android:color/background_dark"
+        app:layout_constraintStart_toStartOf="@+id/day"
+        app:layout_constraintTop_toTopOf="@+id/day" />
+
     <Button
         android:id="@+id/day"
         android:layout_width="50dp"

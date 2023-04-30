@@ -35,7 +35,7 @@ public class DAOActorTest {
     @Test
     public void fullTest() {
         E_Actor actor = new E_Actor("Poleno", 0x334455);
-        actor.ID = 1;
+        actor.actorID = 1;
         daoActor.insert(actor);
 
         List<E_Actor> actors = daoActor.list();

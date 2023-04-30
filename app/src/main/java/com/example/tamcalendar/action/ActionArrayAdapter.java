@@ -36,23 +36,25 @@ public class ActionArrayAdapter extends ArrayAdapter<FullActionData> {
         View v = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = inflater.inflate(R.layout.action_compact_row, null);
+        FullActionData actionData = getItem(position);
 
         TextView textView = v.findViewById(R.id.name);
-        textView.setText(getItem(position).name);
+        textView.setText(actionData.name +
+                (actionData.description != null && !actionData.description.isEmpty() ? " (+)" : ""));
 
 
         View actorColorIcon = v.findViewById(R.id.actorColorIcon);
-        actorColorIcon.setBackgroundColor(getItem(position).actorColor);
+        actorColorIcon.setBackgroundColor(actionData.actorColor);
 
         TextView actorText = v.findViewById(R.id.actorText);
-        actorText.setText(getItem(position).actorName);
+        actorText.setText(actionData.actorName);
 
 
         View scaleColorIcon = v.findViewById(R.id.scaleColorIcon);
-        scaleColorIcon.setBackgroundColor(getItem(position).scaleColor);
+        scaleColorIcon.setBackgroundColor(actionData.scaleColor);
 
         TextView scaleText = v.findViewById(R.id.scaleText);
-        scaleText.setText(getItem(position).scaleName);
+        scaleText.setText(actionData.scaleName);
 
         return v;
     }

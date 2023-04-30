@@ -46,21 +46,22 @@ public class EmotionArrayAdapter extends ArrayAdapter<EmotionWithCategories> {
         View v = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = inflater.inflate(R.layout.emotion_compact_row, null);
-        EmotionWithCategories item = getItem(position);
+        EmotionWithCategories emotionWithCategories = getItem(position);
 
         // set text and color
         TextView textView = v.findViewById(R.id.name);
-        textView.setText(getTimeRefString.apply(R.string.time_ref, item.emotion.hour));
+        textView.setText(getTimeRefString.apply(R.string.time_ref, emotionWithCategories.emotion.hour) +
+                (emotionWithCategories.emotion.description != null && !emotionWithCategories.emotion.description.isEmpty() ? " (+)" : ""));
 
         View scaleColorIcon = v.findViewById(R.id.scaleColorIcon);
-        scaleColorIcon.setBackgroundColor(item.emotion.scaleColor);
+        scaleColorIcon.setBackgroundColor(emotionWithCategories.emotion.scaleColor);
 
         TextView scaleText = v.findViewById(R.id.scaleText);
-        scaleText.setText(item.emotion.scaleName);
+        scaleText.setText(emotionWithCategories.emotion.scaleName);
 
 
         CalendarFragment.refreshAllCategoriesIDMap();
-        fillCategoryDisplayValuesToContainer(getContext(), v.findViewById(R.id.childContainer), item);
+        fillCategoryDisplayValuesToContainer(getContext(), v.findViewById(R.id.childContainer), emotionWithCategories);
 
         return v;
     }
