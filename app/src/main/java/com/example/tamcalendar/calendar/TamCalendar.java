@@ -55,14 +55,14 @@ public class TamCalendar extends FrameLayout {
     private void initView() {
         inflate(getContext(), R.layout.tam_calendar, this);
 
-        Button prevM = findViewById(R.id.buttonPrevM);
-        prevM.setOnClickListener(view -> {
+        Button prevMonthButton = findViewById(R.id.buttonPrevM);
+        prevMonthButton.setOnClickListener(view -> {
             todayDate = todayDate.minusMonths(1);
             setData();
         });
 
-        Button nextM = findViewById(R.id.buttonNextM);
-        nextM.setOnClickListener(view -> {
+        Button nextMonthButton = findViewById(R.id.buttonNextM);
+        nextMonthButton.setOnClickListener(view -> {
             todayDate = todayDate.plusMonths(1);
             setData();
         });
@@ -70,7 +70,6 @@ public class TamCalendar extends FrameLayout {
         table = findViewById(R.id.table);
         weeks = new TableRow[6];
         days = new TamCalendarDay[6][7];
-        TamCalendarDay selectedDay = null;
 
         // day names
         TableRow dayNameRow = (TableRow) table.getChildAt(0);
@@ -87,6 +86,10 @@ public class TamCalendar extends FrameLayout {
             OnTouchListener flingListener = new OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
+
+                    if (event.getAction() == MotionEvent.ACTION_MOVE)
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+
                     // disable trigger on DOWN (click) on buttons
                     if (gestureDetector.onTouchEvent(event)
                             && v instanceof Button) {
@@ -95,8 +98,8 @@ public class TamCalendar extends FrameLayout {
 
                     // set un-collapsed row and collapse(or show) others
                     gestureHandler.setActiveRow(row);
-                    gestureDetector.onTouchEvent(event);
-                    return true;
+                    //gestureDetector.onTouchEvent(event);
+                    return false;
                 }
             };
 
@@ -114,7 +117,9 @@ public class TamCalendar extends FrameLayout {
 
         dateText = findViewById(R.id.dateText);
 
-        gestureHandler = new CalendarGestureDetector(weeks);
+        gestureHandler = new CalendarGestureDetector(weeks,
+                prevMonthButton::callOnClick,
+                nextMonthButton::callOnClick);
         gestureDetector = new GestureDetectorCompat(getContext(), gestureHandler);
 
         setData();

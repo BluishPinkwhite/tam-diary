@@ -12,29 +12,64 @@ public class CalendarGestureDetector extends GestureDetector.SimpleOnGestureList
     private TableRow[] weeks;
     private TableRow activeRow;
 
-    public CalendarGestureDetector(TableRow[] weeks) {
+    private long lastHorizontalSwipeTime;
+    private Runnable onSwipeLeft, onSwipeRight;
+
+    private static final int SWIPE_MIN_DISTANCE = 120;
+    private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+
+    public CalendarGestureDetector(TableRow[] weeks, Runnable onSwipeLeft, Runnable onSwipeRight) {
         this.weeks = weeks;
+        this.onSwipeLeft = onSwipeLeft;
+        this.onSwipeRight = onSwipeRight;
     }
 
     @Override
     public boolean onFling(@NonNull MotionEvent e1, @NonNull MotionEvent e2, float velocityX, float velocityY) {
-        for (TableRow week :
-                weeks) {
 
+        TamCalendar.lastCalendarFlingTimestamp = System.currentTimeMillis();
+
+        // HORIZONTAL SWIPE
+        // cooldown to stop duplicate calls
+        if (lastHorizontalSwipeTime + 150 < System.currentTimeMillis()) {
+            lastHorizontalSwipeTime = System.currentTimeMillis();
+            // right to left swipe
+            if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
+                    && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                onSwipeRight.run();
+                return true;
+            }
+            // left to right swipe
+            else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
+                    && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                onSwipeLeft.run();
+                return true;
+            }
+        }
+
+
+        // VERTICAL SWIPE
+        for (TableRow week : weeks) {
+            // select first row if none were selected
             if (activeRow == null)
                 activeRow = week;
 
+            // collapse other rows
             if (week != activeRow) {
-                if (velocityY > 0) {
-                    week.setVisibility(View.VISIBLE);
-                } else {
+                // open/collapse calendar view
+                // top to bottom swipe
+                if (e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE
+                        && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
                     week.setVisibility(View.GONE);
+                    // bottom to top swipe
+                } else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE
+                        && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
+                    week.setVisibility(View.VISIBLE);
                 }
             }
         }
 
-        TamCalendar.lastCalendarFlingTimestamp = System.currentTimeMillis();
-        return true;
+        return false;
     }
 
     @Override
